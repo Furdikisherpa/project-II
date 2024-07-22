@@ -1,0 +1,37 @@
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    flex-wrap: wrap;
+    margin-left: auto;
+    margin-right: auto;
+    /* margin-top: -40%; */
+    background-color: rgba(255, 255, 255, 0.332);
+}
+
+.navbar a{
+    color: rgb(0, 0, 0);
+}
+
+.navbar a:hover{
+    color: rgb(0, 0, 0);
+}
+
+.navbar-list{
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar-item{
+    margin: 0 20px;
+}
+
+.active {
+    font-weight: bold;
+    border-bottom: 2px solid rgb(0, 0, 0);
+}
+
+

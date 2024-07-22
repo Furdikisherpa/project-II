@@ -1,0 +1,43 @@
+/* .footer h2{
+    margin: 0 100px -20px ;
+    text-align: left;
+    padding-top: 20px;
+    color: Black;
+} */
+
+.footer{
+    display: flex;
+    justify-content:space-between;
+    background-color: rgba(255, 255, 255, 0.332);
+
+}
+
+.footer a{
+    color: black;
+}
+
+.footer a:hover{
+    color: rgb(0, 0, 0);
+}
+
+.footer-list{
+    list-style:none;
+    padding: 0;
+    margin: 0 100px;
+    text-align: left;
+    padding-bottom: 20px;
+}
+
+
+.follow-list{
+    list-style:none;
+    padding: 0;
+    margin: 0 100px;
+    text-align: left;
+}
+
+
+
+ul{
+    display: inline-block;
+}
