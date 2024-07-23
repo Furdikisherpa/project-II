@@ -15,7 +15,7 @@ const register = (req, res) => {
 
     // Check if user already exists
     db.query(
-        `SELECT * FROM users WHERE LOWER(email) = LOWER(${email});`,
+        `SELECT * FROM user WHERE LOWER(Email) = LOWER(${email});`,
         (err, result) => {
             if (err) {
                 return res.status(500).json({ msg: 'Database query error' });
@@ -32,7 +32,7 @@ const register = (req, res) => {
                 }
 
                 db.query(
-                    `INSERT INTO users (name, email, password) VALUES (${name}, ${email}, ${db.escape(hash)});`,
+                    `INSERT INTO user (Username, Email, Password) VALUES (${name}, ${email}, ${db.escape(hash)});`,
                     (err, result) => {
                         if (err) {
                             return res.status(500).json({ msg: 'Database query error' });
