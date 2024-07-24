@@ -10,8 +10,13 @@ const register = (req, res) => {
     }
 
     const email = db.escape(req.body.email);
-    const name = db.escape(req.body.name);
+    const username = db.escape(req.body.username);
     const password = req.body.password;
+    const fullname = req.body.fullname;
+    const contact = req.body.contact;
+
+    const hashedpassword = bcrypt.hash(password, 10);
+
 
     // Check if user already exists
     db.query(
@@ -31,11 +36,13 @@ const register = (req, res) => {
                     return res.status(400).json({ msg: 'Error hashing password' });
                 }
 
+                
+
                 db.query(
-                    `INSERT INTO user (Username, Email, Password) VALUES (${name}, ${email}, ${db.escape(hash)});`,
+                    `INSERT INTO user (Username, Email, Password, Name, ContactInfo) VALUES (${username}, ${email}, ${db.escape(hash)},${db.escape(fullname)}, ${contact});`,
                     (err, result) => {
                         if (err) {
-                            return res.status(500).json({ msg: 'Database query error' });
+                            return res.status(500).json({ msg:err.message });
                         }
 
                         return res.status(201).json({ msg: 'User has been registered' });
