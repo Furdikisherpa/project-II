@@ -15,9 +15,6 @@ const register = (req, res) => {
     const fullname = req.body.fullname;
     const contact = req.body.contact;
 
-    const hashedpassword = bcrypt.hash(password, 10);
-
-
     // Check if user already exists
     db.query(
         `SELECT * FROM user WHERE LOWER(Email) = LOWER(${email});`,
@@ -52,6 +49,8 @@ const register = (req, res) => {
         }
     );
 };
+
+
 
 module.exports = {
     register

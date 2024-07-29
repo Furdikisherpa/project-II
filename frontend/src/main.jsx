@@ -5,10 +5,10 @@ import About from './components/About/About.jsx'
 import Contacts from './components/Contacts/Contacts.jsx'
 import Restro  from './components/Restro/Restro.jsx'
 import Artist_Login from './components/Login/Artist_Login.jsx'
-import Artist_Signup from './components/SignUp/Artist_Signup.jsx'
 import Home from './components/Home/Home.jsx'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import User_Signup from './components/SignUp/User_Signup.jsx'
 
 const router = createBrowserRouter([
   {
@@ -37,7 +37,7 @@ const router = createBrowserRouter([
       },
       {
         path:"signup",
-        element:<Artist_Signup />
+        element:<User_Signup />
       },
       {
         path:"login",
