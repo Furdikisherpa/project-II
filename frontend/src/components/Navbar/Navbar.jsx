@@ -1,5 +1,7 @@
 import './Navbar.css';
 import { NavLink } from "react-router-dom"
+// import Button from 'react-bootstrap/Button';
+
 const Navbar = () => {
   return (
     <nav className='navbar'>
@@ -13,8 +15,14 @@ const Navbar = () => {
         <li className='navbar-item'><NavLink to='/restro' activeClassName="active">Restro</NavLink></li>
         <li className='navbar-item'><NavLink to='/contacts' activeClassName="active">Contact</NavLink></li>
         <li className='navbar-item'><NavLink to='/login' activeClassName="active">Login</NavLink></li>
-        <li className='navbar-item'><NavLink to='/signup' activeClassName="active">Register</NavLink></li>
-        
+        <li className='navbar-item'><div className="dropdown">
+          <button>Profile</button>
+          <div className="dropdown-options">
+          <NavLink to='/signup/Artist_Signup' activeClassName="active">Artist</NavLink>
+          <NavLink to='/signup/User_Signup' activeClassName="active">User</NavLink>
+          </div>
+        </div>
+        </li>
 
         </ul>
     </nav>

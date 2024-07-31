@@ -9,6 +9,10 @@ import Home from './components/Home/Home.jsx'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import User_Signup from './components/SignUp/User_Signup.jsx'
+import Artist_Signup from './components/SignUp/Artist_Signup.jsx'
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 
 const router = createBrowserRouter([
   {
@@ -36,13 +40,18 @@ const router = createBrowserRouter([
         element:<Restro />
       },
       {
-        path:"signup",
+        path:"signup/User_Signup",
         element:<User_Signup />
       },
       {
         path:"login",
         element:<Artist_Login />
       },
+      {
+        path:"signup/Artist_Signup",
+        element:<Artist_Signup />
+      },
+
     ]
 
   }

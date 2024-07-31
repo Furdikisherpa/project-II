@@ -3,7 +3,7 @@ const Home=() => {
   return (
     <div className="home">
     <div className="Home-Image">
-      <img src="/src/assets/images/singing.jpg" alt="" />
+      <img src="/src/assets/images/drum.jpg" alt="" />
     </div>
 
     <div>
