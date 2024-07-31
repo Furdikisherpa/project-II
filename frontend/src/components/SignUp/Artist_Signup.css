@@ -11,7 +11,14 @@
     margin-top: 0px;
 }
 
-input {
+/* .artist_form{
+    margin-top: 20px;
+    border: 1px solid black;
+    width: 450px;
+
+} */
+
+.artist_signup input {
     width: 350px;
     padding: 25px 15px 25px;
     background-color: white;
@@ -21,4 +28,9 @@ input {
     border-left: none;
     border-bottom: 1px solid black;
     border-radius: 0;
+}
+
+.Artist_submit{
+    border-radius: 5px;
+    background-color: mediumblue;
 }

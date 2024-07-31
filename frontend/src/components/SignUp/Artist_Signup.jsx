@@ -38,7 +38,7 @@ axios.post('http://localhost:3000/api/register', userData)
     </div>
       <div className="artist_signup">
         <h1 className='artist_title'>Signup</h1>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className='artist_form'>
           <input type="text" placeholder='Enter your name' value={username} onChange={(e) => setusername(e.target.value)} required className='Artist_username'/><br /> <br />
           <input type="text" placeholder='Enter your name' value={fullname} onChange={(e) => setfullname(e.target.value)} required className='Artist_password'/><br /> <br />
           <input type="email" placeholder='Enter your email' value={email} onChange={(e) => setemail(e.target.value)} required className='Artist_email' /><br /> <br />
