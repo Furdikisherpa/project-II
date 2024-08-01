@@ -1,9 +1,20 @@
-
+.artist_signup2{
+    height: 500px;
+    width: 400px;
+    background-color: #00ffff;
+    position: absolute;
+    margin-top: 50px;
+    margin-left: 250px;
+}
 
 .artist_signup{
     display: block;
     margin-top: 50px;
     margin-bottom: 50px;
+    background-color:rgb(255, 255, 255);
+    width: 350px;
+    margin-left: 680px;
+    position: relative;
 }
 
 .artist_title{

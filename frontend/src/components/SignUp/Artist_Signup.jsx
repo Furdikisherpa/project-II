@@ -36,6 +36,9 @@ axios.post('http://localhost:3000/api/register', userData)
     <div className="Home-Image">
       <img src="/src/assets/images/register.jpg" alt="" className='image1' />
     </div>
+    <div className='artist_signup2'>
+
+    </div>
       <div className="artist_signup">
         <h1 className='artist_title'>Signup</h1>
         <form onSubmit={handleSubmit} className='artist_form'>
