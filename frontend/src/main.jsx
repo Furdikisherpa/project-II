@@ -11,7 +11,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import User_Signup from './components/SignUp/User_Signup.jsx'
 import Artist_Signup from './components/SignUp/Artist_Signup.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import Profile from './components/Profile.jsx'
 
 
 const router = createBrowserRouter([
@@ -50,6 +50,10 @@ const router = createBrowserRouter([
       {
         path:"signup/Artist_Signup",
         element:<Artist_Signup />
+      },
+      {
+        path:"profile",
+        element:<Profile />
       },
 
     ]

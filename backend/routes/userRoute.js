@@ -10,15 +10,18 @@ const { msg } = require('../controllers/messageController');
 const { messageValidation } = require('../helpers/validation');
 const { review } = require('../controllers/reviewController');
 const { reviewValidation } = require('../helpers/validation');
+const { loginValidation } = require('../helpers/validation');
+const loginController = require('../controllers/loginController');
+
+router.post('/login', loginValidation, loginController, artistLogin);
 
 router.post('/reviews', reviewValidation, review);
-
 router.post('/messages', messageValidation, msg);
-
-
 router.post('/bookings', bookingValidation, createBooking);
-
 router.post('/register', signUpValidation, userController.register);
 router.post('/artistregister',artistRegisterValidation, artistController.artistRegister)
+
+
+
 
 module.exports = router;
