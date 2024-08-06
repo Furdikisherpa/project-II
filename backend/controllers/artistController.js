@@ -11,11 +11,11 @@ const artistRegister = (req, res) => {
 
     const artistname = req.body.artistname;
     const genre = req.body.genre;
-    const artistBio = req.body.artistBio;
+    // const artistBio = req.body.artistBio;
     const artistPassword = req.body.artistPassword;
     const artistEmail = req.body.artistEmail;
-    const mediagallery = req.body.mediagallery;
-    const priceinfo = req.body.priceinfo;
+    // const mediagallery = req.body.mediagallery;
+    // const priceinfo = req.body.priceinfo;
     const contactinfo = req.body.contactinfo;
 
     // Check if user already exists
@@ -34,8 +34,8 @@ const artistRegister = (req, res) => {
                 return res.status(500).json({ msg: "Error hashing password" });
             }
             db.query(
-                'INSERT INTO artist (Name, password, email, Genre, Bio, MediaGallery, PricingInfo, ContactInfo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-                [artistname, hash, artistEmail, genre, artistBio, mediagallery, priceinfo, contactinfo],
+                'INSERT INTO artist (Name, password, email, Genre, ContactInfo) VALUES (?, ?, ?, ?, ?)',
+                [artistname, hash, artistEmail, genre, contactinfo],
                 (err, results) => {
                     if (err) {
                         return res.status(500).json({ msg: "Error inserting user" });

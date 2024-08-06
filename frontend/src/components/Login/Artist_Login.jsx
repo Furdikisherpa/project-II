@@ -1,78 +1,77 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Artist_Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const history = useHistory();
+    const [artistEmail, setArtistEmail] = useState('');
+    const [artistPassword, setArtistPassword] = useState('');
+    const [error, setError] = useState(null);
+    const [errors, setErrors] = useState({});
+    const navigate = useNavigate(); // Hook for navigation
 
-  const onChangeEmail = (e) => {
-    setEmail(e.target.value);
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-  const onChangePassword = (e) => {
-    setPassword(e.target.value);
-  };
+        try {
+            const response = await axios.post('http://localhost:3000/api/login', {
+                artistEmail,
+                artistPassword
+            });
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+            // Handle successful login
+            console.log('Login successful:', response.data);
 
-    try {
-      const response = await axios.post('http://localhost:3000/api/login', {
-        artistEmail: email,
-        artistPassword: password,
-      });
+            // Store the token in localStorage or context
+            localStorage.setItem('token', response.data.token);
 
-      localStorage.setItem('token', response.data.token);
-      history.push('/profile');
-    } catch (error) {
-      setError('Invalid email or password');
-    }
-  };
+            // Redirect to a different page
+            navigate('/Profile'); // Redirect to a desired route (e.g., /dashboard)
+        } catch (error) {
+            if (error.response) {
+                const errorData = error.response.data;
+                if (errorData.errors) {
+                    // Handle validation errors
+                    const errorMessages = errorData.errors.reduce((acc, curr) => {
+                        acc[curr.path] = curr.msg;
+                        return acc;
+                    }, {});
+                    setErrors(errorMessages);
+                } else {
+                    // Handle general errors
+                    setError(errorData.msg || 'Something went wrong');
+                }
+            } else {
+                setError('Error: ' + error.message);
+            }
+        }
+    };
 
-  return (
-    <div className="container">
-      <div className="row">
-        <div className="col-md-6 mt-5 mx-auto">
-          <form noValidate onSubmit={onSubmit}>
-            <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
-            <div className="form-group">
-              <label htmlFor="email">Email address</label>
-              <input
-                type="email"
-                className="form-control"
-                name="email"
-                placeholder="Enter email"
-                value={email}
-                onChange={onChangeEmail}
-              />
+    return (
+        <form onSubmit={handleSubmit}>
+            <div>
+                <input
+                    type="email"
+                    placeholder="Email"
+                    value={artistEmail}
+                    onChange={(e) => setArtistEmail(e.target.value)}
+                    required
+                />
+                {errors.artistEmail && <div className="error-message">{errors.artistEmail}</div>}
             </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                className="form-control"
-                name="password"
-                placeholder="Password"
-                value={password}
-                onChange={onChangePassword}
-              />
+            <div>
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={artistPassword}
+                    onChange={(e) => setArtistPassword(e.target.value)}
+                    required
+                />
+                {errors.artistPassword && <div className="error-message">{errors.artistPassword}</div>}
             </div>
-            {error && (
-              <div className="alert alert-danger" role="alert">
-                {error}
-              </div>
-            )}
-            <button type="submit" className="btn btn-lg btn-primary btn-block">
-              Sign in
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
+            <button type="submit">Login</button>
+            {error && <div className="error-message">{error}</div>}
+        </form>
+    );
 };
 
 export default Artist_Login;

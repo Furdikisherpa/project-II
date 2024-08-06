@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 29, 2024 at 06:50 PM
+-- Generation Time: Aug 06, 2024 at 12:49 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -60,7 +60,9 @@ CREATE TABLE `artist` (
 INSERT INTO `artist` (`ArtistID`, `Name`, `password`, `email`, `Genre`, `Bio`, `MediaGallery`, `PricingInfo`, `ContactInfo`) VALUES
 (1, 'Furdki ', '$2a$10$.GmQJvrmkfUgbLAA9kBkLO/bgyKdX9GFN3sNlfejBCVaotsuTv1j2', 'furdikisherpa16@gmail.com', 'pop', 'kjsdbfdsjfbdsj', NULL, NULL, NULL),
 (2, 'Furdki ', '$2a$10$zpB4PAmHhCOZOm7XpAek.eDRISeQ99iesLJxasD40Wj.c549M.PF2', 'furdikisherpa@gmail.com', 'pop', 'kjsdbfdsjfbdsj', NULL, NULL, NULL),
-(3, 'Furdki ', '$2a$10$Edq6vmSXvL.ilTzwfRMJLug8T6XoX4mHj6mmhBh1g4xub2P8Cg0gS', 'furdikisherp@gmail.com', 'pop', 'kjsdbfdsjfbdsj', 'file', '200', 2147483647);
+(3, 'Furdki ', '$2a$10$Edq6vmSXvL.ilTzwfRMJLug8T6XoX4mHj6mmhBh1g4xub2P8Cg0gS', 'furdikisherp@gmail.com', 'pop', 'kjsdbfdsjfbdsj', 'file', '200', 2147483647),
+(4, 'sumi', 'sumi123**', 'sumi@gmail.com', 'pop', NULL, NULL, NULL, 2147483647),
+(5, 'saugat', '$2a$10$V.HztamhVjDwl6Y9Z38ucOXAKDvcd9UL2SjenVKP304XmeJJGKkCe', 'saugat@gmail.com', 'pop', NULL, NULL, NULL, 2147483647);
 
 -- --------------------------------------------------------
 
@@ -155,7 +157,9 @@ INSERT INTO `user` (`UserID`, `Username`, `Password`, `Email`, `ProfilePicture`,
 (1, 'saugat123', '$2a$10$wLDUNR.fAoEz4N.0pOuNdu6Yvq3XW9nxQPjNjuBt4qeg6mOLLrS9S', 'saugat@gmail.com', NULL, 'Saugat SThapit', '9856745566'),
 (2, 'Furdiki Sherpa', '$2a$10$CjF6sBiv.4wujwRzmS19H.MV5grDSbf4sEL6qD45Mpbeukbyu6Knu', 'furdikisherpa16@gmail.com', NULL, 'Furdiki Sherpa', '9876577556'),
 (3, 'Sumi123', '$2a$10$DeL7Q.N9l5c.EFZWtr2bZeYJDqiX.2yyFIxm5J2BOUytxaxx7sBBS', 'sumi@gmail.com', NULL, 'Sumi SHerpa', '9878678987'),
-(4, 'Pasang', '$2a$10$qhcqAM3Wz90uBlJyugx6Dec593k9VJrYXOoeoBnX2wrKvvPDjhXY.', 'pasange@gmail.com', NULL, 'Pasang Sherpa', '9786756476');
+(4, 'Pasang', '$2a$10$qhcqAM3Wz90uBlJyugx6Dec593k9VJrYXOoeoBnX2wrKvvPDjhXY.', 'pasange@gmail.com', NULL, 'Pasang Sherpa', '9786756476'),
+(6, 'sumi1234', '$2a$10$0yrcX.2MvyhV55cSgTBTS..eKUR7y4iTQNjfHbzV8VFPhJqBHqNCm', 'sumi1@gmail.com', NULL, 'sumi sherpa', '9847698214'),
+(7, 'sumi4', '$2a$10$0zGvR53dK7YAMxTm3nii1ObdkLhqMIsuG5s4Uz6hCwC0YhUJ84Nk.', 'sumi33@gmail.com', NULL, 'Sumi Sherpa', '9876543255');
 
 --
 -- Indexes for dumped tables
@@ -221,7 +225,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `artist`
 --
 ALTER TABLE `artist`
-  MODIFY `ArtistID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ArtistID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `booking`
@@ -245,7 +249,7 @@ ALTER TABLE `review`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables

@@ -12,11 +12,11 @@ exports.signUpValidation =[
 exports.artistRegisterValidation = [
     check('artistname').notEmpty().withMessage('Artist name is required'),
     check('genre').notEmpty().withMessage('Genre is required'),
-    check('artistBio').notEmpty().withMessage('Artist bio is required'),
+    // check('artistBio').notEmpty().withMessage('Artist bio is required'),
     check('artistPassword').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
     check('artistEmail').isEmail().withMessage('Invalid email'),
-    check('mediagallery').notEmpty().withMessage('Media gallery is required'), // Add specific validation if necessary
-    check('priceinfo').notEmpty().withMessage('Price info is required'),
+    // check('mediagallery').notEmpty().withMessage('Media gallery is required'), // Add specific validation if necessary
+    // check('priceinfo').notEmpty().withMessage('Price info is required'),
     check('contactinfo').notEmpty().withMessage('Contact info is required'),
 ];
 

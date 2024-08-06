@@ -6,11 +6,11 @@ import axios from 'axios';
 
 
 function Artist_Signup(){
-  const [fullname, setfullname] = useState("");
-  const [email, setemail] = useState("");
-  const [username, setusername] = useState("");
-  const [password, setpassword] = useState("");
-  const [contact, setcontact] = useState("");
+  const [artistname, setartistname] = useState("");
+  const [artistEmail, setartistEmail] = useState("");
+  const [genre, setgenre] = useState("");
+  const [artistpassword, setartistpassword] = useState("");
+  const [Contactinfo, setContactinfo] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   
@@ -20,15 +20,15 @@ const handleSubmit = (event) =>{
   event.preventDefault();
 
   const userData ={
-    fullname,
-    email,
-    username,
-    password,
-    contact
+    artistname,
+    artistEmail,
+    genre,
+    artistPassword: artistpassword,  // Change this to match backend
+    contactinfo: Contactinfo  // Ensure this matches the backend field name
   };
-axios.post('http://localhost:3000/api/register', userData)
+axios.post('http://localhost:3000/api/artistregister', userData)
 .then(response =>{
-  console.log('user created:', response.data);
+  console.log('artist created:', response.data);
   navigate('/');
 })
 .catch(error => {
@@ -47,11 +47,11 @@ axios.post('http://localhost:3000/api/register', userData)
       <div className="artist_signup">
         <h1 className='artist_title'>Create New Artist Account</h1>
         <form onSubmit={handleSubmit} className='artist_form'>
-          <input type="text" placeholder='Enter your username' value={username} onChange={(e) => setusername(e.target.value)} required className='Artist_username'/><br /> <br />
-          <input type="text" placeholder='Enter your name' value={fullname} onChange={(e) => setfullname(e.target.value)} required className='Artist_password'/><br /> <br />
-          <input type="email" placeholder='Enter your email' value={email} onChange={(e) => setemail(e.target.value)} required className='Artist_email' /><br /> <br />
-          <input type="password" placeholder='Enter your password' value={password} onChange={(e) => setpassword(e.target.value)} required className='Artist_password'/> <br /> <br />
-          <input type="text" placeholder='Enter your contact number' value={contact} onChange={(e) => setcontact(e.target.value)} required className='Artist_contact'/> <br /> <br />
+          <input type="text" placeholder='Enter your name' value={artistname} onChange={(e) => setartistname(e.target.value)} required /><br /> <br />
+          <input type="email" placeholder='Enter your Email' value={artistEmail} onChange={(e) => setartistEmail(e.target.value)} required/><br /> <br />
+          <input type="password" placeholder='Enter your Password' value={artistpassword} onChange={(e) => setartistpassword(e.target.value)} /><br /> <br />
+          <input type="text" placeholder='Enter your genre' value={genre} onChange={(e) => setgenre(e.target.value)} required/> <br /> <br />
+          <input type="text" placeholder='Enter your contact number' value={Contactinfo} onChange={(e) => setContactinfo(e.target.value)} required /> <br /> <br />
           {/* <label htmlFor="gender">Gender</label> <br />
           <input type="radio" id="male" name="Gender" value="male" className='gender' />
           <label htmlFor="male">Male</label> 
