@@ -32,14 +32,16 @@ axios.post('http://localhost:3000/api/register', userData)
 });
 };
   return (
-    <div>
-    <div className="Home-Image">
-      <img src="/src/assets/images/register.jpg" alt="" className='image1' />
+    <div className='user'>
+      <div className='user_signup2'>
+    <h1>Welcome Back</h1>
+    <p>To keep connected with us please login with your personal info</p>
+    <button type="submit" className='Artist_Login'>Login</button>
     </div>
       <div className="user_signup">
-        <h1>User Signup</h1>
+        <h1 className='user_title'>Create New User Account</h1>
         <form onSubmit={handleSubmit}>
-          <input type="text" placeholder='Enter your name' value={username} onChange={(e) => setusername(e.target.value)} required/><br /> <br />
+          <input type="text" placeholder='Enter your username' value={username} onChange={(e) => setusername(e.target.value)} required/><br /> <br />
           <input type="text" placeholder='Enter your name' value={fullname} onChange={(e) => setfullname(e.target.value)} required/><br /> <br />
           <input type="email" placeholder='Enter your email' value={email} onChange={(e) => setemail(e.target.value)} required /><br /> <br />
           <input type="password" placeholder='Enter your password' value={password} onChange={(e) => setpassword(e.target.value)} required /> <br /> <br />

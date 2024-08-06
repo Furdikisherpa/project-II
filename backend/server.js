@@ -19,6 +19,21 @@ app.use(cors());
 
 app.use('/api', userRouter);
 
+app.post('/login', (req,res)=>{
+    const sql = "SELECT *FROM user WHERE 'Username'=? AND 'password'=?";
+    db.query(sql, [req.body.Username, req.body.password], (err, data)=>{
+        if(err) {
+            return res.json("Error");
+        }
+        if(data.length > 0) {
+            return res.json("success");
+            }
+            else {
+                return res.json("Fail");
+            }
+    })
+})
+
 //error handling
 app.use((err, req, res, next) => {
     err.statusCode=err.statusCode || 500;

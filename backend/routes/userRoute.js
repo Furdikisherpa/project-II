@@ -6,10 +6,8 @@ const userController = require('../controllers/userController')
 const artistController = require('../controllers/artistController')
 const { createBooking } = require('../controllers/bookingController');
 const { bookingValidation } = require('../helpers/validation');
-
 const { msg } = require('../controllers/messageController');
 const { messageValidation } = require('../helpers/validation');
-
 const { review } = require('../controllers/reviewController');
 const { reviewValidation } = require('../helpers/validation');
 

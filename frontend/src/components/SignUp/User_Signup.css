@@ -1,8 +1,56 @@
-.gender{
-    margin-Right: -6%;
-    margin-left: -5%;
+.user{
+    margin-top: 100px;
+    margin-bottom: 100px;
 }
 
-label{
-    text-align: left;
+.user_signup2{
+    height: 500px;
+    width: 400px;
+    background-color: #00ffff;
+    position: absolute;
+    margin-left: 150px;
+}
+
+.user_signup2 h1{
+    text-align: center;
+    margin-top: 180px;
+    font-weight: bold;
+}
+
+.user_Login{
+    background-color: black;
+    border-radius: 8px solid black;
+}
+
+.user_signup{
+    display: block;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    background-color:rgb(255, 255, 255);
+    width: 350px;
+    margin-left: 600px;
+    position: relative;
+}
+
+.user_title{
+    font-weight: bold;
+    margin-top: 0px;
+}
+
+.user_signup input {
+    width: 350px;
+    padding: 20px 15px 20px;
+    background-color: white;
+    color: #00ffff;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: 1px solid #00ffff;
+    border-radius: 0;
+}
+
+.user_submit{
+    border-radius: 5px solid #00ffff;
+    background-color: #00ffff;
+    color: black;
 }
