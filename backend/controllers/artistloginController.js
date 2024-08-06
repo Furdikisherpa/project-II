@@ -3,10 +3,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('../config/dbConnection');
 
-const loginValidation = [
-    check('artistEmail').isEmail().withMessage('Please include a valid email'),
-    check('artistPassword').notEmpty().withMessage('Password is required')
-];
 
 const artistLogin = (req, res) => {
     const errors = validationResult(req);
@@ -55,6 +51,5 @@ const artistLogin = (req, res) => {
 };
 
 module.exports = {
-    artistLogin,
-    loginValidation
+    artistLogin
 };

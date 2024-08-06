@@ -14,7 +14,7 @@ const Navbar = () => {
         <li className='navbar-item'><NavLink to='/artist' activeClassName="active">Artist</NavLink></li>
         <li className='navbar-item'><NavLink to='/restro' activeClassName="active">Restro</NavLink></li>
         <li className='navbar-item'><NavLink to='/contacts' activeClassName="active">Contact</NavLink></li>
-        <li className='navbar-item'><NavLink to='/login' activeClassName="active">Login</NavLink></li>
+        <li className='navbar-item'><NavLink to='/artistlogin' activeClassName="active">Login</NavLink></li>
         <li className='navbar-item'><div className="dropdown">
           <button>Profile</button>
           <div className="dropdown-options">

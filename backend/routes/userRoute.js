@@ -9,7 +9,7 @@ const reviewController = require('../controllers/reviewController');
 const artistloginController = require('../controllers/artistloginController');
 
 // Login route
-router.post('/login', loginValidation, artistloginController.artistLogin);
+router.post('/artistlogin', loginValidation, artistloginController.artistLogin);
 
 // Review route
 router.post('/reviews', reviewValidation, reviewController.review);

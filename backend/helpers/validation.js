@@ -50,7 +50,7 @@ exports.reviewValidation = [
         .withMessage('Artist ID must be an integer')
 ];
 
-exports.loginValidation =[
-    check('artistEmail', 'Please include a valid email').isEmail(),
-    check('artistPassword', 'Password is required').exists()
+exports.loginValidation = [
+    check('artistEmail').isEmail().withMessage('Please include a valid email'),
+    check('artistPassword').notEmpty().withMessage('Password is required')
 ];

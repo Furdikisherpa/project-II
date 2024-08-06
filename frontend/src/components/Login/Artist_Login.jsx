@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,7 +13,7 @@ const Artist_Login = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post('http://localhost:3000/api/login', {
+            const response = await axios.post('http://localhost:3000/api/artistlogin', {
                 artistEmail,
                 artistPassword
             });

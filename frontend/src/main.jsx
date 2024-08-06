@@ -44,7 +44,7 @@ const router = createBrowserRouter([
         element:<User_Signup />
       },
       {
-        path:"login",
+        path:"/artistlogin",
         element:<Artist_Login />
       },
       {
