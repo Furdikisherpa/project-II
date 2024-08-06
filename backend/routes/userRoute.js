@@ -6,10 +6,10 @@ const artistController = require('../controllers/artistController');
 const bookingController = require('../controllers/bookingController');
 const messageController = require('../controllers/messageController');
 const reviewController = require('../controllers/reviewController');
-const loginController = require('../controllers/loginController');
+const artistloginController = require('../controllers/artistloginController');
 
 // Login route
-router.post('/login', loginValidation, loginController.artistLogin);
+router.post('/login', loginValidation, artistloginController.artistLogin);
 
 // Review route
 router.post('/reviews', reviewValidation, reviewController.review);
