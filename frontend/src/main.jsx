@@ -12,6 +12,7 @@ import User_Signup from './components/SignUp/User_Signup.jsx'
 import Artist_Signup from './components/SignUp/Artist_Signup.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Profile from './components/Profile.jsx'
+import User_Login from './components/Login/User_Login.jsx'
 
 
 const router = createBrowserRouter([
@@ -44,12 +45,16 @@ const router = createBrowserRouter([
         element:<User_Signup />
       },
       {
-        path:"/artistlogin",
+        path:"signup/Artist_Signup",
+        element:<Artist_Signup />
+      },
+      {
+        path:"login/Artist_login",
         element:<Artist_Login />
       },
       {
-        path:"signup/Artist_Signup",
-        element:<Artist_Signup />
+        path:"login/User_login",
+        element:<User_Login />
       },
       {
         path:"profile",

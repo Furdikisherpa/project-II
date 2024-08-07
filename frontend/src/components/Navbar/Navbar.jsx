@@ -14,9 +14,16 @@ const Navbar = () => {
         <li className='navbar-item'><NavLink to='/artist' activeClassName="active">Artist</NavLink></li>
         <li className='navbar-item'><NavLink to='/restro' activeClassName="active">Restro</NavLink></li>
         <li className='navbar-item'><NavLink to='/contacts' activeClassName="active">Contact</NavLink></li>
-        <li className='navbar-item'><NavLink to='/artistlogin' activeClassName="active">Login</NavLink></li>
         <li className='navbar-item'><div className="dropdown">
-          <button>Profile</button>
+          <button>Login</button>
+          <div className="dropdown-options">
+          <NavLink to='/login/Artist_Login' activeClassName="active">Artist</NavLink>
+          <NavLink to='/login/User_Login' activeClassName="active">User</NavLink>
+          </div>
+        </div>
+        </li>
+        <li className='navbar-item'><div className="dropdown">
+          <button>SignUp</button>
           <div className="dropdown-options">
           <NavLink to='/signup/Artist_Signup' activeClassName="active">Artist</NavLink>
           <NavLink to='/signup/User_Signup' activeClassName="active">User</NavLink>

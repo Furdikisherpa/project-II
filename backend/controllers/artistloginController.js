@@ -1,10 +1,9 @@
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 const db = require('../config/dbConnection');
 
-
-const artistLogin = (req, res) => {
+const artistlogin = (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -14,21 +13,20 @@ const artistLogin = (req, res) => {
 
     const { artistEmail, artistPassword } = req.body;
 
-    db.query('SELECT * FROM artist WHERE email = ?', [artistEmail], (err, results) => {
+    db.query('SELECT * FROM artist WHERE Email=?', [artistEmail], (err, results) => {
         if (err) {
             console.error('Database query error:', err);
             return res.status(500).json({ msg: "Database query error" });
         }
 
         if (!results || !results.length) {
-            return res.status(400).json({ msg: "Email or password is incorrect" });
+            return res.status(400).json({ msg: 'Email or password is incorrect' });
         }
 
-        const user = results[0];
-
-        bcrypt.compare(artistPassword, user.password, (err, isMatch) => {
+        const artist = results[0];
+        bcrypt.compare(artistPassword, artist.password, (err, isMatch) => {
             if (err) {
-                console.error('Error comparing passwords:', err);
+                console.error('Password comparison error:', err);
                 return res.status(500).json({ msg: "Error comparing passwords" });
             }
 
@@ -40,7 +38,7 @@ const artistLogin = (req, res) => {
             console.log('JWT_SECRET:', process.env.JWT_SECRET);
 
             const token = jwt.sign(
-                { id: user.id, email: user.email },
+                { id: artist.id, email: artist.Email },
                 process.env.JWT_SECRET,
                 { expiresIn: '1h' }
             );
@@ -51,5 +49,5 @@ const artistLogin = (req, res) => {
 };
 
 module.exports = {
-    artistLogin
+    artistlogin
 };

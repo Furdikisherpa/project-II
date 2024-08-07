@@ -1,15 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const { artistRegisterValidation, signUpValidation, bookingValidation, messageValidation, reviewValidation, loginValidation } = require('../helpers/validation');
+const { artistRegisterValidation, signUpValidation, bookingValidation, messageValidation, reviewValidation, artistloginValidation, userloginValidation  } = require('../helpers/validation');
 const userController = require('../controllers/userController');
 const artistController = require('../controllers/artistController');
 const bookingController = require('../controllers/bookingController');
 const messageController = require('../controllers/messageController');
 const reviewController = require('../controllers/reviewController');
 const artistloginController = require('../controllers/artistloginController');
+const userloginController = require('../controllers/userloginController');
 
-// Login route
-router.post('/artistlogin', loginValidation, artistloginController.artistLogin);
+
+//user Login router
+router.post('/userlogin', userloginValidation, userloginController.userlogin );
+
+// Artist Login route
+router.post('/artistlogin', artistloginValidation, artistloginController.artistlogin);
 
 // Review route
 router.post('/reviews', reviewValidation, reviewController.review);

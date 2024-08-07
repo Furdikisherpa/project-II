@@ -6,71 +6,63 @@ const Artist_Login = () => {
     const [artistEmail, setArtistEmail] = useState('');
     const [artistPassword, setArtistPassword] = useState('');
     const [error, setError] = useState(null);
-    const [errors, setErrors] = useState({});
+    const [success, setSuccess] = useState(null);
     const navigate = useNavigate(); // Hook for navigation
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError(null);
+        setSuccess(null);
 
         try {
             const response = await axios.post('http://localhost:3000/api/artistlogin', {
                 artistEmail,
                 artistPassword
             });
+            setSuccess(response.data.msg);
 
             // Handle successful login
             console.log('Login successful:', response.data);
 
             // Store the token in localStorage or context
-            localStorage.setItem('token', response.data.token);
+            // localStorage.setItem('token', response.data.token);
 
             // Redirect to a different page
-            navigate('/Profile'); // Redirect to a desired route (e.g., /dashboard)
+            // navigate('/Profile'); // Redirect to a desired route (e.g., /dashboard)
         } catch (error) {
-            if (error.response) {
-                const errorData = error.response.data;
-                if (errorData.errors) {
-                    // Handle validation errors
-                    const errorMessages = errorData.errors.reduce((acc, curr) => {
-                        acc[curr.path] = curr.msg;
-                        return acc;
-                    }, {});
-                    setErrors(errorMessages);
-                } else {
-                    // Handle general errors
-                    setError(errorData.msg || 'Something went wrong');
-                }
+            if (error.response && error.response.data) {
+              setError(error.response.data.msg || 'An error occurred');
             } else {
-                setError('Error: ' + error.message);
+              setError('An error occurred');
             }
-        }
-    };
+            console.error('Error logging in:', error);
+          }
+        };
 
     return (
+        <div>
         <form onSubmit={handleSubmit}>
-            <div>
+          
                 <input
                     type="email"
                     placeholder="Email"
                     value={artistEmail}
                     onChange={(e) => setArtistEmail(e.target.value)}
                     required
-                />
-                {errors.artistEmail && <div className="error-message">{errors.artistEmail}</div>}
-            </div>
-            <div>
+                /> <br />
+             
                 <input
                     type="password"
                     placeholder="Password"
                     value={artistPassword}
                     onChange={(e) => setArtistPassword(e.target.value)}
                     required
-                />
-                {errors.artistPassword && <div className="error-message">{errors.artistPassword}</div>}
-            </div>
+                /> <br />
             <button type="submit">Login</button>
-            {error && <div className="error-message">{error}</div>}
         </form>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {success && <p style={{ color: 'green' }}>{success}</p>}
+        </div>
     );
 };
 
