@@ -9,17 +9,18 @@ const artistRegister = (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const artistname = req.body.artistname;
-    const genre = req.body.genre;
-    // const artistBio = req.body.artistBio;
-    const artistPassword = req.body.artistPassword;
-    const artistEmail = req.body.artistEmail;
-    // const mediagallery = req.body.mediagallery;
-    // const priceinfo = req.body.priceinfo;
-    const contactinfo = req.body.contactinfo;
+    const username = req.body.username;
+    const password = req.body.password;
+    const email = req.body.email;
+
+    console.log('Request body:', req.body); // Log request body to ensure correct data
+
+    if (!password) {
+        return res.status(400).json({ msg: "Password is required" });
+    }
 
     // Check if user already exists
-    db.query('SELECT * FROM artist WHERE LOWER(email) = LOWER(?)', [artistEmail], (err, results) => {
+    db.query('SELECT * FROM artist WHERE LOWER(email) = LOWER(?)', [email], (err, results) => {
         if (err) {
             return res.status(500).json({ msg: "Database query error" });
         }
@@ -29,13 +30,15 @@ const artistRegister = (req, res) => {
         }
 
         // Hash password and insert new user
-        bcrypt.hash(artistPassword, 10, (err, hash) => {
+        bcrypt.hash(password, 10, (err, hash) => {
             if (err) {
+                console.error('Error during password hashing:', err);
                 return res.status(500).json({ msg: "Error hashing password" });
             }
+
             db.query(
-                'INSERT INTO artist (Name, password, email, Genre, ContactInfo) VALUES (?, ?, ?, ?, ?)',
-                [artistname, hash, artistEmail, genre, contactinfo],
+                'INSERT INTO artist (Name, password, email) VALUES (?, ?, ?)',
+                [username, hash, email],
                 (err, results) => {
                     if (err) {
                         return res.status(500).json({ msg: "Error inserting user" });

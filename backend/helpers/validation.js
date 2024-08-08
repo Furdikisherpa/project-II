@@ -1,23 +1,22 @@
 const { check } = require('express-validator');
 
-exports.signUpValidation =[
+exports.userRegisterValidation =[
     check('username','Name is required').not().isEmpty(),
     check('email','Please enter a valid mail').isEmail().normalizeEmail({ gmail_remove_dots:true }),
     check('password','Password is required').isLength({ min:6 }),
-    check('fullname','Full name is required').not().isEmpty(),
-    check('contact','Contact number is required').not().isEmpty(),
+
 
 ];
 
 exports.artistRegisterValidation = [
-    check('artistname').notEmpty().withMessage('Artist name is required'),
-    check('genre').notEmpty().withMessage('Genre is required'),
+    check('username').notEmpty().withMessage('Artist name is required'),
+    // check('genre').notEmpty().withMessage('Genre is required'),
     // check('artistBio').notEmpty().withMessage('Artist bio is required'),
-    check('artistPassword').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
-    check('artistEmail').isEmail().withMessage('Invalid email'),
+    check('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
+    check('email').isEmail().withMessage('Invalid email'),
     // check('mediagallery').notEmpty().withMessage('Media gallery is required'), // Add specific validation if necessary
     // check('priceinfo').notEmpty().withMessage('Price info is required'),
-    check('contactinfo').notEmpty().withMessage('Contact info is required'),
+    // check('contactinfo').notEmpty().withMessage('Contact info is required'),
 ];
 
 exports.bookingValidation = [
@@ -51,8 +50,8 @@ exports.reviewValidation = [
 ];
 
 exports.artistloginValidation = [
-    check('artistEmail').isEmail().withMessage('Please include a valid email'),
-    check('artistPassword').notEmpty().withMessage('Password is required')
+    check('email').isEmail().withMessage('Please include a valid email'),
+    check('password').notEmpty().withMessage('Password is required')
 ];
 
 exports.userloginValidation = [

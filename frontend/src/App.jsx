@@ -1,19 +1,36 @@
-import './App.css'
-import { Outlet } from 'react-router-dom';
-import  Navbar  from './components/Navbar/Navbar';
-import Footer from './components/Footer/Footer';
+import  { useState, useEffect } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import Navbar from './components/Navbar/Navbar';
+import './App.css';
+import Footer from './components/Footer/Footer'
+
+
 const App = () => {
-    return (
-        <>
-            <Navbar />
-            <Outlet />
-            <Footer />
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
-            
-        </>
-    );
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    navigate('/Profile');
+  };
+
+  return (
+    <div>
+      <Navbar isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+      <div className="content">
+        <Outlet />
+        <Footer />
+      </div>
+    </div>
+  );
 };
- 
 
-export default App
-
+export default App;

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { artistRegisterValidation, signUpValidation, bookingValidation, messageValidation, reviewValidation, artistloginValidation, userloginValidation  } = require('../helpers/validation');
+const { artistRegisterValidation, userRegisterValidation, bookingValidation, messageValidation, reviewValidation, artistloginValidation, userloginValidation  } = require('../helpers/validation');
 const userController = require('../controllers/userController');
 const artistController = require('../controllers/artistController');
 const bookingController = require('../controllers/bookingController');
@@ -26,9 +26,9 @@ router.post('/messages', messageValidation, messageController.msg);
 router.post('/bookings', bookingValidation, bookingController.createBooking);
 
 // User registration route
-router.post('/register', signUpValidation, userController.register);
+router.post('/register', userRegisterValidation, userController.register);
 
 // Artist registration route
-router.post('/artistregister', artistRegisterValidation, artistController.artistRegister);
+router.post('/artistRegister', artistRegisterValidation, artistController.artistRegister);
 
 module.exports = router;

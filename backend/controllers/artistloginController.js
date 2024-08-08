@@ -11,9 +11,9 @@ const artistlogin = (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const { artistEmail, artistPassword } = req.body;
+    const { email, password } = req.body;
 
-    db.query('SELECT * FROM artist WHERE Email=?', [artistEmail], (err, results) => {
+    db.query('SELECT * FROM artist WHERE Email=?', [email], (err, results) => {
         if (err) {
             console.error('Database query error:', err);
             return res.status(500).json({ msg: "Database query error" });
@@ -24,7 +24,7 @@ const artistlogin = (req, res) => {
         }
 
         const artist = results[0];
-        bcrypt.compare(artistPassword, artist.password, (err, isMatch) => {
+        bcrypt.compare(password, artist.password, (err, isMatch) => {
             if (err) {
                 console.error('Password comparison error:', err);
                 return res.status(500).json({ msg: "Error comparing passwords" });

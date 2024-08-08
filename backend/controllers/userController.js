@@ -12,8 +12,8 @@ const register = (req, res) => {
     const email = db.escape(req.body.email);
     const username = db.escape(req.body.username);
     const password = req.body.password;
-    const fullname = req.body.fullname;
-    const contact = req.body.contact;
+    // const fullname = req.body.fullname;
+    // const contact = req.body.contact;
 
     // Check if user already exists
     db.query(
@@ -36,7 +36,7 @@ const register = (req, res) => {
                 
 
                 db.query(
-                    `INSERT INTO user (Username, Email, Password, Name, ContactInfo) VALUES (${username}, ${email}, ${db.escape(hash)},${db.escape(fullname)}, ${contact});`,
+                    `INSERT INTO user (Username, Email, Password) VALUES (${username}, ${email}, ${db.escape(hash)});`,
                     (err, result) => {
                         if (err) {
                             return res.status(500).json({ msg:err.message });

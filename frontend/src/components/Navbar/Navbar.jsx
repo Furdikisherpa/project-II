@@ -1,39 +1,47 @@
 import './Navbar.css';
-import { NavLink } from "react-router-dom"
-// import Button from 'react-bootstrap/Button';
+import { NavLink } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from '../../AuthContext';
 
-const Navbar = () => {
+function Navbar() {
+  const { isLoggedIn } = useContext(AuthContext);
+
   return (
     <nav className='navbar'>
-     <div>
-     <a href="/"><img src="" alt="Logo" className="nav-logo"/></a> 
-     </div>
+      <div>
+        <a href='/'><img src='' alt='Logo' className='nav-logo' /></a> 
+      </div>
       <ul className='navbar-list'>
-        <li className='navbar-item'><NavLink to='/' activeClassName="active">Home</NavLink></li>
-        <li className='navbar-item'><NavLink to='/about' activeClassName="active">About</NavLink></li>
-        <li className='navbar-item'><NavLink to='/artist' activeClassName="active">Artist</NavLink></li>
-        <li className='navbar-item'><NavLink to='/restro' activeClassName="active">Restro</NavLink></li>
-        <li className='navbar-item'><NavLink to='/contacts' activeClassName="active">Contact</NavLink></li>
-        <li className='navbar-item'><div className="dropdown">
-          <button>Login</button>
-          <div className="dropdown-options">
-          <NavLink to='/login/Artist_Login' activeClassName="active">Artist</NavLink>
-          <NavLink to='/login/User_Login' activeClassName="active">User</NavLink>
-          </div>
-        </div>
+        <li className='navbar-item'>
+          <NavLink to='/' className={({ isActive }) => isActive ? 'active' : ''}>Home</NavLink>
         </li>
-        <li className='navbar-item'><div className="dropdown">
-          <button>SignUp</button>
-          <div className="dropdown-options">
-          <NavLink to='/signup/Artist_Signup' activeClassName="active">Artist</NavLink>
-          <NavLink to='/signup/User_Signup' activeClassName="active">User</NavLink>
-          </div>
-        </div>
+        <li className='navbar-item'>
+          <NavLink to='/about' className={({ isActive }) => isActive ? 'active' : ''}>About</NavLink>
+        </li>
+        <li className='navbar-item'>
+          <NavLink to='/artist' className={({ isActive }) => isActive ? 'active' : ''}>Artist</NavLink>
+        </li>
+        <li className='navbar-item'>
+          <NavLink to='/contacts' className={({ isActive }) => isActive ? 'active' : ''}>Contact</NavLink>
         </li>
 
-        </ul>
+        {isLoggedIn ? (
+          <li className='navbar-item'>
+            <NavLink to='/profile' className={({ isActive }) => isActive ? 'active' : ''}>Profile</NavLink>
+          </li>
+        ) : (
+          <>
+            <li className='navbar-item'>
+              <NavLink to='/login' className={({ isActive }) => isActive ? 'active' : ''}>Login</NavLink>
+            </li>
+            <li className='navbar-item'>
+              <NavLink to='/signup' className={({ isActive }) => isActive ? 'active' : ''}>SignUp</NavLink>
+            </li>
+          </>
+        )}
+      </ul>
     </nav>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;
