@@ -37,7 +37,7 @@ const artistRegister = (req, res) => {
             }
 
             db.query(
-                'INSERT INTO artist (Name, password, email) VALUES (?, ?, ?)',
+                'INSERT INTO artist (username, password, email) VALUES (?, ?, ?)',
                 [username, hash, email],
                 (err, results) => {
                     if (err) {
