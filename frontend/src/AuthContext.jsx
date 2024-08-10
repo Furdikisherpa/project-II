@@ -6,31 +6,40 @@ const AuthContext = createContext();
 function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [jwt, setJwt] = useState(null);
+  const [userId, setUserId] = useState(null);  // Add userId state
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const storedJwt = localStorage.getItem("token"); // Use "token" to be consistent with Artist_Login.jsx
-    if (storedJwt) {
+    const storedJwt = localStorage.getItem("token");
+    const storedUserId = localStorage.getItem("userId");
+    if (storedJwt && storedUserId) {
       setIsLoggedIn(true);
       setJwt(storedJwt);
+      setUserId(storedUserId);
     }
     setIsLoading(false);
   }, []);
 
-  function login(token) {
+  function login(token, id) {
     setIsLoggedIn(true);
     setJwt(token);
-    localStorage.setItem("token", token); // Store token using the key "token"
+    setUserId(id);
+    localStorage.setItem("token", token);
+    localStorage.setItem("userId", id);
   }
 
   function logout() {
     setIsLoggedIn(false);
     setJwt(null);
-    localStorage.removeItem("token"); // Remove token using the key "token"
+    setUserId(null);
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
   }
 
   const authValue = {
     isLoggedIn,
+    jwt,
+    userId,
     isLoading,
     login,
     logout,

@@ -5,7 +5,6 @@ require('./config/dbConnection');
 
 // Import routes
 const userRouter = require('./routes/userRoute');
-const profileRoute = require('./routes/profileRoute');
 
 const app = express();
 
@@ -16,7 +15,6 @@ app.use(express.urlencoded({ extended: true })); // Replaces bodyParser.urlencod
 
 // Routes
 app.use('/api', userRouter);
-app.use('/api', profileRoute); // Fixed the typo here
 
 // Error handling middleware
 app.use((err, req, res, next) => {
