@@ -11,6 +11,7 @@ import Profile from './components/Profile.jsx';
 import { AuthProvider } from './AuthContext.jsx'; // Correct import
 import Login from './components/Login/Login.jsx';
 import Signup from './components/SignUp/signup.jsx';
+import './styles.css/fonts.css'
 
 const router = createBrowserRouter([
   {

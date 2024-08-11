@@ -13,13 +13,13 @@ const artistlogin = (req, res) => {
 
     const { email, password } = req.body;
 
-    db.query('SELECT * FROM artist WHERE Email=?', [email], (err, results) => {
+    db.query('SELECT * FROM artist WHERE email = ?', [email], (err, results) => {
         if (err) {
             console.error('Database query error:', err);
             return res.status(500).json({ msg: "Database query error" });
         }
 
-        if (!results || !results.length) {
+        if (!results.length) {
             return res.status(400).json({ msg: 'Email or password is incorrect' });
         }
 
@@ -34,16 +34,14 @@ const artistlogin = (req, res) => {
                 return res.status(400).json({ msg: "Email or password is incorrect" });
             }
 
-            // Debugging: Check JWT_SECRET
-            console.log('JWT_SECRET:', process.env.JWT_SECRET);
-
             const token = jwt.sign(
-                { id: artist.id, email: artist.Email },
+                { id: artist.id, email: artist.email },
                 process.env.JWT_SECRET,
                 { expiresIn: '1h' }
             );
 
-            return res.status(200).json({ msg: "Login successful", token });
+            console.log('Login successful for artist:', artist.id);
+            return res.status(200).json({ msg: "Login successful", token, artistId: artist.id });
         });
     });
 };

@@ -13,7 +13,7 @@ const userlogin = (req, res) => {
 
     const { email, password } = req.body;
 
-    db.query('SELECT * FROM user WHERE Email=?', [email], (err, results) => {
+    db.query('SELECT * FROM user WHERE email=?', [email], (err, results) => {
         if (err) {
             console.error('Database query error:', err);
             return res.status(500).json({ msg: "Database query error" });
@@ -24,7 +24,7 @@ const userlogin = (req, res) => {
         }
 
         const user = results[0];
-        bcrypt.compare(password, user.Password, (err, isMatch) => {
+        bcrypt.compare(password, user.password, (err, isMatch) => {
             if (err) {
                 console.error('Password comparison error:', err);
                 return res.status(500).json({ msg: "Error comparing passwords" });
@@ -38,12 +38,18 @@ const userlogin = (req, res) => {
             console.log('JWT_SECRET:', process.env.JWT_SECRET);
 
             const token = jwt.sign(
-                { id: user.id, email: user.Email },
+                { id: user.id, email: user.email },
                 process.env.JWT_SECRET,
                 { expiresIn: '1h' }
             );
 
             return res.status(200).json({ msg: "Login successful", token });
+
+            return res.status(200).json({ 
+                msg: "Login successful", 
+                token,
+                userId: user.id // Include user ID in the response
+            });
 
             
         });

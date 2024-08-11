@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'CircularXX'; /* Name of the font */
+    src: url('./assets/fonts/CircularXXWeb-Book.woff2') format('woff2'); /* Path to the font file */
+    font-weight: normal; /* Set the font weight */
+    font-style: normal; /* Set the font style */
+    font-display: swap; /* Optional: Ensures text remains visible during font loading */
+}
+

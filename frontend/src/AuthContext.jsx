@@ -4,52 +4,67 @@ import PropTypes from 'prop-types';
 const AuthContext = createContext();
 
 function AuthProvider({ children }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [jwt, setJwt] = useState(null);
-  const [userId, setUserId] = useState(null);  // Add userId state
-  const [isLoading, setIsLoading] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [jwt, setJwt] = useState(null);
+    const [artistId, setArtistId] = useState(null);
+    const [userId, setUserId] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const storedJwt = localStorage.getItem("token");
-    const storedUserId = localStorage.getItem("userId");
-    if (storedJwt && storedUserId) {
-      setIsLoggedIn(true);
-      setJwt(storedJwt);
-      setUserId(storedUserId);
+    useEffect(() => {
+        const storedJwt = localStorage.getItem("token");
+        const storedArtistId = localStorage.getItem("artistId");
+        const storedUserId = localStorage.getItem("userId");
+
+        if (storedJwt) {
+            setIsLoggedIn(true);
+            setJwt(storedJwt);
+            if (storedArtistId) {
+                setArtistId(storedArtistId);
+            } else if (storedUserId) {
+                setUserId(storedUserId);
+            }
+        }
+        setIsLoading(false);
+    }, []);
+
+    function login(token, id, role) {
+        setIsLoggedIn(true);
+        setJwt(token);
+        if (role === 'artist') {
+            setArtistId(id);
+            localStorage.setItem("artistId", id);
+        } else if (role === 'user') {
+            setUserId(id);
+            localStorage.setItem("userId", id);
+        }
+        localStorage.setItem("token", token);
     }
-    setIsLoading(false);
-  }, []);
 
-  function login(token, id) {
-    setIsLoggedIn(true);
-    setJwt(token);
-    setUserId(id);
-    localStorage.setItem("token", token);
-    localStorage.setItem("userId", id);
-  }
+    function logout() {
+        setIsLoggedIn(false);
+        setJwt(null);
+        setArtistId(null);
+        setUserId(null);
+        localStorage.removeItem("token");
+        localStorage.removeItem("artistId");
+        localStorage.removeItem("userId");
+    }
 
-  function logout() {
-    setIsLoggedIn(false);
-    setJwt(null);
-    setUserId(null);
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
-  }
+    const authValue = {
+        isLoggedIn,
+        jwt,
+        artistId,
+        userId,
+        isLoading,
+        login,
+        logout,
+    };
 
-  const authValue = {
-    isLoggedIn,
-    jwt,
-    userId,
-    isLoading,
-    login,
-    logout,
-  };
-
-  return <AuthContext.Provider value={authValue}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={authValue}>{children}</AuthContext.Provider>;
 }
 
 AuthProvider.propTypes = {
-  children: PropTypes.node.isRequired,
+    children: PropTypes.node.isRequired,
 };
 
 export { AuthProvider, AuthContext };

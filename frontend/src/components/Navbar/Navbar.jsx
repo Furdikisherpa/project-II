@@ -1,10 +1,16 @@
 import './Navbar.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../../AuthContext';
 
 function Navbar() {
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout(); // Call the logout function from AuthContext
+    navigate('/login'); // Redirect to login page after logout
+  };
 
   return (
     <nav className='navbar'>
@@ -26,16 +32,21 @@ function Navbar() {
         </li>
 
         {isLoggedIn ? (
-          <li className='navbar-item'>
-            <NavLink to='/profile' className={({ isActive }) => isActive ? 'active' : ''}>Profile</NavLink>
-          </li>
+          <>
+            <li className='navbar-item'>
+              <NavLink to='/profile' className={({ isActive }) => isActive ? 'active' : ''}>Profile</NavLink>
+            </li>
+            <li className='navbar-item'>
+              <button onClick={handleLogout} className='logout-button'>Logout</button>
+            </li>
+          </>
         ) : (
           <>
             <li className='navbar-item'>
               <NavLink to='/login' className={({ isActive }) => isActive ? 'active' : ''}>Login</NavLink>
             </li>
             <li className='navbar-item'>
-              <NavLink to='/signup' className={({ isActive }) => isActive ? 'active' : ''}>SignUp</NavLink>
+              <NavLink to='/signup' className={({ isActive }) => isActive ? 'active' : ''}>Sign Up</NavLink>
             </li>
           </>
         )}
