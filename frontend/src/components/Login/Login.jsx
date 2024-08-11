@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
 import { AuthContext } from '../../AuthContext';
 
 const Login = () => {
@@ -11,7 +10,7 @@ const Login = () => {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
     const navigate = useNavigate();
-    const { login } = useContext(AuthContext);
+    const { login } = useContext(AuthContext); // Ensure this is correctly accessing login
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,11 +28,11 @@ const Login = () => {
 
             setSuccess(response.data.msg);
 
-            // Store the token in localStorage
-            login(response.data.token);
+            // Store the token in localStorage via login function from context
+            await login(response.data.token);
 
             // Redirect based on role, e.g., to profile page
-            navigate('/Profile');
+            navigate('/profile');
         } catch (error) {
             if (error.response && error.response.data) {
                 setError(error.response.data.msg || 'An error occurred');

@@ -8,8 +8,7 @@ import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Profile from './components/Profile.jsx';
-import RouteGuard from './RouteGuard.jsx';
-import { AuthProvider } from './AuthContext.jsx'; // Import AuthProvider
+import { AuthProvider } from './AuthContext.jsx'; // Correct import
 import Login from './components/Login/Login.jsx';
 import Signup from './components/SignUp/signup.jsx';
 
@@ -45,11 +44,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'profile',
-        element: (
-          <RouteGuard>
-            <Profile />
-          </RouteGuard>
-        ),
+        element: <Profile />
       },
     ],
   },

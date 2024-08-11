@@ -1,20 +1,20 @@
-// config/dbConnection.js
-const mysql = require('mysql');
-const { DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME } = process.env;
+const mysql = require('mysql2');
 
-const conn = mysql.createConnection({
-  host: DB_HOST,
-  user: DB_USERNAME,
-  password: DB_PASSWORD,
-  database: DB_NAME
+// Create a connection to the database
+const connection = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
 });
 
-conn.connect((err) => {
+// Connect to the database
+connection.connect((err) => {
   if (err) {
-    console.error('Database connection error:', err);
-    throw err;
+    console.error('Error connecting to the database:', err);
+    process.exit(1); // Exit process if unable to connect
   }
-  console.log(DB_NAME + " Database Connected");
+  console.log('Connected to the MySQL database');
 });
 
-module.exports = conn;
+module.exports = connection;

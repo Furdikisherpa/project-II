@@ -1,23 +1,41 @@
-import { useContext,} from "react";
-import { AuthContext } from "../AuthContext";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
-function ArtistProfile() {
+const Profile = () => {
+  const [artists, setArtists] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    const { isLoggedIn, logout } = useContext(AuthContext);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/api/artist');
+        setArtists(response.data);
+      } catch (err) {
+        setError('An error occurred while fetching data');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    return (
-        <div>
+    fetchData();
+  }, []);
 
-            {isLoggedIn ? (
-                <>
-                    <p>Welcome, You are logged in.</p>
-                    <button onClick={logout}>Logout</button>
-                </>
-            ) : (
-                <p>Please log in to access more features.</p>
-            )}
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+
+  return (
+    <div>
+      <h1>Artist Information</h1>
+      {artists.map((item) => (
+        <div key={item.id}>
+          <p><strong>:</strong> {item.name}</p>
+          <p><strong>Email:</strong> {item.email}</p>
+          <hr /> {/* Optional, for separating different artist details */}
+        </div>
+      ))}
     </div>
-    );
-}
+  );
+};
 
-export default ArtistProfile;
+export default Profile;

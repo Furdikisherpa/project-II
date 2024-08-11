@@ -5,6 +5,7 @@ require('./config/dbConnection');
 
 // Import routes
 const userRouter = require('./routes/userRoute');
+const connection = require("./config/dbConnection");
 
 const app = express();
 
@@ -15,6 +16,22 @@ app.use(express.urlencoded({ extended: true })); // Replaces bodyParser.urlencod
 
 // Routes
 app.use('/api', userRouter);
+
+// Example endpoint to fetch data
+app.get('/api/artist', (req, res) => {
+  const query = 'SELECT * FROM artist '; // Modify according to your table and query
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Error fetching data:', err);
+      res.status(500).json({ error: 'An error occurred while fetching data' });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+
 
 // Error handling middleware
 app.use((err, req, res, next) => {

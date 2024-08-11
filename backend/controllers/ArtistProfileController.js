@@ -1,22 +1,19 @@
-const db = require('../config/dbConnection');
+// const connection = require('../config/dbConnection');
 
-const getArtistProfile = (req, res) => {
-  const artistId = req.user.id; // Use the ID from the verified token
+// const getArtistProfile = (req, res) => {
+//   const userId = req.user.id;
+//   const query = 'SELECT name, email FROM artist WHERE id = ?';
 
-  db.query('SELECT * FROM artist WHERE id = ?', [artistId], (err, results) => {
-    if (err) {
-      console.error('Database query error:', err);
-      return res.status(500).json({ msg: "Database query error" });
-    }
+//   connection.query(query, [userId], (err, results) => {
+//     if (err) {
+//       console.error('Error fetching artist profile:', err);
+//       res.status(500).json({ error: 'An error occurred while fetching artist profile' });
+//     } else {
+//       res.json(results[0]);
+//     }
+//   });
+// };
 
-    if (!results.length) {
-      return res.status(404).json({ msg: 'Artist not found' });
-    }
-
-    res.status(200).json(results[0]);
-  });
-};
-
-module.exports = {
-  getArtistProfile
-};
+// module.exports = {
+//   getArtistProfile,
+// };
