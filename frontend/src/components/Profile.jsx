@@ -1,44 +1,52 @@
-import { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../AuthContext';
+import { useState, useEffect, useContext } from 'react'; // Importing necessary hooks from React
+import axios from 'axios'; // Importing Axios for making HTTP requests
+import { AuthContext } from '../AuthContext'; // Importing the AuthContext for accessing authentication state
 
 const Profile = () => {
-    const [artist, setArtist] = useState(null);
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const navigate = useNavigate();
-    const { artistId, userId, jwt, logout } = useContext(AuthContext);
+    // State variables to hold artist and user data, loading state, and any errors
+    const [artist, setArtist] = useState(null); // State for storing artist profile data
+    const [user, setUser] = useState(null); // State for storing user profile data
+    const [loading, setLoading] = useState(true); // State for tracking loading status
+    const [error, setError] = useState(null); // State for storing error messages
+
+    // Accessing authentication context to get user IDs and JWT
+    const { artistId, userId, jwt, isLoading, isLoggedIn } = useContext(AuthContext);
 
     useEffect(() => {
+        // Function to fetch profile data based on the logged-in user's role
         const fetchProfileData = async () => {
-            const id = artistId || userId;
+            const id = artistId || userId; // Determine which ID to use (artist or user)
 
+            // If no ID is found, set an error message and exit the function
             if (!id) {
-                console.error('No ID found in AuthContext');
-                setError('No user ID found');
-                setLoading(false);
-                return;
+                console.error('No ID found in AuthContext'); // Log error to console
+                setError('No user ID found'); // Set error state
+                setLoading(false); // Stop loading
+                return; // Exit the function
             }
 
-            console.log('Fetching from endpoint:', id);
+            console.log('Fetching from endpoint:', id); // Log the endpoint being fetched
+            // Determine the endpoint based on whether the user is an artist or a regular user
             const endpoint = artistId ? `http://localhost:3000/api/artist/${id}` : `http://localhost:3000/api/user/${id}`;
 
             try {
+                // Make a GET request to the appropriate endpoint with the JWT in the header
                 const response = await axios.get(endpoint, {
                     headers: {
-                        Authorization: `Bearer ${jwt}`
+                        Authorization: `Bearer ${jwt}` // Include the JWT for authentication
                     }
                 });
 
+                // Set the artist or user state based on the response data
                 if (artistId) {
                     setArtist(response.data); // Set artist data if artistId is present
                 } else {
                     setUser(response.data); // Set user data if userId is present
                 }
             } catch (err) {
-                console.error('Error fetching profile data:', err);
+                // Handle errors that may occur during the fetch
+                console.error('Error fetching profile data:', err); // Log the error to console
+                // Set error state based on the type of error received
                 if (err.response) {
                     setError(`Error ${err.response.status}: ${err.response.data.msg || 'An error occurred while fetching profile data.'}`);
                 } else if (err.request) {
@@ -47,46 +55,46 @@ const Profile = () => {
                     setError('Error: ' + err.message);
                 }
             } finally {
+                // Ensure loading is set to false regardless of success or failure
                 setLoading(false);
             }
         };
 
-        fetchProfileData();
-    }, [artistId, userId, jwt]);
+        // Only fetch profile data if the user is logged in and context is loaded
+        if (isLoggedIn && !isLoading) {
+            fetchProfileData(); // Call the fetch function
+        }
+    }, [artistId, userId, jwt, isLoggedIn, isLoading]); // Dependencies for the effect
 
-    const handleLogout = () => {
-        logout();
-        navigate('/login');
-    };
+    // Conditional rendering based on loading and error states
+    if (loading) return <div>Loading...</div>; // Show loading message while data is being fetched
+    if (error) return <div>{error}</div>; // Show error message if there was an error
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>{error}</div>;
-
+    // Render the profile information based on whether the user is an artist or a regular user
     return (
         <div>
-            <h1>{artistId ? 'artist' : 'user'}</h1>
+            <h1>{artistId ? 'Artist' : 'User'} Profile</h1> {/* Display appropriate header */}
             {artistId ? (
-                artist ? (
+                artist ? ( // Check if artist data is available
                     <div>
-                        <p><strong>Name:</strong> {artist.username}</p>
-                        <p><strong>Email:</strong> {artist.email}</p>
+                        <p><strong>Name:</strong> {artist.username}</p> {/* Display artist username */}
+                        <p><strong>Email:</strong> {artist.email}</p> {/* Display artist email */}
                     </div>
                 ) : (
-                    <p>No artist profile data found</p>
+                    <p>No artist profile data found</p> // Message if no artist data is available
                 )
             ) : (
-                user ? (
+                user ? ( // If artistId is not present, check for user data
                     <div>
-                        <p><strong>Name:</strong> {user.username}</p>
-                        <p><strong>Email:</strong> {user.email}</p>
+                        <p><strong>Name:</strong> {user.username}</p> {/* Display user username */}
+                        <p><strong>Email:</strong> {user.email}</p> {/* Display user email */}
                     </div>
                 ) : (
-                    <p>No user profile data found</p>
+                    <p>No user profile data found</p> // Message if no user data is available
                 )
             )}
-            <button onClick={handleLogout}>Logout</button>
         </div>
     );
 };
 
-export default Profile;
+export default Profile; // Export the Profile component for use in other parts of the application

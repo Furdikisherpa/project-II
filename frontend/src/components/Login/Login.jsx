@@ -19,29 +19,23 @@ const Login = () => {
 
         try {
             const endpoint = role === 'artist' ? 'http://localhost:3000/api/artistlogin' : 'http://localhost:3000/api/userlogin';
-            const response = await axios.post(endpoint, { email , password });
+            const response = await axios.post(endpoint, { email, password });
 
             console.log('Login response:', response.data); // Log the full response
-            
-            // Assume the response contains user information based on the role
-            const userId = role === 'artist' ? response.data.artistId : response.data.userId;
+
+            const userIdToUse = role === 'artist' ? response.data.artistId : response.data.userId;
             const token = response.data.token;
 
-            // Check if userId is defined
-            if (!userId) {
+            if (!userIdToUse) {
                 throw new Error('No user ID found in response');
             }
 
             setSuccess(response.data.msg);
-            await login(token, userId, role);
+            await login(token, userIdToUse, role);
             navigate('/profile');
         } catch (error) {
-            if (error.response && error.response.data) {
-                setError(error.response.data.msg || 'An error occurred');
-            } else {
-                setError('An error occurred');
-            }
-            console.error('Error logging in:', error);
+            console.error('Error logging in:', error.response ? error.response.data : error.message);
+            setError(error.response?.data?.msg || 'An error occurred');
         }
     };
 

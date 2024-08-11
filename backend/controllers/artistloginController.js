@@ -36,7 +36,7 @@ const artistlogin = (req, res) => {
 
             const token = jwt.sign(
                 { id: artist.id, email: artist.email },
-                process.env.JWT_SECRET,
+                process.env.ARTIST_JWT_SECRET,
                 { expiresIn: '1h' }
             );
 

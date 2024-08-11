@@ -35,23 +35,20 @@ const userlogin = (req, res) => {
             }
 
             // Debugging: Check JWT_SECRET
-            console.log('JWT_SECRET:', process.env.JWT_SECRET);
+            console.log('JWT_SECRET:', process.env.USER_JWT_SECRET);
 
             const token = jwt.sign(
                 { id: user.id, email: user.email },
-                process.env.JWT_SECRET,
+                process.env.USER_JWT_SECRET,
                 { expiresIn: '1h' }
             );
 
-            return res.status(200).json({ msg: "Login successful", token });
-
-            return res.status(200).json({ 
-                msg: "Login successful", 
+            // Return user ID along with the token
+            return res.status(200).json({
+                msg: "Login successful",
                 token,
                 userId: user.id // Include user ID in the response
             });
-
-            
         });
     });
 };
