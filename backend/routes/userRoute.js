@@ -19,6 +19,10 @@ const artistloginController = require('../controllers/artistloginController');
 const userloginController = require('../controllers/userloginController');
 const ArtistProfileController = require('../controllers/ArtistProfileController');
 const userProfileController = require('../controllers/userProfileController');
+const artistDataFectchController = require('../controllers/artistDataFetchController');
+
+//artists data fetch
+router.get('/artists', artistDataFectchController.artistData);
 
 // User profile route
 router.get('/user/:id', userProfileController.userProfile);
