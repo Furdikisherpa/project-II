@@ -1,6 +1,8 @@
+import './Profile.css';
 import { useState, useEffect, useContext } from 'react'; // Importing necessary hooks from React
 import axios from 'axios'; // Importing Axios for making HTTP requests
 import { AuthContext } from '../AuthContext'; // Importing the AuthContext for accessing authentication state
+// import ProfileUpdateForm from './Profile_Update/ProfileUpdateForm'; // Correct import
 
 const Profile = () => {
     // State variables to hold artist and user data, loading state, and any errors
@@ -73,6 +75,10 @@ const Profile = () => {
     // Render the profile information based on whether the user is an artist or a regular user
     return (
         <div>
+            <div className="Heading_Image">
+                <img src="/src/assets/images/Music Artist.jpg" alt="Music Artist" /> {/* Header image */}
+            </div>
+        <div className='Profile'>
             <h1>{artistId ? 'Artist' : 'User'} Profile</h1> {/* Display appropriate header */}
             {artistId ? (
                 artist ? ( // Check if artist data is available
@@ -93,7 +99,61 @@ const Profile = () => {
                     <p>No user profile data found</p> // Message if no user data is available
                 )
             )}
+            <button type='submit'>Update Profile</button>
+            <hr /> <br />
+            <p>Settting</p>
         </div>
+        <div className='grid'>
+        <div className="responsive">
+  <div className="gallery">
+    <a target="_blank" href="">
+      <img src="/src/assets/images/Music Artist.jpg" alt="Cinque Terre" width="600" height="400" />
+    </a>
+    <div className="desc">description</div>
+  </div>
+</div>
+
+
+<div className="responsive">
+  <div className="gallery">
+    <a target="_blank" href="img_forest.jpg">
+      <img src="/src/assets/images/Music Artist.jpg" alt="Forest" width="600" height="400" />
+    </a>
+    <div className="desc">description </div>
+  </div>
+</div>
+
+<div className="responsive">
+  <div className="gallery">
+    <a target="_blank" href="img_lights.jpg">
+      <img src="/src/assets/images/Music Artist.jpg" alt="Northern Lights" width="600" height="400" />
+    </a>
+    <div className="desc">escription</div>
+  </div>
+</div>
+
+<div className="responsive">
+  <div className="gallery">
+    <a target="_blank" href="img_mountains.jpg">
+      <img src="/src/assets/images/Music Artist.jpg" alt="Mountains" width="600" height="400" />
+    </a>
+    <div className="desc">description </div>
+  </div>
+</div>
+
+<div className="responsive">
+  <div className="gallery">
+    <a target="_blank" href="img_mountains.jpg">
+      <img src="/src/assets/images/Music Artist.jpg" alt="Mountains" width="600" height="400" />
+    </a>
+    <div className="desc">Description</div>
+  </div>
+</div>
+<div className="clearfix"></div>
+
+        </div>
+        </div>
+        
     );
 };
 

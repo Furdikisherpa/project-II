@@ -12,6 +12,7 @@ import { AuthProvider } from './AuthContext.jsx'; // Correct import
 import Login from './components/Login/Login.jsx';
 import Signup from './components/SignUp/signup.jsx';
 import './styles.css/fonts.css'
+// import ProfileUpdateForm from './components/Profile_Update/ProfileUpdateForm.jsx';
 
 const router = createBrowserRouter([
   {
@@ -46,7 +47,11 @@ const router = createBrowserRouter([
       {
         path: 'profile',
         element: <Profile />
-      },
+      }
+      // {
+      //   path: 'profile_Update',
+      //   element: <ProfileUpdateForm />
+      // },
     ],
   },
 ]);

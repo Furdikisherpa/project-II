@@ -4,10 +4,10 @@
     align-items: center;
     padding: 14px 20px;
     flex-wrap: wrap;
-    margin-left: auto;
-   
-    margin-right: auto;
-    /* margin-top: -40%; */
+    top: 0;
+    /* margin-left: auto; */
+   position: fixed;
+    /* margin-right: auto; */
     background-color: rgba(255, 255, 255, 0.332);
 }
 
