@@ -1,3 +1,4 @@
+import './signup.css'
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -39,7 +40,7 @@ const Signup = () => {
     return (
         <div>
             <h2>Sign Up</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className='signup'>
                 <select value={userType} onChange={(e) => setUserType(e.target.value)}>
                     <option value="user">User</option>
                     <option value="artist">Artist</option>

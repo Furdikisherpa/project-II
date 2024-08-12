@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../AuthContext';
+import './Login.css'
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -40,8 +41,9 @@ const Login = () => {
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
+        <div className='LoginForm'>
+            <h2>Login</h2>
+            <form onSubmit={handleSubmit} className='login'>
                 <select value={role} onChange={(e) => setRole(e.target.value)}>
                     <option value="user">User</option>
                     <option value="artist">Artist</option>
