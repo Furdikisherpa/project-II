@@ -19,16 +19,16 @@ const register = (req, res) => {
         return res.status(400).json({ msg: "Password is required" });
     }
     // Check if user already exists
-    db.query(
-        `SELECT * FROM user WHERE LOWER(email) = LOWER(${email});`,
-        (err, result) => {
-            if (err) {
-                return res.status(500).json({ msg: 'Database query error' });
-            }
+    db.query('SELECT * FROM user WHERE LOWER(email) = LOWER(?) OR LOWER(Username) = LOWER(?)', 
+        [email, username], (err, results) => {
+        if (err) { // If there is a database query error, send a 500 response
+            return res.status(500).json({ msg: "Database query error" });
+        }
 
-            if (result && result.length) {
-                return res.status(409).json({ msg: 'This user is already in use!' });
-            }
+        if (results && results.length) { // If the email or username already exists
+            const duplicatedField = results[0].email.toLowerCase() === email.toLowerCase() ? 'Email' : 'Username'; // Determine which field is duplicated
+            return res.status(400).json({ msg: `${duplicatedField} already exists` }); // Send a 400 response indicating the duplicate field
+        }
 
             // Hash password and insert new user
             bcrypt.hash(password, 10, (err, hash) => {
