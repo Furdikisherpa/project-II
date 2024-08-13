@@ -20,6 +20,14 @@ const userloginController = require('../controllers/userloginController');
 const ArtistProfileController = require('../controllers/ArtistProfileController');
 const userProfileController = require('../controllers/userProfileController');
 const artistDataFectchController = require('../controllers/artistDataFetchController');
+const UploadVideoController = require('../controllers/UploadVideoController');
+const FetchVideoController = require('../controllers/FetchVideoController');
+
+//video fetch router
+router.get('/getvideo', FetchVideoController.getVideos);
+
+//video route
+router.post('/uploadvideo', UploadVideoController.uploadVideo);
 
 //artists data fetch
 router.get('/artists', artistDataFectchController.artistData);

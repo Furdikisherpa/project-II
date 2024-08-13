@@ -10,6 +10,20 @@
     overflow-x: hidden;
 }
 
+.Profile button{
+  background-color: black;
+  padding: 10px;
+  width: 150px;
+  border-radius: 5px;
+}
+
+.Profile button:hover{
+  background-color: rgb(255, 255, 255);
+  padding: 10px;
+  width: 150px;
+  border-radius: 5px;
+  border-color: black;
+}
 
 .Profile h1, p{
    color: white;
@@ -100,3 +114,37 @@ div.gallery {
     display: table;
     clear: both;
   }
+
+  /* This css is to uploadVIdeo */
+  .videoUpload input{
+    padding: 10px;
+    width: 150px;
+    margin-bottom: 10px;
+  }
+
+  .videoUpload button{
+    border-radius: 5px;
+    background-color: black;
+  }
+
+  .videoUpload button:hover{
+    border-radius: 5px;
+    background-color: rgb(247, 242, 242);
+    border-color: black;
+  }
+
+
+  /* This css is for video gallery */
+  .video-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    margin-left: 150px;
+}
+
+.video-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

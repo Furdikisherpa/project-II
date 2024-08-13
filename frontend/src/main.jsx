@@ -12,7 +12,8 @@ import { AuthProvider } from './AuthContext.jsx'; // Correct import
 import Login from './components/Login/Login.jsx';
 import Signup from './components/SignUp/signup.jsx';
 import './styles.css/fonts.css'
-// import ProfileUpdateForm from './components/Profile_Update/ProfileUpdateForm.jsx';
+// import { element } from 'prop-types';
+
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
         path: 'artist',
         element: <Artist />,
       },
+      {
+      path:"/artist/:artistId",
+      element:<Profile />
+    },
       {
         path: 'about',
         element: <About />,
@@ -48,10 +53,6 @@ const router = createBrowserRouter([
         path: 'profile',
         element: <Profile />
       }
-      // {
-      //   path: 'profile_Update',
-      //   element: <ProfileUpdateForm />
-      // },
     ],
   },
 ]);

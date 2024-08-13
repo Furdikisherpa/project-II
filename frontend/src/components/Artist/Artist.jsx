@@ -2,6 +2,7 @@ import './Artist.css'; // Importing CSS styles for the Artist component
 import { useEffect, useState } from 'react'; // Importing necessary hooks from React
 import { Button, Card } from 'react-bootstrap'; // Importing Button and Card components from React Bootstrap
 import axios from 'axios'; // Importing Axios for making HTTP requests
+import { Link } from 'react-router-dom'; // Importing Link from React Router
 
 function Artist() {
     const [artists, setArtists] = useState([]); // State to hold the list of artists
@@ -51,7 +52,10 @@ function Artist() {
                                 <Card.Text>
                                     {artist.email || "No description available"} {/* Artist's email or default message */}
                                 </Card.Text>
-                                <Button variant="primary">Profile</Button> {/* Button for viewing artist profile */}
+                                {/* Link to the artist's profile using artistId */}
+                                <Link to={`/artist/${artist.id}`}>
+                                    <Button variant="primary">Profile</Button> {/* Button for viewing artist profile */}
+                                </Link>
                             </Card.Body>
                         </Card>
                     </div>
