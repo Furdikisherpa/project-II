@@ -15,6 +15,9 @@ const register = (req, res) => {
     // const fullname = req.body.fullname;
     // const contact = req.body.contact;
 
+    if (!password) { // If no password is provided, send a 400 response with an error message
+        return res.status(400).json({ msg: "Password is required" });
+    }
     // Check if user already exists
     db.query(
         `SELECT * FROM user WHERE LOWER(email) = LOWER(${email});`,
