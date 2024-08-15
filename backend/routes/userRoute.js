@@ -24,6 +24,10 @@ const artistDataFectchController = require('../controllers/artistDataFetchContro
 const UploadVideoController = require('../controllers/UploadVideoController');
 const FetchVideoController = require('../controllers/FetchVideoController');
 const authMiddleware = require('../middleware/authMiddleware');
+const artistUpdateController = require('../controllers/artistUpdateController');
+
+//artist update route
+router.put('/artist/:id', artistUpdateController.updateArtistProfile);
 
 //video fetch router
 router.get('/getvideo', FetchVideoController.getVideos);
