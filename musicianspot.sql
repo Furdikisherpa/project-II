@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 06, 2024 at 12:49 PM
+-- Generation Time: Aug 13, 2024 at 08:10 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,7 +42,8 @@ CREATE TABLE `admin` (
 --
 
 CREATE TABLE `artist` (
-  `ArtistID` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
+  `username` varchar(100) NOT NULL,
   `Name` varchar(100) NOT NULL,
   `password` varchar(100) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
@@ -57,12 +58,15 @@ CREATE TABLE `artist` (
 -- Dumping data for table `artist`
 --
 
-INSERT INTO `artist` (`ArtistID`, `Name`, `password`, `email`, `Genre`, `Bio`, `MediaGallery`, `PricingInfo`, `ContactInfo`) VALUES
-(1, 'Furdki ', '$2a$10$.GmQJvrmkfUgbLAA9kBkLO/bgyKdX9GFN3sNlfejBCVaotsuTv1j2', 'furdikisherpa16@gmail.com', 'pop', 'kjsdbfdsjfbdsj', NULL, NULL, NULL),
-(2, 'Furdki ', '$2a$10$zpB4PAmHhCOZOm7XpAek.eDRISeQ99iesLJxasD40Wj.c549M.PF2', 'furdikisherpa@gmail.com', 'pop', 'kjsdbfdsjfbdsj', NULL, NULL, NULL),
-(3, 'Furdki ', '$2a$10$Edq6vmSXvL.ilTzwfRMJLug8T6XoX4mHj6mmhBh1g4xub2P8Cg0gS', 'furdikisherp@gmail.com', 'pop', 'kjsdbfdsjfbdsj', 'file', '200', 2147483647),
-(4, 'sumi', 'sumi123**', 'sumi@gmail.com', 'pop', NULL, NULL, NULL, 2147483647),
-(5, 'saugat', '$2a$10$V.HztamhVjDwl6Y9Z38ucOXAKDvcd9UL2SjenVKP304XmeJJGKkCe', 'saugat@gmail.com', 'pop', NULL, NULL, NULL, 2147483647);
+INSERT INTO `artist` (`id`, `username`, `Name`, `password`, `email`, `Genre`, `Bio`, `MediaGallery`, `PricingInfo`, `ContactInfo`) VALUES
+(1, 'Furdiki', 'Furdki ', '$2a$10$.GmQJvrmkfUgbLAA9kBkLO/bgyKdX9GFN3sNlfejBCVaotsuTv1j2', 'furdikisherpa16@gmail.com', 'pop', 'kjsdbfdsjfbdsj', NULL, NULL, NULL),
+(2, 'Furdiki1', 'Furdki ', '$2a$10$zpB4PAmHhCOZOm7XpAek.eDRISeQ99iesLJxasD40Wj.c549M.PF2', 'furdikisherpa@gmail.com', 'pop', 'kjsdbfdsjfbdsj', NULL, NULL, NULL),
+(3, 'Furdiki2', 'Furdki ', '$2a$10$Edq6vmSXvL.ilTzwfRMJLug8T6XoX4mHj6mmhBh1g4xub2P8Cg0gS', 'furdikisherp@gmail.com', 'pop', 'kjsdbfdsjfbdsj', 'file', '200', 2147483647),
+(4, 'Sumi', 'sumi', 'sumi123**', 'sumi@gmail.com', 'pop', NULL, NULL, NULL, 2147483647),
+(5, 'Saugat', 'saugat', '$2a$10$V.HztamhVjDwl6Y9Z38ucOXAKDvcd9UL2SjenVKP304XmeJJGKkCe', 'saugat@gmail.com', 'pop', NULL, NULL, NULL, 2147483647),
+(6, 'Tenzy', 'tenzy', '$2a$10$Hm3XVfp06uQ0HGlqaeAtKeCai2lW5nC5tcmUNqf8EgWR2mMoh/GU.', 'tenzy@gmail.com', NULL, NULL, NULL, NULL, NULL),
+(7, 'Soniya', '', '$2a$10$8MICagNN5PyLUXPMjGWGkOWlLlxLNl33Udc0mnEEjf4zjaLh3CQKe', 'Soniya@gmail.com', NULL, NULL, NULL, NULL, NULL),
+(8, 'tenzy1', '', '$2a$10$vHTfENoH0VA3qkhkdB1S2.EudBF0RNyuEpTuvbDa8s5Ed1y9nfCWu', 'tenzy1@gmail.com', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -140,10 +144,10 @@ INSERT INTO `review` (`ReviewID`, `Rating`, `Comment`, `ReviewDate`, `UserID`, `
 --
 
 CREATE TABLE `user` (
-  `UserID` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `Username` varchar(50) NOT NULL,
-  `Password` varchar(255) NOT NULL,
-  `Email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `email` varchar(100) NOT NULL,
   `ProfilePicture` varchar(255) DEFAULT NULL,
   `Name` varchar(100) NOT NULL,
   `ContactInfo` varchar(255) DEFAULT NULL
@@ -153,13 +157,39 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`UserID`, `Username`, `Password`, `Email`, `ProfilePicture`, `Name`, `ContactInfo`) VALUES
+INSERT INTO `user` (`id`, `Username`, `password`, `email`, `ProfilePicture`, `Name`, `ContactInfo`) VALUES
 (1, 'saugat123', '$2a$10$wLDUNR.fAoEz4N.0pOuNdu6Yvq3XW9nxQPjNjuBt4qeg6mOLLrS9S', 'saugat@gmail.com', NULL, 'Saugat SThapit', '9856745566'),
 (2, 'Furdiki Sherpa', '$2a$10$CjF6sBiv.4wujwRzmS19H.MV5grDSbf4sEL6qD45Mpbeukbyu6Knu', 'furdikisherpa16@gmail.com', NULL, 'Furdiki Sherpa', '9876577556'),
 (3, 'Sumi123', '$2a$10$DeL7Q.N9l5c.EFZWtr2bZeYJDqiX.2yyFIxm5J2BOUytxaxx7sBBS', 'sumi@gmail.com', NULL, 'Sumi SHerpa', '9878678987'),
 (4, 'Pasang', '$2a$10$qhcqAM3Wz90uBlJyugx6Dec593k9VJrYXOoeoBnX2wrKvvPDjhXY.', 'pasange@gmail.com', NULL, 'Pasang Sherpa', '9786756476'),
 (6, 'sumi1234', '$2a$10$0yrcX.2MvyhV55cSgTBTS..eKUR7y4iTQNjfHbzV8VFPhJqBHqNCm', 'sumi1@gmail.com', NULL, 'sumi sherpa', '9847698214'),
-(7, 'sumi4', '$2a$10$0zGvR53dK7YAMxTm3nii1ObdkLhqMIsuG5s4Uz6hCwC0YhUJ84Nk.', 'sumi33@gmail.com', NULL, 'Sumi Sherpa', '9876543255');
+(7, 'sumi4', '$2a$10$0zGvR53dK7YAMxTm3nii1ObdkLhqMIsuG5s4Uz6hCwC0YhUJ84Nk.', 'sumi33@gmail.com', NULL, 'Sumi Sherpa', '9876543255'),
+(8, 'furdiki2', '$2a$10$dfOGVkp0XRuOwGFnzW.3jeujoV5w.R2oNlC5HiHYxTHaMwlPJuwOi', 'furdiki123@gmail.com', NULL, 'FurdikiSherpa', '9887665445'),
+(9, 'Tenzy1', '$2a$10$tkZBOh4SDW4.9wRdkKWEw.Dt4.l8I42Q8C/h/b2vLLcamt5ta9epS', 'tenzy1@gmail.com', NULL, '', NULL),
+(10, 'Soniya', '$2a$10$yBEDkb1QEY5kMfv.Yo6fNuvNs7RZIQ2jwc4V5uTIVRxIgGYw5zL4K', 'soniya@gmail.com', NULL, '', NULL),
+(11, 'tenzy', '$2a$10$PTByRMkv/3Yo7ozW7htR0O/90l4KW821gsVNZbpukK0NVW2HCxXc6', 'tenzy@gmail.com', NULL, '', NULL),
+(14, 'soniya1', '$2a$10$7d0Oyv7KDUqAa9bDG9Qepu7CS7M51BsbMF8svjF3dXb3HUoAEcmWW', 'soniya1@gmail.com', NULL, '', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `videos`
+--
+
+CREATE TABLE `videos` (
+  `id` int(11) NOT NULL,
+  `Videotitle` varchar(255) NOT NULL,
+  `videoUrl` varchar(255) NOT NULL,
+  `artistId` int(11) DEFAULT NULL,
+  `userId` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `videos`
+--
+
+INSERT INTO `videos` (`id`, `Videotitle`, `videoUrl`, `artistId`, `userId`) VALUES
+(1, '', 'https://youtu.be/10u3ofycxnw?si=5qTQU9EmqVenD6iP', 5, NULL);
 
 --
 -- Indexes for dumped tables
@@ -177,7 +207,7 @@ ALTER TABLE `admin`
 -- Indexes for table `artist`
 --
 ALTER TABLE `artist`
-  ADD PRIMARY KEY (`ArtistID`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `booking`
@@ -207,9 +237,17 @@ ALTER TABLE `review`
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`UserID`),
+  ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `Username` (`Username`),
-  ADD UNIQUE KEY `Email` (`Email`);
+  ADD UNIQUE KEY `Email` (`email`);
+
+--
+-- Indexes for table `videos`
+--
+ALTER TABLE `videos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `artistId` (`artistId`),
+  ADD KEY `userId` (`userId`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -225,7 +263,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `artist`
 --
 ALTER TABLE `artist`
-  MODIFY `ArtistID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `booking`
@@ -249,7 +287,13 @@ ALTER TABLE `review`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `videos`
+--
+ALTER TABLE `videos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -259,22 +303,29 @@ ALTER TABLE `user`
 -- Constraints for table `booking`
 --
 ALTER TABLE `booking`
-  ADD CONSTRAINT `booking_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `user` (`UserID`),
-  ADD CONSTRAINT `booking_ibfk_2` FOREIGN KEY (`ArtistID`) REFERENCES `artist` (`ArtistID`);
+  ADD CONSTRAINT `booking_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `booking_ibfk_2` FOREIGN KEY (`ArtistID`) REFERENCES `artist` (`id`);
 
 --
 -- Constraints for table `message`
 --
 ALTER TABLE `message`
-  ADD CONSTRAINT `message_ibfk_1` FOREIGN KEY (`SenderID`) REFERENCES `user` (`UserID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `message_ibfk_2` FOREIGN KEY (`ReceiverID`) REFERENCES `user` (`UserID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `message_ibfk_1` FOREIGN KEY (`SenderID`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `message_ibfk_2` FOREIGN KEY (`ReceiverID`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `review`
 --
 ALTER TABLE `review`
-  ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `user` (`UserID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `review_ibfk_2` FOREIGN KEY (`ArtistID`) REFERENCES `artist` (`ArtistID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `review_ibfk_2` FOREIGN KEY (`ArtistID`) REFERENCES `artist` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `videos`
+--
+ALTER TABLE `videos`
+  ADD CONSTRAINT `videos_ibfk_1` FOREIGN KEY (`artistId`) REFERENCES `artist` (`id`),
+  ADD CONSTRAINT `videos_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `user` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

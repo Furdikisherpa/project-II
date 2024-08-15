@@ -101,7 +101,7 @@ const Profile = () => {
     // Function to handle video upload form submission
     const handleSubmit = async (e) => {
         e.preventDefault(); // Prevent default form submission behavior
-
+    
         try {
             // Make POST request to upload the video
             const response = await axios.post('http://localhost:3000/api/uploadvideo', { 
@@ -146,21 +146,25 @@ const Profile = () => {
                         <p>No user profile data found</p> // Message if no user data is found
                     )
                 )}
-                <button type='submit'>Update Profile</button> {/* Button for updating profile */}
+                {/* Conditionally render the video upload form only if the logged-in user is viewing their own profile */}
+                {(routeArtistId && contextArtistId === routeArtistId) || (!routeArtistId && userId) ? (
+                    <div className='videoUpload'>
+                        {/* Form for uploading videos */}
+                        <form onSubmit={handleSubmit}>
+                            <input 
+                                type="text" 
+                                value={videoUrl} 
+                                onChange={(e) => setVideoUrl(e.target.value)} // Update videoUrl state on input change
+                                placeholder="Enter YouTube Video URL" 
+                                required 
+                            />
+                            <button type="submit">Upload</button> {/* Button for submitting video upload */}
+                        </form>
+                    </div>
+                ) : null} {/* If the logged-in user is not the owner, do not show the form */}
+
+                
                 <hr /> <br />
-                <div className='videoUpload'>
-                    {/* Form for uploading videos */}
-                    <form onSubmit={handleSubmit}>
-                        <input 
-                            type="text" 
-                            value={videoUrl} 
-                            onChange={(e) => setVideoUrl(e.target.value)} // Update videoUrl state on input change
-                            placeholder="Enter YouTube Video URL" 
-                            required 
-                        />
-                        <button type="submit">Upload</button> {/* Button for submitting video upload */}
-                    </form>
-                </div>
                 <p>Settings</p>
             </div>
 
@@ -171,19 +175,16 @@ const Profile = () => {
 
                     return (
                         <div key={index} className="video-item">
-                            {/* Link to the video on YouTube */}
-                            <a href={`https://www.youtube.com/watch?v=${videoId}`} target="_blank" rel="noopener noreferrer">
-                                {/* Embed the YouTube video */}
-                                <iframe 
-                                    width="300" 
-                                    height="200" 
-                                    src={`https://www.youtube.com/embed/${videoId}`}
-                                    title={`YouTube video player ${index}`}
-                                    frameBorder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                ></iframe>
-                            </a>
+                            {/* Embed the YouTube video */}
+                            <iframe 
+                                width="300" 
+                                height="200" 
+                                src={`https://www.youtube.com/embed/${videoId}`} // Use the embed URL
+                                title={`YouTube video player ${index}`}
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                            ></iframe>
                         </div>
                     );
                 })}
