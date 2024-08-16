@@ -9,7 +9,7 @@ const {
     artistloginValidation,
     userloginValidation
 } = require('../helpers/validation');
-const middleware = require('../middleware/authMiddleware')
+const authMiddleware = require('../middleware/authMiddleware');
 
 const userController = require('../controllers/userController');
 const artistController = require('../controllers/artistController');
@@ -23,19 +23,18 @@ const userProfileController = require('../controllers/userProfileController');
 const artistDataFectchController = require('../controllers/artistDataFetchController');
 const UploadVideoController = require('../controllers/UploadVideoController');
 const FetchVideoController = require('../controllers/FetchVideoController');
-const authMiddleware = require('../middleware/authMiddleware');
 const artistUpdateController = require('../controllers/artistUpdateController');
 
-//artist update route
+// artist update route
 router.put('/artist/:id', artistUpdateController.updateArtistProfile);
 
-//video fetch router
+// video fetch route
 router.get('/getvideo', FetchVideoController.getVideos);
 
-//video route
+// video upload route
 router.post('/uploadvideo', authMiddleware, UploadVideoController.uploadVideo);
 
-//artists data fetch
+// artists data fetch
 router.get('/artists', artistDataFectchController.artistData);
 
 // User profile route

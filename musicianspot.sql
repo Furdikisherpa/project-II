@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 13, 2024 at 08:10 PM
+-- Generation Time: Aug 16, 2024 at 08:28 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -47,6 +47,9 @@ CREATE TABLE `artist` (
   `Name` varchar(100) NOT NULL,
   `password` varchar(100) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
+  `Location` varchar(255) DEFAULT NULL,
+  `socialLinks` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`socialLinks`)),
+  `website` varchar(255) DEFAULT NULL,
   `Genre` varchar(50) DEFAULT NULL,
   `Bio` text DEFAULT NULL,
   `MediaGallery` text DEFAULT NULL,
@@ -58,15 +61,15 @@ CREATE TABLE `artist` (
 -- Dumping data for table `artist`
 --
 
-INSERT INTO `artist` (`id`, `username`, `Name`, `password`, `email`, `Genre`, `Bio`, `MediaGallery`, `PricingInfo`, `ContactInfo`) VALUES
-(1, 'Furdiki', 'Furdki ', '$2a$10$.GmQJvrmkfUgbLAA9kBkLO/bgyKdX9GFN3sNlfejBCVaotsuTv1j2', 'furdikisherpa16@gmail.com', 'pop', 'kjsdbfdsjfbdsj', NULL, NULL, NULL),
-(2, 'Furdiki1', 'Furdki ', '$2a$10$zpB4PAmHhCOZOm7XpAek.eDRISeQ99iesLJxasD40Wj.c549M.PF2', 'furdikisherpa@gmail.com', 'pop', 'kjsdbfdsjfbdsj', NULL, NULL, NULL),
-(3, 'Furdiki2', 'Furdki ', '$2a$10$Edq6vmSXvL.ilTzwfRMJLug8T6XoX4mHj6mmhBh1g4xub2P8Cg0gS', 'furdikisherp@gmail.com', 'pop', 'kjsdbfdsjfbdsj', 'file', '200', 2147483647),
-(4, 'Sumi', 'sumi', 'sumi123**', 'sumi@gmail.com', 'pop', NULL, NULL, NULL, 2147483647),
-(5, 'Saugat', 'saugat', '$2a$10$V.HztamhVjDwl6Y9Z38ucOXAKDvcd9UL2SjenVKP304XmeJJGKkCe', 'saugat@gmail.com', 'pop', NULL, NULL, NULL, 2147483647),
-(6, 'Tenzy', 'tenzy', '$2a$10$Hm3XVfp06uQ0HGlqaeAtKeCai2lW5nC5tcmUNqf8EgWR2mMoh/GU.', 'tenzy@gmail.com', NULL, NULL, NULL, NULL, NULL),
-(7, 'Soniya', '', '$2a$10$8MICagNN5PyLUXPMjGWGkOWlLlxLNl33Udc0mnEEjf4zjaLh3CQKe', 'Soniya@gmail.com', NULL, NULL, NULL, NULL, NULL),
-(8, 'tenzy1', '', '$2a$10$vHTfENoH0VA3qkhkdB1S2.EudBF0RNyuEpTuvbDa8s5Ed1y9nfCWu', 'tenzy1@gmail.com', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `artist` (`id`, `username`, `Name`, `password`, `email`, `Location`, `socialLinks`, `website`, `Genre`, `Bio`, `MediaGallery`, `PricingInfo`, `ContactInfo`) VALUES
+(1, 'Furdiki', 'Furdki ', '$2a$10$.GmQJvrmkfUgbLAA9kBkLO/bgyKdX9GFN3sNlfejBCVaotsuTv1j2', 'furdikisherpa16@gmail.com', NULL, NULL, NULL, 'pop', 'kjsdbfdsjfbdsj', NULL, NULL, NULL),
+(2, 'Furdiki1', 'Furdki ', '$2a$10$zpB4PAmHhCOZOm7XpAek.eDRISeQ99iesLJxasD40Wj.c549M.PF2', 'furdikisherpa@gmail.com', NULL, NULL, NULL, 'pop', 'kjsdbfdsjfbdsj', NULL, NULL, NULL),
+(3, 'Furdiki2', 'Furdki ', '$2a$10$Edq6vmSXvL.ilTzwfRMJLug8T6XoX4mHj6mmhBh1g4xub2P8Cg0gS', 'furdikisherp@gmail.com', NULL, NULL, NULL, 'pop', 'kjsdbfdsjfbdsj', 'file', '200', 2147483647),
+(4, 'Sumi', 'sumi', 'sumi123**', 'sumi@gmail.com', NULL, NULL, NULL, 'pop', NULL, NULL, NULL, 2147483647),
+(5, 'Saugat', 'saugat', '$2a$10$V.HztamhVjDwl6Y9Z38ucOXAKDvcd9UL2SjenVKP304XmeJJGKkCe', 'saugat@gmail.com', NULL, NULL, NULL, 'pop', NULL, NULL, NULL, 2147483647),
+(6, 'Tenzy', 'tenzy', '$2a$10$Hm3XVfp06uQ0HGlqaeAtKeCai2lW5nC5tcmUNqf8EgWR2mMoh/GU.', 'tenzy@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(7, 'Soniya', '', '$2a$10$8MICagNN5PyLUXPMjGWGkOWlLlxLNl33Udc0mnEEjf4zjaLh3CQKe', 'Soniya@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(8, 'tenzy1', '', '$2a$10$vHTfENoH0VA3qkhkdB1S2.EudBF0RNyuEpTuvbDa8s5Ed1y9nfCWu', 'tenzy1@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -177,19 +180,26 @@ INSERT INTO `user` (`id`, `Username`, `password`, `email`, `ProfilePicture`, `Na
 --
 
 CREATE TABLE `videos` (
-  `id` int(11) NOT NULL,
-  `Videotitle` varchar(255) NOT NULL,
+  `videoId` bigint(20) UNSIGNED NOT NULL,
   `videoUrl` varchar(255) NOT NULL,
   `artistId` int(11) DEFAULT NULL,
-  `userId` int(11) DEFAULT NULL
+  `userId` int(11) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `thumbnailUrl` varchar(255) DEFAULT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updatedAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `views` int(11) DEFAULT 0,
+  `status` enum('public','private','deleted') DEFAULT 'public'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `videos`
 --
 
-INSERT INTO `videos` (`id`, `Videotitle`, `videoUrl`, `artistId`, `userId`) VALUES
-(1, '', 'https://youtu.be/10u3ofycxnw?si=5qTQU9EmqVenD6iP', 5, NULL);
+INSERT INTO `videos` (`videoId`, `videoUrl`, `artistId`, `userId`, `title`, `description`, `thumbnailUrl`, `createdAt`, `updatedAt`, `views`, `status`) VALUES
+(1, 'https://www.youtube.com/watch?v=rs-d6MMlIQU&t=429s', 5, NULL, NULL, NULL, NULL, '2024-08-16 18:14:07', '2024-08-16 18:14:07', 0, 'public'),
+(2, 'https://www.youtube.com/watch?v=rs-d6MMlIQU&t=429s', NULL, 10, NULL, NULL, NULL, '2024-08-16 18:15:16', '2024-08-16 18:15:16', 0, 'public');
 
 --
 -- Indexes for dumped tables
@@ -245,7 +255,7 @@ ALTER TABLE `user`
 -- Indexes for table `videos`
 --
 ALTER TABLE `videos`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`videoId`),
   ADD KEY `artistId` (`artistId`),
   ADD KEY `userId` (`userId`);
 
@@ -293,7 +303,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `videos`
 --
 ALTER TABLE `videos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `videoId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables

@@ -33,9 +33,11 @@ function AuthProvider({ children }) {
         if (role === 'artist') {
             setArtistId(id);
             localStorage.setItem("artistId", id);
+            localStorage.removeItem("userId"); // Ensure only the relevant ID is stored
         } else if (role === 'user') {
             setUserId(id);
             localStorage.setItem("userId", id);
+            localStorage.removeItem("artistId"); // Ensure only the relevant ID is stored
         }
         localStorage.setItem("token", token);
     }

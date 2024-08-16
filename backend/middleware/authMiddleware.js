@@ -1,25 +1,30 @@
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
-// Middleware to authenticate requests
 const authMiddleware = (req, res, next) => {
-    // Get the token from the Authorization header
-    const token = req.headers.authorization?.split(' ')[1]; // Bearer <token>
+    const token = req.headers.authorization?.split(' ')[1];
 
     if (!token) {
         return res.status(401).json({ msg: 'No token provided. Authorization denied.' });
     }
 
-    try {
-        // Verify the token
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const { artistId, userId } = req.body;
+    let secret;
 
-        // Attach the decoded user information to the request object
+    if (artistId) {
+        secret = process.env.ARTIST_JWT_SECRET;
+    } else if (userId) {
+        secret = process.env.USER_JWT_SECRET;
+    } else {
+        return res.status(400).json({ msg: 'Invalid request. No artistId or userId provided.' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, secret);
         req.user = {
             userId: decoded.userId,
-            role: decoded.role, // Optional: if you store roles in the token
+            role: decoded.role,
         };
-
-        // Proceed to the next middleware or route handler
         next();
     } catch (err) {
         console.error('Token verification failed:', err);
