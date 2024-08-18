@@ -11,6 +11,7 @@ import Profile from './components/Profile.jsx';
 import { AuthProvider } from './AuthContext.jsx'; // Correct import
 import Login from './components/Login/Login.jsx';
 import Signup from './components/SignUp/signup.jsx';
+import Booking from './components/Booking/booking.jsx';
 import './styles.css/fonts.css'
 // import { element } from 'prop-types';
 
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
       {
         path: 'profile',
         element: <Profile />
+      },
+      {
+        path: 'booking',
+        element: <Booking />
       }
     ],
   },

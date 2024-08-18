@@ -184,7 +184,7 @@ const Profile = () => {
                 {/* Conditionally render the video upload form if the logged-in user is viewing their own profile */}
                 {
     /* Temporarily force the video upload form to render */
-    <div className='videoUpload'>
+  <div className='videoUpload'>
         <form onSubmit={handleSubmit}>
             <input 
                 type="text" 
