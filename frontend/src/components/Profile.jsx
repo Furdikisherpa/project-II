@@ -18,7 +18,7 @@ const Profile = () => {
     const [videos, setVideos] = useState([]); // State for storing fetched videos
 
     // Extract authentication data from AuthContext
-    const { artistId: contextArtistId, userId, jwt, isLoading, isLoggedIn } = useContext(AuthContext);
+    const { artistId: contextArtistId, userId, jwt, isLoading, isLoggedIn, userRole } = useContext(AuthContext);
 
     useEffect(() => {
         if (!isLoggedIn) {
@@ -166,6 +166,21 @@ const Profile = () => {
                         <div>
                             <p><strong>Name:</strong> {artist.username}</p>
                             <p><strong>Email:</strong> {artist.email}</p>
+                            {/* Display video upload form only for artists */}
+                            {userRole === 'artist' && (
+                                <div className='videoUpload'>
+                                    <form onSubmit={handleSubmit}>
+                                        <input 
+                                            type="text" 
+                                            value={videoUrl} 
+                                            onChange={(e) => setVideoUrl(e.target.value)} 
+                                            placeholder="Enter YouTube Video URL" 
+                                            required 
+                                        />
+                                        <button type="submit">Upload</button>
+                                    </form>
+                                </div>
+                            )}
                         </div>
                     ) : (
                         <p>No artist profile data found</p>
@@ -180,24 +195,6 @@ const Profile = () => {
                         <p>No user profile data found</p>
                     )
                 )}
-                
-                {/* Conditionally render the video upload form if the logged-in user is viewing their own profile */}
-                {
-    /* Temporarily force the video upload form to render */
-  <div className='videoUpload'>
-        <form onSubmit={handleSubmit}>
-            <input 
-                type="text" 
-                value={videoUrl} 
-                onChange={(e) => setVideoUrl(e.target.value)} 
-                placeholder="Enter YouTube Video URL" 
-                required 
-            />
-            <button type="submit">Upload</button>
-        </form>
-    </div>
-}
-
                 
                 <hr /> <br />
                 <p>Settings</p>

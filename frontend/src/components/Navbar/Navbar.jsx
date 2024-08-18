@@ -1,22 +1,21 @@
 import './Navbar.css';
-import'../Profile.css';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../../AuthContext';
 
 function Navbar() {
-  const { isLoggedIn, logout } = useContext(AuthContext);
+  const { isLoggedIn, logout, userRole } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout(); // Call the logout function from AuthContext
-    navigate('/login'); // Redirect to login page after logout
+    logout();
+    navigate('/login');
   };
 
   return (
     <nav className='navbar'>
       <div>
-        <a href='/'><img src='' alt='Logo' className='nav-logo' /></a> 
+        <a href='/'><img src='' alt='Logo' className='nav-logo' /></a>
       </div>
       <ul className='navbar-list'>
         <li className='navbar-item'>
@@ -25,23 +24,41 @@ function Navbar() {
         <li className='navbar-item'>
           <NavLink to='/about' className={({ isActive }) => isActive ? 'active' : ''}>About</NavLink>
         </li>
-        <li className='navbar-item'>
-          <NavLink to='/artist' className={({ isActive }) => isActive ? 'active' : ''}>Artist</NavLink>
-        </li>
+        
+        {isLoggedIn && userRole === 'user' && (
+          <li className='navbar-item'>
+            <NavLink to='/artist' className={({ isActive }) => isActive ? 'active' : ''}>Artist</NavLink>
+          </li>
+        )}
+
         <li className='navbar-item'>
           <NavLink to='/contacts' className={({ isActive }) => isActive ? 'active' : ''}>Contact</NavLink>
         </li>
 
-        {isLoggedIn ? (
+        {isLoggedIn && (
           <>
             <li className='navbar-item'>
               <NavLink to='/profile' className={({ isActive }) => isActive ? 'active' : ''}>Profile</NavLink>
             </li>
+            {userRole === 'user' && (
+              <li className='navbar-item'>
+                <NavLink to='/booking' className={({ isActive }) => isActive ? 'active' : ''}>Booking</NavLink>
+              </li>
+            )}
+
+        {userRole === 'artist' && (
+          <li className='navbar-item'>
+          <NavLink to='/dashboard' className={({ isActive }) => isActive ? 'active' : ''}>Dashboard</NavLink>
+          </li>
+        )}
+            
             <li className='navbar-item'>
               <button onClick={handleLogout} className='logout-button'>Logout</button>
             </li>
           </>
-        ) : (
+        )}
+        
+        {!isLoggedIn && (
           <>
             <li className='navbar-item'>
               <NavLink to='/login' className={({ isActive }) => isActive ? 'active' : ''}>Login</NavLink>
