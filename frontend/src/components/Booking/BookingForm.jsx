@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import axios from 'axios';
-import PropTypes from 'prop-types'; // Import PropTypes for prop validation
+import PropTypes from 'prop-types';
 import { AuthContext } from '../../AuthContext';
 import { useNavigate } from 'react-router-dom';
 import './BookingForm.css';
@@ -16,42 +16,53 @@ const BookingForm = ({ artistId }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
         // Validate if totalPrice is a valid number
-        if (isNaN(parseFloat(totalPrice)) || parseFloat(totalPrice) <= 0) {
+        const price = parseFloat(totalPrice);
+        if (isNaN(price) || price <= 0) {
             setError('Total Price must be a valid number greater than zero.');
             return;
         }
-    
+
+        // Format the date and time correctly before sending
+        const formattedEventDate = new Date(eventDate).toISOString().split('T')[0]; // YYYY-MM-DD
+        const formattedEventTime = eventTime; // Ensure it's in HH:mm format
+
         const bookingData = {
-            EventDate: eventDate,
-            EventTime: eventTime,
+            EventDate: formattedEventDate,
+            EventTime: formattedEventTime,
             UserID: userId,
             ArtistID: artistId,
-            Status: 'Pending',
-            TotalPrice: parseFloat(totalPrice)
+            Status: 'pending',
+            TotalPrice: price
         };
-    
+
         try {
-            await axios.post('http://localhost:3000/api/bookings', bookingData, {
+            const response = await axios.post('http://localhost:3000/api/bookings', bookingData, {
                 headers: {
-                    Authorization: `Bearer ${jwt}`
+                    Authorization: `Bearer ${jwt}`,
+                    'Content-Type': 'application/json'
                 }
             });
-    
-            setSuccess('Booking created successfully!');
-            setError(null);
-            setTimeout(() => {
-                navigate('/profile');
-            }, 2000);
-    
+
+            if (response.status === 201) { // Typically, a successful creation returns 201
+                setSuccess('Booking created successfully!');
+                setError(null);
+                setTimeout(() => {
+                    navigate('/profile');
+                }, 2000);
+            } else {
+                setError('Unexpected response from server.');
+            }
+
         } catch (err) {
-            setError('Error creating booking. Please try again.');
+            const errorMessage = err.response?.data?.message || 'Error creating booking. Please try again.';
+            console.error('Error creating booking:', err.response?.data || err.message);
+            setError(errorMessage);
             setSuccess(null);
-            console.error(err);
         }
     };
-    
+
     return (
         <div className="booking-form">
             <h2>Book Artist</h2>
@@ -86,6 +97,7 @@ const BookingForm = ({ artistId }) => {
                         value={totalPrice}
                         onChange={(e) => setTotalPrice(e.target.value)}
                         required
+                        step="0.01" // Allow decimal values for price
                     />
                 </div>
                 <button type="submit" className="btn">Book Now</button>
@@ -96,7 +108,7 @@ const BookingForm = ({ artistId }) => {
 
 // PropTypes validation for artistId
 BookingForm.propTypes = {
-    artistId: PropTypes.number.isRequired, // Ensure artistId is a number and required
+    artistId: PropTypes.number.isRequired,
 };
 
 export default BookingForm;

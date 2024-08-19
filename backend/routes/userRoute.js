@@ -24,6 +24,11 @@ const artistDataFectchController = require('../controllers/artistDataFetchContro
 const UploadVideoController = require('../controllers/UploadVideoController');
 const FetchVideoController = require('../controllers/FetchVideoController');
 const artistUpdateController = require('../controllers/artistUpdateController');
+const FetchBookingControllers= require('../controllers/FetchBookingController')
+
+
+//Fetch bookings
+router.get('/bookedData', FetchBookingControllers.getbooking);
 
 // Artist update route
 router.put('/artist/:id', artistUpdateController.updateArtistProfile);
