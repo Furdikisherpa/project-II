@@ -11,9 +11,9 @@ import Profile from './components/Profile.jsx';
 import { AuthProvider } from './AuthContext.jsx'; // Correct import
 import Login from './components/Login/Login.jsx';
 import Signup from './components/SignUp/signup.jsx';
-import Booking from './components/Booking/booking.jsx';
 import Dashboard from './Dashboard/Dashboard.jsx';
 import './styles.css/fonts.css'
+import BookingList from './components/Booking/BookingList.jsx';
 // import { element } from 'prop-types';
 
 
@@ -57,7 +57,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'booking',
-        element: <Booking />
+        element: <BookingList />
       },
       {
         path: 'dashboard',

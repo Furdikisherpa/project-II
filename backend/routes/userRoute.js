@@ -25,16 +25,16 @@ const UploadVideoController = require('../controllers/UploadVideoController');
 const FetchVideoController = require('../controllers/FetchVideoController');
 const artistUpdateController = require('../controllers/artistUpdateController');
 
-// artist update route
+// Artist update route
 router.put('/artist/:id', artistUpdateController.updateArtistProfile);
 
-// video fetch route
+// Video fetch route
 router.get('/getvideo', FetchVideoController.getVideos);
 
-// video upload route
+// Video upload route
 router.post('/uploadvideo', authMiddleware, UploadVideoController.uploadVideo);
 
-// artists data fetch
+// Artists data fetch
 router.get('/artists', artistDataFectchController.artistData);
 
 // User profile route

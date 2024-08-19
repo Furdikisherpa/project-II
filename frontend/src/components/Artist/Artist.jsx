@@ -1,68 +1,89 @@
-import './Artist.css'; // Importing CSS styles for the Artist component
-import { useEffect, useState } from 'react'; // Importing necessary hooks from React
-import { Button, Card } from 'react-bootstrap'; // Importing Button and Card components from React Bootstrap
-import axios from 'axios'; // Importing Axios for making HTTP requests
-import { Link } from 'react-router-dom'; // Importing Link from React Router
+import './Artist.css';
+import { useEffect, useState } from 'react';
+import { Button, Card, Modal } from 'react-bootstrap';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import BookingForm from '../Booking/BookingForm'; // Import BookingForm
 
 function Artist() {
-    const [artists, setArtists] = useState([]); // State to hold the list of artists
+    const [artists, setArtists] = useState([]);
+    const [selectedArtist, setSelectedArtist] = useState(null); // State to hold the currently selected artist for booking
+    const [show, setShow] = useState(false); // State to control modal visibility
 
     useEffect(() => {
-        // Function to fetch artist data from the API
         const fetchArtists = async () => {
             try {
-                // Sending GET request to the API endpoint to fetch artists
                 const response = await axios.get('http://localhost:3000/api/artists');
-                console.log('API Response:', response.data); // Log the response data
-                // Check if the response is an array
+                console.log('API Response:', response.data);
                 if (Array.isArray(response.data)) {
-                    setArtists(response.data); // Updating state with the fetched artist data
+                    setArtists(response.data);
                 } else {
                     console.error('Unexpected response format:', response.data);
                 }
             } catch (error) {
-                // Handling any errors that occur during the fetch
-                console.error('Error fetching artist data:', error); // Log error to console
+                console.error('Error fetching artist data:', error);
             }
         };
 
-        fetchArtists(); // Call the function to fetch artists when the component mounts
-    }, []); // Empty dependency array ensures this effect runs once on mount
+        fetchArtists();
+    }, []);
+
+    const handleBookingClick = (artist) => {
+        setSelectedArtist(artist); // Set the selected artist when booking is clicked
+        setShow(true); // Show the modal
+    };
+
+    const handleClose = () => setShow(false); // Function to close the modal
 
     return (
         <div>
-            {/* Container for the header image */}
             <div className="Home-Image">
-                <img src="/src/assets/images/Music Artist.jpg" alt="Music Artist" /> {/* Header image */}
+                <img src="/src/assets/images/Music Artist.jpg" alt="Music Artist" />
             </div>
-            <h1>Artist</h1> {/* Title for the artist section */}
+            <h1>Artist</h1>
             <div className="artist-cards-container">
-                {/* Mapping through the list of artists to create a card for each one */}
                 {Array.isArray(artists) && artists.map((artist) => (
-                    <div key={artist.id} className="cards"> {/* Unique key for each artist card */}
-                        <Card style={{ width: '18rem' }}> {/* Bootstrap card for displaying artist info */}
+                    <div key={artist.id} className="cards">
+                        <Card style={{ width: '18rem' }}>
                             <Card.Img 
                                 variant="top" 
-                                src={artist.imageUrl || "/src/assets/images/default.jpg"} // Use artist image or default image
-                                style={{ height: '150px' }} // Setting fixed height for the image
-                                alt={artist.username} // Alt text for the image
+                                src={artist.imageUrl || "/src/assets/images/default.jpg"}
+                                style={{ height: '150px' }}
+                                alt={artist.username}
                             />
                             <Card.Body>
-                                <Card.Title>{artist.username}</Card.Title> {/* Artist's username */}
+                                <Card.Title>{artist.username}</Card.Title>
                                 <Card.Text>
-                                    {artist.email || "No description available"} {/* Artist's email or default message */}
+                                    {artist.email || "No description available"}
                                 </Card.Text>
-                                {/* Link to the artist's profile using artistId */}
                                 <Link to={`/artist/${artist.id}`}>
-                                    <Button variant="primary">Profile</Button> {/* Button for viewing artist profile */}
+                                    <Button variant="primary">Profile</Button>
                                 </Link>
+                                <Button variant="primary" onClick={() => handleBookingClick(artist)}>Booking</Button>
                             </Card.Body>
                         </Card>
                     </div>
                 ))}
             </div>
+
+            {/* Modal for the BookingForm */}
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Book {selectedArtist?.username}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {selectedArtist && (
+                        <BookingForm artistId={selectedArtist.id} /> // Pass artistId to BookingForm
+                    )}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 }
 
-export default Artist; // Exporting the Artist component for use in other parts of the application
+export default Artist;
