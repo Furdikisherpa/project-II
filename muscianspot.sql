@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 16, 2024 at 08:28 PM
+-- Generation Time: Aug 21, 2024 at 11:17 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `musicianspot`
+-- Database: `muscianspot`
 --
 
 -- --------------------------------------------------------
@@ -80,7 +80,8 @@ INSERT INTO `artist` (`id`, `username`, `Name`, `password`, `email`, `Location`,
 CREATE TABLE `booking` (
   `BookingID` int(11) NOT NULL,
   `BookingDate` datetime NOT NULL DEFAULT current_timestamp(),
-  `EventDate` datetime NOT NULL,
+  `EventDate` date NOT NULL,
+  `EventTime` time NOT NULL,
   `UserID` int(11) NOT NULL,
   `ArtistID` int(11) NOT NULL,
   `Status` varchar(50) NOT NULL,
@@ -91,9 +92,14 @@ CREATE TABLE `booking` (
 -- Dumping data for table `booking`
 --
 
-INSERT INTO `booking` (`BookingID`, `BookingDate`, `EventDate`, `UserID`, `ArtistID`, `Status`, `TotalPrice`) VALUES
-(1, '2024-07-29 00:00:00', '2024-08-02 00:00:00', 4, 3, 'pending', 4000.00),
-(2, '2024-07-29 22:07:29', '2024-07-30 00:00:00', 2, 1, 'pending', 4000.00);
+INSERT INTO `booking` (`BookingID`, `BookingDate`, `EventDate`, `EventTime`, `UserID`, `ArtistID`, `Status`, `TotalPrice`) VALUES
+(1, '2024-07-29 00:00:00', '2024-08-02', '00:00:00', 4, 3, 'pending', 4000.00),
+(2, '2024-07-29 22:07:29', '2024-07-30', '00:00:00', 2, 1, 'pending', 4000.00),
+(3, '2024-08-19 18:38:16', '2024-08-16', '00:00:00', 1, 2, 'Pending', 5000.00),
+(4, '2024-08-19 19:36:11', '2024-10-10', '14:00:00', 1, 1, 'pending', 3000.00),
+(5, '2024-08-19 19:55:24', '2024-08-14', '15:00:00', 1, 2, 'pending', 4000.00),
+(6, '2024-08-19 20:14:53', '2024-08-30', '14:00:00', 1, 4, 'pending', 2000.00),
+(7, '2024-08-19 20:15:31', '2024-08-21', '14:00:00', 1, 2, 'pending', 5000.00);
 
 -- --------------------------------------------------------
 
@@ -199,7 +205,10 @@ CREATE TABLE `videos` (
 
 INSERT INTO `videos` (`videoId`, `videoUrl`, `artistId`, `userId`, `title`, `description`, `thumbnailUrl`, `createdAt`, `updatedAt`, `views`, `status`) VALUES
 (1, 'https://www.youtube.com/watch?v=rs-d6MMlIQU&t=429s', 5, NULL, NULL, NULL, NULL, '2024-08-16 18:14:07', '2024-08-16 18:14:07', 0, 'public'),
-(2, 'https://www.youtube.com/watch?v=rs-d6MMlIQU&t=429s', NULL, 10, NULL, NULL, NULL, '2024-08-16 18:15:16', '2024-08-16 18:15:16', 0, 'public');
+(2, 'https://www.youtube.com/watch?v=rs-d6MMlIQU&t=429s', NULL, 10, NULL, NULL, NULL, '2024-08-16 18:15:16', '2024-08-16 18:15:16', 0, 'public'),
+(3, 'https://www.youtube.com/watch?v=rbwdrbZUQL4&t=1140s', 5, NULL, NULL, NULL, NULL, '2024-08-18 10:37:28', '2024-08-18 10:37:28', 0, 'public'),
+(4, 'https://www.youtube.com/watch?v=rbwdrbZUQL4&t=1140s', 5, NULL, NULL, NULL, NULL, '2024-08-18 10:37:42', '2024-08-18 10:37:42', 0, 'public'),
+(5, 'https://www.youtube.com/watch?v=0EZ7e-YmSEo', 5, NULL, NULL, NULL, NULL, '2024-08-19 11:50:50', '2024-08-19 11:50:50', 0, 'public');
 
 --
 -- Indexes for dumped tables
@@ -279,7 +288,7 @@ ALTER TABLE `artist`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `message`
@@ -303,7 +312,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `videos`
 --
 ALTER TABLE `videos`
-  MODIFY `videoId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `videoId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
