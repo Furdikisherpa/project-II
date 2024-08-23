@@ -3,6 +3,7 @@ import { useState, useEffect, useContext, useCallback } from 'react'; // Import 
 import axios from 'axios'; // Import axios for making HTTP requests
 import { AuthContext } from '../AuthContext'; // Import AuthContext to access authentication data and state
 import { useParams, useNavigate } from 'react-router-dom'; // Import hooks for handling routing
+import UpdateArtistForm from './Profile_Update/ProfileUpdateForm';
 
 const Profile = () => {
     // Extract artistId from route parameters
@@ -16,6 +17,7 @@ const Profile = () => {
     const [error, setError] = useState(null); // State for error messages
     const [videoUrl, setVideoUrl] = useState(''); // State for storing the video URL input
     const [videos, setVideos] = useState([]); // State for storing fetched videos
+    const [showUpdateForm, setShowUpdateForm] = useState(false); // State to manage showing the update form
 
     // Extract authentication data from AuthContext
     const { artistId: contextArtistId, userId, jwt, isLoading, isLoggedIn, userRole } = useContext(AuthContext);
@@ -179,6 +181,13 @@ const Profile = () => {
                                         />
                                         <button type="submit">Upload</button>
                                     </form>
+                                    <button onClick={() => setShowUpdateForm(true)} className="update-profile-button">
+                                        Update Profile
+                                    </button>
+                                    {/* Show UpdateArtistForm component */}
+                                    {showUpdateForm && (
+                                        <UpdateArtistForm artistId={artist.id} onClose={() => setShowUpdateForm(false)} />
+                                    )}
                                 </div>
                             )}
                         </div>

@@ -13,6 +13,7 @@ import Login from './components/Login/Login.jsx';
 import Signup from './components/SignUp/signup.jsx';
 import Dashboard from './Dashboard/Dashboard.jsx';
 import './styles.css/fonts.css'
+import UpdateArtistForm from './components/Profile_Update/ProfileUpdateForm.jsx';
 import BookingTable from './components/Booking/BookingTable.jsx';
 // import { element } from 'prop-types';
 
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: 'dashboard',
         element: <Dashboard />
+      },
+      {
+        path: 'UpdateProfile',
+        element: <UpdateArtistForm />
       }
     ],
   },

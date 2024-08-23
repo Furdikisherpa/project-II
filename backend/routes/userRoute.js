@@ -22,8 +22,8 @@ const ArtistProfileController = require('../controllers/ArtistProfileController'
 const userProfileController = require('../controllers/userProfileController');
 const artistDataFectchController = require('../controllers/artistDataFetchController');
 const UploadVideoController = require('../controllers/UploadVideoController');
-const FetchVideoController = require('../controllers/FetchVideoController');
 const artistUpdateController = require('../controllers/artistUpdateController');
+const FetchVideoController = require('../controllers/FetchVideoController');
 const FetchBookingControllers= require('../controllers/FetchBookingController')
 
 
@@ -47,6 +47,7 @@ router.get('/user/:id', userProfileController.userProfile);
 
 // Artist profile route
 router.get('/artist/:id', ArtistProfileController.artistProfile);
+
 
 // User Login route
 router.post('/userlogin', userloginValidation, userloginController.userlogin);
