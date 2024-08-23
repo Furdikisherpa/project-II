@@ -10,7 +10,7 @@ const {
     userloginValidation
 } = require('../helpers/validation');
 const authMiddleware = require('../middleware/authMiddleware');
-
+const bookingMiddleware = require('../middleware/bookingMiddleware');
 const userController = require('../controllers/userController');
 const artistController = require('../controllers/artistController');
 const bookingController = require('../controllers/bookingController');
@@ -28,7 +28,7 @@ const FetchBookingControllers= require('../controllers/FetchBookingController')
 
 
 //Fetch bookings
-router.get('/bookedData', FetchBookingControllers.getbooking);
+router.get('/bookeddata', bookingMiddleware, FetchBookingControllers.getUserBookings);
 
 // Artist update route
 router.put('/artist/:id', artistUpdateController.updateArtistProfile);

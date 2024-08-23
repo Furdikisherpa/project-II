@@ -1,18 +1,27 @@
+// controllers/bookingController.js
 const connection = require('../config/dbConnection');
 
-const getbooking = (req, res) => {
-  
-    connection.query('SELECT * FROM booking ', (err, results) => {
+const getUserBookings = (req, res) => {
+    const userId = req.userId; // Extracted from the middleware
+
+    const query = `
+        SELECT booking.BookingID, booking.EventDate, booking.EventTime, booking.Status, artist.Name
+        FROM booking
+        JOIN artist ON booking.ArtistID = artist.id
+        WHERE booking.UserID = ?
+    `;
+
+    connection.query(query, [userId], (err, results) => {
         if (err) {
-            return res.status(500).json({ message: 'Error fetching booking' });
+            return res.status(500).json({ message: 'Error fetching bookings' });
         }
 
         if (!results || results.length === 0) {
-            return res.status(404).json({ message: 'No Bookings found' });
+            return res.status(404).json({ message: 'No bookings found' });
         }
 
-        res.status(200).json(results[0]);
+        res.status(200).json(results);
     });
 };
 
-module.exports = { getbooking };
+module.exports = { getUserBookings };

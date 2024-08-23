@@ -1,15 +1,25 @@
+// src/components/Navbar.jsx
 import './Navbar.css';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from '../../AuthContext';
 
 function Navbar() {
   const { isLoggedIn, logout, userRole } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleLogout = () => {
     logout();
     navigate('/login');
+  };
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    // Implement search functionality here
+    console.log('Search query:', searchQuery);
+    // For example, navigate to a search results page
+    // navigate(`/search?query=${searchQuery}`);
   };
 
   return (
@@ -46,18 +56,18 @@ function Navbar() {
               </li>
             )}
 
-        {userRole === 'artist' && (
-          <li className='navbar-item'>
-          <NavLink to='/dashboard' className={({ isActive }) => isActive ? 'active' : ''}>Dashboard</NavLink>
-          </li>
-        )}
-            
+            {userRole === 'artist' && (
+              <li className='navbar-item'>
+                <NavLink to='/dashboard' className={({ isActive }) => isActive ? 'active' : ''}>Dashboard</NavLink>
+              </li>
+            )}
+
             <li className='navbar-item'>
               <button onClick={handleLogout} className='logout-button'>Logout</button>
             </li>
           </>
         )}
-        
+
         {!isLoggedIn && (
           <>
             <li className='navbar-item'>
@@ -68,6 +78,20 @@ function Navbar() {
             </li>
           </>
         )}
+
+        {/* Search Bar */}
+        <li className='navbar-item search-item'>
+          <form onSubmit={handleSearch} className='search-form'>
+            <input 
+              type='text' 
+              placeholder='Search...' 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className='search-input'
+            />
+            <button type='submit' className='search-button'>Search</button>
+          </form>
+        </li>
       </ul>
     </nav>
   );

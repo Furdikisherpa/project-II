@@ -53,9 +53,6 @@ function Artist() {
                             />
                             <Card.Body>
                                 <Card.Title>{artist.username}</Card.Title>
-                                <Card.Text>
-                                    {artist.email || "No description available"}
-                                </Card.Text>
                                 <Link to={`/artist/${artist.id}`}>
                                     <Button variant="primary">Profile</Button>
                                 </Link>

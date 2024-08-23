@@ -13,7 +13,7 @@ import Login from './components/Login/Login.jsx';
 import Signup from './components/SignUp/signup.jsx';
 import Dashboard from './Dashboard/Dashboard.jsx';
 import './styles.css/fonts.css'
-import BookingList from './components/Booking/BookingList.jsx';
+import BookingTable from './components/Booking/BookingTable.jsx';
 // import { element } from 'prop-types';
 
 
@@ -57,7 +57,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'booking',
-        element: <BookingList />
+        element: <BookingTable />
       },
       {
         path: 'dashboard',
