@@ -1,6 +1,6 @@
 import 'react';
-import { Link } from 'react-router-dom';
-import './Dashboard.css'; // Create and style this CSS file as needed
+import { Link, Outlet } from 'react-router-dom';
+import './Dashboard.css';
 
 const Dashboard = () => {
   return (
@@ -24,7 +24,7 @@ const Dashboard = () => {
         </nav>
       </aside>
       <main className="content">
-        {/* You can use React Router's Outlet to render the selected component here */}
+        <Outlet />
       </main>
     </div>
   );

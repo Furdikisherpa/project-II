@@ -16,7 +16,7 @@ import './styles.css/fonts.css'
 import UpdateArtistForm from './components/Profile_Update/ProfileUpdateForm.jsx';
 import BookingTable from './components/Booking/BookingTable.jsx';
 // import { element } from 'prop-types';
-
+import dashHome from './Dashboard/Home.jsx';
 
 const router = createBrowserRouter([
   {
@@ -63,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: 'dashboard',
         element: <Dashboard />
+      },
+      {
+        path: '/dashboard/home',
+        element: <dashHome />
       },
       {
         path: 'UpdateProfile',

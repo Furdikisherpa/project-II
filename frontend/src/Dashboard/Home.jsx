@@ -1,6 +1,5 @@
-import React from 'react';
-
-const Home = () => {
+import 'react';
+const dashHome = () => {
   return (
     <div>
       <h2>Home</h2>
@@ -9,4 +8,4 @@ const Home = () => {
   );
 }
 
-export default Home;
+export default dashHome;
