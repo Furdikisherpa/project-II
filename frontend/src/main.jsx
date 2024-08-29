@@ -17,6 +17,7 @@ import UpdateArtistForm from './components/Profile_Update/ProfileUpdateForm.jsx'
 import BookingTable from './components/Booking/BookingTable.jsx';
 // import { element } from 'prop-types';
 import dashHome from './Dashboard/Home.jsx';
+import Message from './Dashboard/Message.jsx';
 
 const router = createBrowserRouter([
   {
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
       {
         path: '/dashboard/home',
         element: <dashHome />
+      },
+      {
+        path: '/dashboard/message',
+        element: <Message />
       },
       {
         path: 'UpdateProfile',
