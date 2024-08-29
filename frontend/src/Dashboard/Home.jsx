@@ -1,5 +1,4 @@
-import 'react';
-const dashHome = () => {
+const DashHome = () => {
   return (
     <div>
       <h2>Home</h2>
@@ -8,4 +7,4 @@ const dashHome = () => {
   );
 }
 
-export default dashHome;
+export default DashHome;

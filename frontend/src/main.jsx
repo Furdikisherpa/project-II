@@ -16,8 +16,10 @@ import './styles.css/fonts.css'
 import UpdateArtistForm from './components/Profile_Update/ProfileUpdateForm.jsx';
 import BookingTable from './components/Booking/BookingTable.jsx';
 // import { element } from 'prop-types';
-import dashHome from './Dashboard/Home.jsx';
+import DashHome from './Dashboard/Home.jsx';
 import Message from './Dashboard/Message.jsx';
+import Upload from './Dashboard/Upload.jsx';
+import Request from './Dashboard/Request.jsx';
 
 const router = createBrowserRouter([
   {
@@ -33,9 +35,9 @@ const router = createBrowserRouter([
         element: <Artist />,
       },
       {
-      path:"/artist/:artistId",
-      element:<Profile />
-    },
+        path: 'artist/:artistId',
+        element: <Profile />,
+      },
       {
         path: 'about',
         element: <About />,
@@ -44,7 +46,6 @@ const router = createBrowserRouter([
         path: 'contacts',
         element: <Contacts />,
       },
-  
       {
         path: 'signup',
         element: <Signup />,
@@ -55,31 +56,44 @@ const router = createBrowserRouter([
       },
       {
         path: 'profile',
-        element: <Profile />
+        element: <Profile />,
       },
       {
         path: 'booking',
-        element: <BookingTable />
-      },
-      {
-        path: 'dashboard',
-        element: <Dashboard />
-      },
-      {
-        path: '/dashboard/home',
-        element: <dashHome />
-      },
-      {
-        path: '/dashboard/message',
-        element: <Message />
+        element: <BookingTable />,
       },
       {
         path: 'UpdateProfile',
-        element: <UpdateArtistForm />
-      }
+        element: <UpdateArtistForm />,
+      },
+      // Dashboard and its nested routes
+      {
+        path: 'dashboard',
+        element: <Dashboard />,
+        children: [
+          {
+            path: 'home',
+            element: <DashHome />,
+          },
+          {
+            path: 'upload',
+            element: <Upload />,
+          },
+          {
+            path: 'message',
+            element: <Message />,
+          },
+          {
+            path: 'request',
+            element: <Request />,
+          },
+        ],
+      },
     ],
   },
 ]);
+
+
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
