@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 21, 2024 at 11:17 AM
+-- Generation Time: Aug 27, 2024 at 07:19 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -68,8 +68,8 @@ INSERT INTO `artist` (`id`, `username`, `Name`, `password`, `email`, `Location`,
 (4, 'Sumi', 'sumi', 'sumi123**', 'sumi@gmail.com', NULL, NULL, NULL, 'pop', NULL, NULL, NULL, 2147483647),
 (5, 'Saugat', 'saugat', '$2a$10$V.HztamhVjDwl6Y9Z38ucOXAKDvcd9UL2SjenVKP304XmeJJGKkCe', 'saugat@gmail.com', NULL, NULL, NULL, 'pop', NULL, NULL, NULL, 2147483647),
 (6, 'Tenzy', 'tenzy', '$2a$10$Hm3XVfp06uQ0HGlqaeAtKeCai2lW5nC5tcmUNqf8EgWR2mMoh/GU.', 'tenzy@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(7, 'Soniya', '', '$2a$10$8MICagNN5PyLUXPMjGWGkOWlLlxLNl33Udc0mnEEjf4zjaLh3CQKe', 'Soniya@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(8, 'tenzy1', '', '$2a$10$vHTfENoH0VA3qkhkdB1S2.EudBF0RNyuEpTuvbDa8s5Ed1y9nfCWu', 'tenzy1@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(7, 'Soniya', 'Soniya', '$2a$10$8MICagNN5PyLUXPMjGWGkOWlLlxLNl33Udc0mnEEjf4zjaLh3CQKe', 'Soniya@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(8, 'tenzy1', 'Tenzin Choezom', '$2a$10$vHTfENoH0VA3qkhkdB1S2.EudBF0RNyuEpTuvbDa8s5Ed1y9nfCWu', 'tenzy1@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -79,7 +79,7 @@ INSERT INTO `artist` (`id`, `username`, `Name`, `password`, `email`, `Location`,
 
 CREATE TABLE `booking` (
   `BookingID` int(11) NOT NULL,
-  `BookingDate` datetime NOT NULL DEFAULT current_timestamp(),
+  `BookingDate` date NOT NULL,
   `EventDate` date NOT NULL,
   `EventTime` time NOT NULL,
   `UserID` int(11) NOT NULL,
@@ -93,13 +93,16 @@ CREATE TABLE `booking` (
 --
 
 INSERT INTO `booking` (`BookingID`, `BookingDate`, `EventDate`, `EventTime`, `UserID`, `ArtistID`, `Status`, `TotalPrice`) VALUES
-(1, '2024-07-29 00:00:00', '2024-08-02', '00:00:00', 4, 3, 'pending', 4000.00),
-(2, '2024-07-29 22:07:29', '2024-07-30', '00:00:00', 2, 1, 'pending', 4000.00),
-(3, '2024-08-19 18:38:16', '2024-08-16', '00:00:00', 1, 2, 'Pending', 5000.00),
-(4, '2024-08-19 19:36:11', '2024-10-10', '14:00:00', 1, 1, 'pending', 3000.00),
-(5, '2024-08-19 19:55:24', '2024-08-14', '15:00:00', 1, 2, 'pending', 4000.00),
-(6, '2024-08-19 20:14:53', '2024-08-30', '14:00:00', 1, 4, 'pending', 2000.00),
-(7, '2024-08-19 20:15:31', '2024-08-21', '14:00:00', 1, 2, 'pending', 5000.00);
+(1, '2024-07-29', '2024-08-02', '00:00:00', 4, 3, 'pending', 4000.00),
+(2, '2024-07-29', '2024-07-30', '00:00:00', 2, 1, 'pending', 4000.00),
+(3, '2024-08-19', '2024-08-16', '00:00:00', 1, 2, 'Pending', 5000.00),
+(4, '2024-08-19', '2024-10-10', '14:00:00', 1, 1, 'pending', 3000.00),
+(5, '2024-08-19', '2024-08-14', '15:00:00', 1, 2, 'pending', 4000.00),
+(6, '2024-08-19', '2024-08-30', '14:00:00', 1, 4, 'pending', 2000.00),
+(7, '2024-08-19', '2024-08-21', '14:00:00', 1, 2, 'pending', 5000.00),
+(8, '2024-08-21', '2024-08-15', '20:00:00', 1, 6, 'pending', 2000.00),
+(9, '2024-08-23', '2024-08-28', '02:00:00', 1, 7, 'pending', 454646.00),
+(10, '0000-00-00', '2024-08-21', '09:09:00', 1, 8, 'pending', 4000.00);
 
 -- --------------------------------------------------------
 
@@ -175,9 +178,10 @@ INSERT INTO `user` (`id`, `Username`, `password`, `email`, `ProfilePicture`, `Na
 (7, 'sumi4', '$2a$10$0zGvR53dK7YAMxTm3nii1ObdkLhqMIsuG5s4Uz6hCwC0YhUJ84Nk.', 'sumi33@gmail.com', NULL, 'Sumi Sherpa', '9876543255'),
 (8, 'furdiki2', '$2a$10$dfOGVkp0XRuOwGFnzW.3jeujoV5w.R2oNlC5HiHYxTHaMwlPJuwOi', 'furdiki123@gmail.com', NULL, 'FurdikiSherpa', '9887665445'),
 (9, 'Tenzy1', '$2a$10$tkZBOh4SDW4.9wRdkKWEw.Dt4.l8I42Q8C/h/b2vLLcamt5ta9epS', 'tenzy1@gmail.com', NULL, '', NULL),
-(10, 'Soniya', '$2a$10$yBEDkb1QEY5kMfv.Yo6fNuvNs7RZIQ2jwc4V5uTIVRxIgGYw5zL4K', 'soniya@gmail.com', NULL, '', NULL),
+(10, 'Soniya', '$2a$10$yBEDkb1QEY5kMfv.Yo6fNuvNs7RZIQ2jwc4V5uTIVRxIgGYw5zL4K', 'soniya@gmail.com', NULL, 'Soniya', NULL),
 (11, 'tenzy', '$2a$10$PTByRMkv/3Yo7ozW7htR0O/90l4KW821gsVNZbpukK0NVW2HCxXc6', 'tenzy@gmail.com', NULL, '', NULL),
-(14, 'soniya1', '$2a$10$7d0Oyv7KDUqAa9bDG9Qepu7CS7M51BsbMF8svjF3dXb3HUoAEcmWW', 'soniya1@gmail.com', NULL, '', NULL);
+(14, 'soniya1', '$2a$10$7d0Oyv7KDUqAa9bDG9Qepu7CS7M51BsbMF8svjF3dXb3HUoAEcmWW', 'soniya1@gmail.com', NULL, '', NULL),
+(15, 'sanjay', '$2a$10$ImOuAxvxNNFrU2PARv/73e6Y1eI2el0oYMs3Ae0Ju/uS4Uttfeyna', 'sanjay@gmail.com', NULL, '', NULL);
 
 -- --------------------------------------------------------
 
@@ -208,7 +212,10 @@ INSERT INTO `videos` (`videoId`, `videoUrl`, `artistId`, `userId`, `title`, `des
 (2, 'https://www.youtube.com/watch?v=rs-d6MMlIQU&t=429s', NULL, 10, NULL, NULL, NULL, '2024-08-16 18:15:16', '2024-08-16 18:15:16', 0, 'public'),
 (3, 'https://www.youtube.com/watch?v=rbwdrbZUQL4&t=1140s', 5, NULL, NULL, NULL, NULL, '2024-08-18 10:37:28', '2024-08-18 10:37:28', 0, 'public'),
 (4, 'https://www.youtube.com/watch?v=rbwdrbZUQL4&t=1140s', 5, NULL, NULL, NULL, NULL, '2024-08-18 10:37:42', '2024-08-18 10:37:42', 0, 'public'),
-(5, 'https://www.youtube.com/watch?v=0EZ7e-YmSEo', 5, NULL, NULL, NULL, NULL, '2024-08-19 11:50:50', '2024-08-19 11:50:50', 0, 'public');
+(5, 'https://www.youtube.com/watch?v=0EZ7e-YmSEo', 5, NULL, NULL, NULL, NULL, '2024-08-19 11:50:50', '2024-08-19 11:50:50', 0, 'public'),
+(6, 'https://www.youtube.com/watch?v=7WR3qzB40V8', 5, NULL, NULL, NULL, NULL, '2024-08-23 16:50:37', '2024-08-23 16:50:37', 0, 'public'),
+(7, 'https://www.youtube.com/watch?v=RRHNS0UQu6w', 5, NULL, NULL, NULL, NULL, '2024-08-23 16:53:50', '2024-08-23 16:53:50', 0, 'public'),
+(8, 'https://www.youtube.com/watch?v=RRHNS0UQu6w', 5, NULL, NULL, NULL, NULL, '2024-08-23 17:06:36', '2024-08-23 17:06:36', 0, 'public');
 
 --
 -- Indexes for dumped tables
@@ -288,7 +295,7 @@ ALTER TABLE `artist`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `message`
@@ -306,13 +313,13 @@ ALTER TABLE `review`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `videos`
 --
 ALTER TABLE `videos`
-  MODIFY `videoId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `videoId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables
