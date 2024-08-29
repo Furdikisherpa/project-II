@@ -20,6 +20,7 @@ import DashHome from './Dashboard/Home.jsx';
 import Message from './Dashboard/Message.jsx';
 import Upload from './Dashboard/Upload.jsx';
 import Request from './Dashboard/Request.jsx';
+import Review from './Dashboard/review.jsx';
 
 const router = createBrowserRouter([
   {
@@ -86,6 +87,10 @@ const router = createBrowserRouter([
           {
             path: 'request',
             element: <Request />,
+          },
+          {
+            path: 'review ',
+            element: <Review />,
           },
         ],
       },

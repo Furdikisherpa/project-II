@@ -1,0 +1,29 @@
+.dash-home {
+    padding: 20px;
+  }
+  
+  .cards-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .card {
+    flex: 1;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card h3 {
+    margin-bottom: 10px;
+  }
+  
+  .card p {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007bff;
+  }
+  

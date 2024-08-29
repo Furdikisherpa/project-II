@@ -20,6 +20,9 @@ const Dashboard = () => {
             <li>
               <Link to="/dashboard/request">Request</Link>
             </li>
+            <li>
+              <Link to="/dashboard/review">Review</Link>
+            </li>
           </ul>
         </nav>
       </aside>
@@ -27,6 +30,9 @@ const Dashboard = () => {
         <Outlet />
       </main>
     </div>
+
+
+
   );
 }
 
