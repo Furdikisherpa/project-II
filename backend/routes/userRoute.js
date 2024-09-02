@@ -25,8 +25,12 @@ const UploadVideoController = require('../controllers/UploadVideoController');
 const artistUpdateController = require('../controllers/artistUpdateController');
 const FetchVideoController = require('../controllers/FetchVideoController');
 const FetchBookingControllers= require('../controllers/FetchBookingController')
+const ArtistbookingController = require('../controllers/artistBookingController');
 
 
+router.get('/booking', ArtistbookingController.getBookings);
+router.patch('/booking/:id/accept', ArtistbookingController.acceptBooking);
+router.patch('/booking/:id/reject', ArtistbookingController.rejectBooking);
 //Fetch bookings
 router.get('/bookeddata', bookingMiddleware, FetchBookingControllers.getUserBookings);
 

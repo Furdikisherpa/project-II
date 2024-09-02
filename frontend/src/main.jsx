@@ -69,6 +69,10 @@ const router = createBrowserRouter([
         path: 'booking',
         element: <BookingTable />,
       },
+      {
+        path: '',
+        element: ''
+      },
 
       // Dashboard and its nested routes
       {
