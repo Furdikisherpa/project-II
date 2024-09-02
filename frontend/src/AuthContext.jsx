@@ -34,20 +34,19 @@ function AuthProvider({ children }) {
     function login(token, id, role) {
         setIsLoggedIn(true);
         setJwt(token);
-        setUserRole(role); // Set user role on login
-        
+        setUserRole(role);
+
         if (role === 'artist') {
             setArtistId(id);
-            localStorage.setItem("artistId", id);
-            localStorage.removeItem("userId");
-            localStorage.setItem("userRole", 'artist'); // Save user role
+            setUserId(null); // Ensure userId is cleared
         } else if (role === 'user') {
             setUserId(id);
-            localStorage.setItem("userId", id);
-            localStorage.removeItem("artistId");
-            localStorage.setItem("userRole", 'user'); // Save user role
+            setArtistId(null); // Ensure artistId is cleared
         }
+
         localStorage.setItem("token", token);
+        localStorage.setItem("userRole", role);
+        localStorage.setItem(role === 'artist' ? "artistId" : "userId", id);
     }
 
     function logout() {
@@ -55,11 +54,9 @@ function AuthProvider({ children }) {
         setJwt(null);
         setArtistId(null);
         setUserId(null);
-        setUserRole(null); // Clear user role on logout
-        localStorage.removeItem("token");
-        localStorage.removeItem("artistId");
-        localStorage.removeItem("userId");
-        localStorage.removeItem("userRole"); // Clear user role
+        setUserRole(null);
+
+        localStorage.clear(); // Clear all localStorage items
     }
 
     const authValue = {

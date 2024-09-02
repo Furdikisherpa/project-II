@@ -58,15 +58,18 @@ const router = createBrowserRouter([
       {
         path: 'profile',
         element: <Profile />,
+        children:[
+          {
+            path: 'update',
+            element: <UpdateArtistForm />,
+          }
+        ]
       },
       {
         path: 'booking',
         element: <BookingTable />,
       },
-      {
-        path: 'UpdateProfile',
-        element: <UpdateArtistForm />,
-      },
+
       // Dashboard and its nested routes
       {
         path: 'dashboard',

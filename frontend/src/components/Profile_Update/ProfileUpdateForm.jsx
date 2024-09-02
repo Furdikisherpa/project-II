@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Form } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 function UpdateArtistForm({ artistId, onClose }) {
     const [artistData, setArtistData] = useState({
@@ -15,9 +16,10 @@ function UpdateArtistForm({ artistId, onClose }) {
     });
 
     useEffect(() => {
+        console.log(artistId); // Log the artistId to ensure it's correct
         const fetchArtistData = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/api/artist/${artistId}`);
+                const response = await axios.get(`http://localhost:3000/api/artists/${artistId}`);
                 setArtistData(response.data);
             } catch (error) {
                 console.error('Error fetching artist data:', error);
@@ -25,6 +27,7 @@ function UpdateArtistForm({ artistId, onClose }) {
         };
         fetchArtistData();
     }, [artistId]);
+    
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -131,5 +134,10 @@ function UpdateArtistForm({ artistId, onClose }) {
         </Form>
     );
 }
+
+UpdateArtistForm.propTypes = {
+    artistId: PropTypes.string.isRequired,
+    onClose: PropTypes.func.isRequired,
+};
 
 export default UpdateArtistForm;

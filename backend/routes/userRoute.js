@@ -31,7 +31,7 @@ const FetchBookingControllers= require('../controllers/FetchBookingController')
 router.get('/bookeddata', bookingMiddleware, FetchBookingControllers.getUserBookings);
 
 // Artist update route
-router.put('/artist/:id', artistUpdateController.updateArtistProfile);
+router.put('/artists/:id', artistUpdateController.updateArtistProfile);
 
 // Video fetch route
 router.get('/getvideo', FetchVideoController.getVideos);
