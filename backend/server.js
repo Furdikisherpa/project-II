@@ -4,18 +4,22 @@ const cors = require('cors');
 
 // Import routes
 const userRouter = require('./routes/userRoute');
-const bookingRouter = require('./routes/artistBookingRoute');
 
 const app = express();
 
 // Middleware
-app.use(cors()); // Enable CORS for all origins
-app.use(express.json()); // Replaces bodyParser.json()
-app.use(express.urlencoded({ extended: true })); // Replaces bodyParser.urlencoded()
+app.use(cors({
+    origin: 'http://localhost:5173', // Allow requests from this origin
+    methods: ['GET', 'POST', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
-// Routes
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Define your routes after applying middleware
 app.use('/api', userRouter);
-app.use('/api', bookingRouter); // Correctly use the bookingRouter
+
 
 // Error handling middleware
 app.use((err, req, res, next) => {

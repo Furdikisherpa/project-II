@@ -1,9 +1,8 @@
-// src/components/BookingManagement.jsx
 import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext';
 
-const Request = () => {
+const BookingManagement = () => {
   const [bookings, setBookings] = useState([]);
   const [error, setError] = useState(null);
   const { jwt } = useContext(AuthContext); // Get JWT from AuthContext
@@ -11,19 +10,16 @@ const Request = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/booking', {
+        const response = await axios.get('http://localhost:3000/api/bookings', {
           headers: { Authorization: `Bearer ${jwt}` }
         });
         setBookings(response.data);
       } catch (err) {
         if (err.response) {
-          // Request made and server responded with a status code
           setError(`Error: ${err.response.status} ${err.response.statusText}`);
         } else if (err.request) {
-          // Request made but no response received
           setError('Error: No response from server');
         } else {
-          // Something happened in setting up the request
           setError('Error: Unable to fetch bookings');
         }
         console.error(err);
@@ -33,14 +29,16 @@ const Request = () => {
     fetchBookings();
   }, [jwt]);
 
-  const handleAccept = async (id) => {
+  const handleAccept = async (bookingID) => {
     try {
-      await axios.patch(`http://localhost:3000/api/booking/${id}/accept`, {}, {
+      await axios.patch(`http://localhost:3000/api/bookings/${bookingID}/accept`, {}, {
         headers: { Authorization: `Bearer ${jwt}` }
       });
-      setBookings(bookings.map(booking =>
-        booking.id === id ? { ...booking, status: 'accepted' } : booking
-      ));
+      setBookings(prevBookings =>
+        prevBookings.map(booking =>
+          booking.BookingID === bookingID ? { ...booking, Status: 'accepted' } : booking
+        )
+      );
     } catch (err) {
       if (err.response) {
         setError(`Error: ${err.response.status} ${err.response.statusText}`);
@@ -53,14 +51,16 @@ const Request = () => {
     }
   };
 
-  const handleReject = async (id) => {
+  const handleReject = async (bookingID) => {
     try {
-      await axios.patch(`http://localhost:3000/api/booking/${id}/reject`, {}, {
+      await axios.patch(`http://localhost:3000/api/bookings/${bookingID}/reject`, {}, {
         headers: { Authorization: `Bearer ${jwt}` }
       });
-      setBookings(bookings.map(booking =>
-        booking.id === id ? { ...booking, status: 'rejected' } : booking
-      ));
+      setBookings(prevBookings =>
+        prevBookings.map(booking =>
+          booking.BookingID === bookingID ? { ...booking, Status: 'rejected' } : booking
+        )
+      );
     } catch (err) {
       if (err.response) {
         setError(`Error: ${err.response.status} ${err.response.statusText}`);
@@ -73,11 +73,10 @@ const Request = () => {
     }
   };
 
-  if (error) return <div>{error}</div>;
-
   return (
     <div>
       <h1>Booking Management</h1>
+      {error && <div className="error-message">{error}</div>}
       <table>
         <thead>
           <tr>
@@ -91,20 +90,19 @@ const Request = () => {
         <tbody>
           {bookings.length > 0 ? (
             bookings.map(booking => (
-              <tr key={booking.id}>
+              <tr key={booking.BookingID}>
                 <td>{booking.BookingID}</td>
                 <td>{booking.UserID}</td>
                 <td>{booking.ArtistID}</td>
                 <td>{booking.Status}</td>
                 <td>
-                  {booking.Status === 'pending' && (
+                  {booking.Status === 'pending' ? (
                     <>
-                      <button onClick={() => handleAccept(booking.id)}>Accept</button>
-                      <button onClick={() => handleReject(booking.id)}>Reject</button>
+                      <button onClick={() => handleAccept(booking.BookingID)}>Accept</button>
+                      <button onClick={() => handleReject(booking.BookingID)}>Reject</button>
                     </>
-                  )}
-                  {booking.Status !== 'pending' && (
-                    <span>Action Completed</span>
+                  ) : (
+                    <span>{booking.Status.charAt(0).toUpperCase() + booking.Status.slice(1)}</span>
                   )}
                 </td>
               </tr>
@@ -120,4 +118,4 @@ const Request = () => {
   );
 };
 
-export default Request;
+export default BookingManagement;

@@ -1,67 +1,77 @@
-// controllers/bookingController.js
-const connection = require('../config/dbConnection');
+const connection = require('../config/dbConnection'); // Import the DB connection
+const jwt = require('jsonwebtoken');
+const { 
+    ARTIST_JWT_SECRET, USER_JWT_SECRET } = process.env;
 
-// Function to get all bookings
-const getBookings = (callback) => {
-    const query = 'SELECT * FROM booking';
-    connection.query(query, (err, results) => {
-        if (err) {
-            console.error('Error fetching bookings:', err);
-            if (typeof callback === 'function') {
-                return callback(err, null);
-            } else {
-                console.error('Callback is not a function');
+const getBookings = (req, res) => {
+    const token = req.headers['authorization']?.split(' ')[1];
+    if (!token) return res.status(403).json({ error: 'No token provided' });
+
+    try {
+        const decoded = jwt.verify(token, req.user.role === 'artist' ? ARTIST_JWT_SECRET : USER_JWT_SECRET);
+        req.user = decoded;
+
+        if (req.user.role !== 'artist') return res.status(403).json({ error: 'Forbidden' });
+
+        const query = 'SELECT * FROM booking WHERE ArtistID = ?'; // Fetch bookings for the artist
+        connection.query(query, [req.user.id], (err, results) => {
+            if (err) {
+                console.error('Error fetching bookings:', err);
+                return res.status(500).json({ error: 'Failed to fetch bookings' });
             }
-        } else {
-            if (typeof callback === 'function') {
-                callback(null, results);
-            } else {
-                console.error('Callback is not a function');
-            }
-        }
-    });
+            res.json(results);
+        });
+    } catch (err) {
+        return res.status(401).json({ error: 'Failed to authenticate token' });
+    }
 };
 
-// Function to accept a booking
-const acceptBooking = (id, callback) => {
-    const query = 'UPDATE booking SET Status = ? WHERE BookingID = ?';
-    connection.query(query, ['accepted', id], (err, results) => {
-        if (err) {
-            console.error('Error accepting booking:', err);
-            if (typeof callback === 'function') {
-                return callback(err, null);
-            } else {
-                console.error('Callback is not a function');
+const acceptBooking = (req, res) => {
+    const token = req.headers['authorization']?.split(' ')[1];
+    if (!token) return res.status(403).json({ error: 'No token provided' });
+
+    try {
+        const decoded = jwt.verify(token, req.user.role === 'artist' ? ARTIST_JWT_SECRET : USER_JWT_SECRET);
+        req.user = decoded;
+
+        if (req.user.role !== 'artist') return res.status(403).json({ error: 'Forbidden' });
+
+        const bookingId = req.params.id;
+        const query = 'UPDATE booking SET Status = ? WHERE BookingID = ?';
+        connection.query(query, ['accepted', bookingId], (err, results) => {
+            if (err) {
+                console.error('Error accepting booking:', err);
+                return res.status(500).json({ error: 'Failed to accept booking' });
             }
-        } else {
-            if (typeof callback === 'function') {
-                callback(null, results);
-            } else {
-                console.error('Callback is not a function');
-            }
-        }
-    });
+            res.json({ message: 'Booking accepted' });
+        });
+    } catch (err) {
+        return res.status(401).json({ error: 'Failed to authenticate token' });
+    }
 };
 
-// Function to reject a booking
-const rejectBooking = (id, callback) => {
-    const query = 'UPDATE booking SET Status = ? WHERE BookingID = ?';
-    connection.query(query, ['rejected', id], (err, results) => {
-        if (err) {
-            console.error('Error rejecting booking:', err);
-            if (typeof callback === 'function') {
-                return callback(err, null);
-            } else {
-                console.error('Callback is not a function');
+const rejectBooking = (req, res) => {
+    const token = req.headers['authorization']?.split(' ')[1];
+    if (!token) return res.status(403).json({ error: 'No token provided' });
+
+    try {
+        const decoded = jwt.verify(token, req.user.role === 'artist' ? ARTIST_JWT_SECRET : USER_JWT_SECRET);
+        req.user = decoded;
+
+        if (req.user.role !== 'artist') return res.status(403).json({ error: 'Forbidden' });
+
+        const bookingId = req.params.id;
+        const query = 'UPDATE booking SET Status = ? WHERE BookingID = ?';
+        connection.query(query, ['rejected', bookingId], (err, results) => {
+            if (err) {
+                console.error('Error rejecting booking:', err);
+                return res.status(500).json({ error: 'Failed to reject booking' });
             }
-        } else {
-            if (typeof callback === 'function') {
-                callback(null, results);
-            } else {
-                console.error('Callback is not a function');
-            }
-        }
-    });
+            res.json({ message: 'Booking rejected' });
+        });
+    } catch (err) {
+        return res.status(401).json({ error: 'Failed to authenticate token' });
+    }
 };
 
 module.exports = {

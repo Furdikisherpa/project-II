@@ -1,42 +1,32 @@
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
+const { ARTIST_JWT_SECRET, USER_JWT_SECRET } = process.env;
 
-const bookingMiddleware = (req, res, next) => {
-    const token = req.headers.authorization?.split(' ')[1];
-    
+const verifyToken = (req, res, next) => {
+    const token = req.headers['authorization']?.split(' ')[1];
+
     if (!token) {
-        return res.status(401).json({ msg: 'Authentication token is missing' });
+        return res.status(403).json({ error: 'No token provided' });
     }
 
     try {
-        // Verify the token using the USER_JWT_SECRET first
-        let decoded = jwt.verify(token, process.env.USER_JWT_SECRET);
+        // Try to decode the token with both artist and consumer secrets
+        const decodedArtist = jwt.verify(token, ARTIST_JWT_SECRET);
+        const decodedConsumer = jwt.verify(token, USER_JWT_SECRET);
 
-        // If the token is valid, attach userId to the request
-        if (decoded.id) {
-            req.userId = decoded.id;
+        if (decodedArtist) {
+            req.user = decodedArtist;
+            req.user.role = 'artist'; // Set the role for this token
+            return next();
+        } else if (decodedConsumer) {
+            req.user = decodedConsumer;
+            req.user.role = 'consumer'; // Set the role for this token
+            return next();
         } else {
-            return res.status(401).json({ msg: 'Invalid token: no userId found' });
+            return res.status(401).json({ error: 'Failed to authenticate token' });
         }
-
-        next();
     } catch (err) {
-        // If verification with USER_JWT_SECRET fails, try with ARTIST_JWT_SECRET
-        try {
-            const decoded = jwt.verify(token, process.env.ARTIST_JWT_SECRET);
-
-            // If the token is valid, attach artistId to the request
-            if (decoded.id) {
-                req.artistId = decoded.id;
-                next();
-            } else {
-                return res.status(401).json({ msg: 'Invalid token: no artistId found' });
-            }
-        } catch (err) {
-            console.error('Token verification error:', err);
-            return res.status(401).json({ msg: 'Unauthorized access' });
-        }
+        return res.status(401).json({ error: 'Failed to authenticate token' });
     }
 };
 
-module.exports = bookingMiddleware;
+module.exports = { verifyToken };

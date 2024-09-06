@@ -25,12 +25,19 @@ const UploadVideoController = require('../controllers/UploadVideoController');
 const artistUpdateController = require('../controllers/artistUpdateController');
 const FetchVideoController = require('../controllers/FetchVideoController');
 const FetchBookingControllers= require('../controllers/FetchBookingController')
-const ArtistbookingController = require('../controllers/artistBookingController');
+const ArtistBookingControllers = require('../controllers/artistBookingController')
 
+const { verifyToken } = require('../middleware/bookingMiddleware');
 
-router.get('/booking', ArtistbookingController.getBookings);
-router.patch('/booking/:id/accept', ArtistbookingController.acceptBooking);
-router.patch('/booking/:id/reject', ArtistbookingController.rejectBooking);
+// Fetch bookings for a specific artist
+router.get('/bookings', verifyToken, ArtistBookingControllers.getBookings);
+
+// Accept booking
+router.patch('/bookings/:id/accept', verifyToken, ArtistBookingControllers.acceptBooking);
+
+// Reject booking
+router.patch('/bookings/:id/reject', verifyToken, ArtistBookingControllers.rejectBooking);
+
 //Fetch bookings
 router.get('/bookeddata', bookingMiddleware, FetchBookingControllers.getUserBookings);
 
