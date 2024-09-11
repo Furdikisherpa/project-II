@@ -18,37 +18,28 @@ const messageController = require('../controllers/messageController');
 const reviewController = require('../controllers/reviewController');
 const artistloginController = require('../controllers/artistloginController');
 const userloginController = require('../controllers/userloginController');
-const ArtistProfileController = require('../controllers/ArtistProfileController');
+const artistProfileController = require('../controllers/ArtistProfileController');
 const userProfileController = require('../controllers/userProfileController');
 const artistDataFectchController = require('../controllers/artistDataFetchController');
-const UploadVideoController = require('../controllers/UploadVideoController');
-const artistUpdateController = require('../controllers/artistUpdateController');
-const FetchVideoController = require('../controllers/FetchVideoController');
-const FetchBookingControllers= require('../controllers/FetchBookingController')
-const ArtistBookingControllers = require('../controllers/artistBookingController')
+const uploadVideoController = require('../controllers/UploadVideoController');
+const fetchVideoController = require('../controllers/FetchVideoController');
+const fetchBookingControllers = require('../controllers/FetchBookingController');
+const artistBookingControllers = require('../controllers/artistBookingController');
+const artistUpdateController = require('../controllers/artistUpdateController')
 
-const { verifyToken } = require('../middleware/bookingMiddleware');
 
-// Fetch bookings for a specific artist
-router.get('/bookings', verifyToken, ArtistBookingControllers.getBookings);
 
-// Accept booking
-router.patch('/bookings/:id/accept', verifyToken, ArtistBookingControllers.acceptBooking);
+// Fetch user bookings
+router.get('/bookeddata',bookingMiddleware,  fetchBookingControllers.getUserBookings);
 
-// Reject booking
-router.patch('/bookings/:id/reject', verifyToken, ArtistBookingControllers.rejectBooking);
-
-//Fetch bookings
-router.get('/bookeddata', bookingMiddleware, FetchBookingControllers.getUserBookings);
-
-// Artist update route
+// Artist update route (Check if artistUpdateController is correctly defined and imported)
 router.put('/artists/:id', artistUpdateController.updateArtistProfile);
 
 // Video fetch route
-router.get('/getvideo', FetchVideoController.getVideos);
+router.get('/getvideo', fetchVideoController.getVideos);
 
 // Video upload route
-router.post('/uploadvideo', authMiddleware, UploadVideoController.uploadVideo);
+router.post('/uploadvideo', authMiddleware, uploadVideoController.uploadVideo);
 
 // Artists data fetch
 router.get('/artists', artistDataFectchController.artistData);
@@ -57,8 +48,7 @@ router.get('/artists', artistDataFectchController.artistData);
 router.get('/user/:id', userProfileController.userProfile);
 
 // Artist profile route
-router.get('/artist/:id', ArtistProfileController.artistProfile);
-
+router.get('/artist/:id', artistProfileController.artistProfile);
 
 // User Login route
 router.post('/userlogin', userloginValidation, userloginController.userlogin);

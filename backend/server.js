@@ -1,25 +1,18 @@
-require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-
-// Import routes
 const userRouter = require('./routes/userRoute');
+const artistBookingRoutes = require('./routes/artistBookingRoutes');
 
 const app = express();
 
 // Middleware
-app.use(cors({
-    origin: 'http://localhost:5173', // Allow requests from this origin
-    methods: ['GET', 'POST', 'PATCH'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
-
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Define your routes after applying middleware
+// Routes
 app.use('/api', userRouter);
-
+app.use('/api/artist', artistBookingRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

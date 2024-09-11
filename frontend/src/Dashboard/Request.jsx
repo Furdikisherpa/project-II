@@ -10,28 +10,29 @@ const BookingManagement = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/bookings', {
+        const response = await axios.get('http://localhost:3000/api/artist/bookings', {
           headers: { Authorization: `Bearer ${jwt}` }
         });
         setBookings(response.data);
       } catch (err) {
+        let errorMessage = 'Unable to fetch bookings';
         if (err.response) {
-          setError(`Error: ${err.response.status} ${err.response.statusText}`);
+          errorMessage = `Error: ${err.response.status} ${err.response.statusText}`;
         } else if (err.request) {
-          setError('Error: No response from server');
-        } else {
-          setError('Error: Unable to fetch bookings');
+          errorMessage = 'Error: No response from server';
         }
-        console.error(err);
+        setError(errorMessage);
+        console.error(errorMessage);
       }
     };
+    
 
     fetchBookings();
   }, [jwt]);
 
   const handleAccept = async (bookingID) => {
     try {
-      await axios.patch(`http://localhost:3000/api/bookings/${bookingID}/accept`, {}, {
+      await axios.put(`http://localhost:3000/api/artist/bookings/${bookingID}/accept`, {}, {
         headers: { Authorization: `Bearer ${jwt}` }
       });
       setBookings(prevBookings =>
@@ -40,20 +41,20 @@ const BookingManagement = () => {
         )
       );
     } catch (err) {
+      let errorMessage = 'Unable to accept booking';
       if (err.response) {
-        setError(`Error: ${err.response.status} ${err.response.statusText}`);
+        errorMessage = `Error: ${err.response.status} ${err.response.statusText}`;
       } else if (err.request) {
-        setError('Error: No response from server');
-      } else {
-        setError('Error: Unable to accept booking');
+        errorMessage = 'Error: No response from server';
       }
+      setError(errorMessage);
       console.error(err);
     }
   };
 
   const handleReject = async (bookingID) => {
     try {
-      await axios.patch(`http://localhost:3000/api/bookings/${bookingID}/reject`, {}, {
+      await axios.put(`http://localhost:3000/api/artist/bookings/${bookingID}/reject`, {}, {
         headers: { Authorization: `Bearer ${jwt}` }
       });
       setBookings(prevBookings =>
@@ -62,13 +63,13 @@ const BookingManagement = () => {
         )
       );
     } catch (err) {
+      let errorMessage = 'Unable to reject booking';
       if (err.response) {
-        setError(`Error: ${err.response.status} ${err.response.statusText}`);
+        errorMessage = `Error: ${err.response.status} ${err.response.statusText}`;
       } else if (err.request) {
-        setError('Error: No response from server');
-      } else {
-        setError('Error: Unable to reject booking');
+        errorMessage = 'Error: No response from server';
       }
+      setError(errorMessage);
       console.error(err);
     }
   };
@@ -94,7 +95,7 @@ const BookingManagement = () => {
                 <td>{booking.BookingID}</td>
                 <td>{booking.UserID}</td>
                 <td>{booking.ArtistID}</td>
-                <td>{booking.Status}</td>
+                <td>{booking.Status.charAt(0).toUpperCase() + booking.Status.slice(1)}</td>
                 <td>
                   {booking.Status === 'pending' ? (
                     <>
