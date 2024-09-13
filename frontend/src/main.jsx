@@ -111,5 +111,6 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <AuthProvider> {/* Wrap the RouterProvider with AuthProvider */}
     <RouterProvider router={router} />
+
   </AuthProvider>
 );

@@ -12,8 +12,13 @@ const getBooking = (req, res) => {
 
         if (req.user.role !== 'artist') return res.status(403).json({ error: 'Forbidden' });
 
-        const query = 
-        'SELECT * FROM booking WHERE ArtistID = ?'; // Fetch bookings for the artist
+        const query = `
+            SELECT booking.BookingID, booking.BookingDate, booking.EventDate, booking.EventTime, booking.Status, booking.TotalPrice, artist.Name
+            FROM booking
+            JOIN artist ON booking.ArtistID = artist.id
+            WHERE booking.ArtistID = ?
+        `; // Fetch bookings for the artist
+
         db.query(query, [req.user.id], (err, results) => {
             if (err) {
                 console.error('Error fetching bookings:', err);

@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+
+// Import controllers and middleware
 const {
     artistRegisterValidation,
     userRegisterValidation,
@@ -24,51 +26,41 @@ const artistDataFectchController = require('../controllers/artistDataFetchContro
 const uploadVideoController = require('../controllers/UploadVideoController');
 const fetchVideoController = require('../controllers/FetchVideoController');
 const fetchBookingControllers = require('../controllers/FetchBookingController');
-const artistBookingControllers = require('../controllers/artistBookingController');
-const artistUpdateController = require('../controllers/artistUpdateController')
+const artistUpdateController = require('../controllers/artistUpdateController');
+;
+// Controllers for artist booking
+const { getBooking, acceptBooking, rejectBooking } = require('../controllers/artistBookingController');
+const { verifyToken, checkArtistRole } = require('../middleware/artistBookingMiddleware');
 
-
-
-// Fetch user bookings
-router.get('/bookeddata',bookingMiddleware,  fetchBookingControllers.getUserBookings);
-
-// Artist update route (Check if artistUpdateController is correctly defined and imported)
-router.put('/artists/:id', artistUpdateController.updateArtistProfile);
-
-// Video fetch route
-router.get('/getvideo', fetchVideoController.getVideos);
-
-// Video upload route
-router.post('/uploadvideo', authMiddleware, uploadVideoController.uploadVideo);
-
-// Artists data fetch
-router.get('/artists', artistDataFectchController.artistData);
-
-// User profile route
+// User Routes
+router.post('/register', userRegisterValidation, userController.register);
+router.post('/userlogin', userloginValidation, userloginController.userlogin);
 router.get('/user/:id', userProfileController.userProfile);
 
-// Artist profile route
-router.get('/artist/:id', artistProfileController.artistProfile);
-
-// User Login route
-router.post('/userlogin', userloginValidation, userloginController.userlogin);
-
-// Artist Login route
+// Artist Routes
+router.post('/artistRegister', artistRegisterValidation, artistController.artistRegister);
 router.post('/artistlogin', artistloginValidation, artistloginController.artistlogin);
+router.get('/artist/:id', artistProfileController.artistProfile);
+router.put('/artists/:id', artistUpdateController.updateArtistProfile);
+router.get('/artists', artistDataFectchController.artistData);
 
-// Review route
+// Booking Routes
+router.post('/bookings', bookingValidation, bookingController.createBooking);
+router.get('/bookeddata', bookingMiddleware, fetchBookingControllers.getUserBookings);
+
+// Video Routes
+router.get('/getvideo', fetchVideoController.getVideos);
+router.post('/uploadvideo', authMiddleware, uploadVideoController.uploadVideo);
+
+// Review Routes
 router.post('/reviews', reviewValidation, reviewController.review);
 
-// Message route
+// Message Routes
 router.post('/messages', messageValidation, messageController.msg);
 
-// Booking route
-router.post('/bookings', bookingValidation, bookingController.createBooking);
-
-// User registration route
-router.post('/register', userRegisterValidation, userController.register);
-
-// Artist registration route
-router.post('/artistRegister', artistRegisterValidation, artistController.artistRegister);
+// Artist Booking Routes
+router.get('/artist/bookings', verifyToken, checkArtistRole, getBooking);
+router.put('/artist/bookings/:bookingID/accept', verifyToken, checkArtistRole, acceptBooking);
+router.put('/artist/bookings/:bookingID/reject', verifyToken, checkArtistRole, rejectBooking);
 
 module.exports = router;

@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const userRouter = require('./routes/userRoute');
-const artistBookingRoutes = require('./routes/artistBookingRoutes');
 
 const app = express();
 
@@ -11,8 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api', userRouter);
-app.use('/api/artist', artistBookingRoutes);
+app.use('/api', userRouter); // All routes, including artist booking routes, are now under /api
 
 // Error handling middleware
 app.use((err, req, res, next) => {
