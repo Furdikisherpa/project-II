@@ -1,30 +1,50 @@
 const db = require('../config/dbConnection');
 
+const getBookings = async (req, res) => {
+    const artistId = req.artistId; // Extract artistId from req object
+    console.log('Received artistId:', artistId);
 
-const getBooking = (req, res) => {
-    const { id: artistId } = req.user; // Extract artist ID from decoded token
+    if (!artistId) {
+        return res.status(401).json({ message: 'Unauthorized access: No valid artist ID found' });
+    }
 
     const query = `
-        SELECT booking.BookingID, booking.BookingDate, booking.EventDate, booking.EventTime, booking.Status, booking.TotalPrice, artist.Name
+        SELECT 
+            booking.BookingID, 
+            booking.BookingDate, 
+            booking.EventDate, 
+            booking.EventTime, 
+            booking.Status, 
+            booking.TotalPrice, 
+            user.id AS UserID, 
+            user.Username AS UserName
         FROM booking
-        JOIN artist ON booking.ArtistID = artist.id
+        JOIN user ON booking.UserID = user.id
         WHERE booking.ArtistID = ?
-    `; // Fetch bookings for the artist
+    `;
 
     db.query(query, [artistId], (err, results) => {
         if (err) {
             console.error('Error fetching bookings:', err);
             return res.status(500).json({ error: 'Failed to fetch bookings' });
         }
-        console.log('Booking results:', results); // Debug log
-        if (results.length === 0) return res.status(404).json({ message: 'No bookings found for this artist' });
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'No bookings found for this artist' });
+        }
         res.json(results);
     });
 };
 
+
+
+// Accept a booking
 const acceptBooking = (req, res) => {
-    const { id: artistId } = req.user; // Extract artist ID from decoded token
-    const { bookingID } = req.params;
+    const artistId = req.artistId;
+    const bookingID = req.params.bookingID;
+
+    if (!artistId) {
+        return res.status(401).json({ message: 'Unauthorized access: No valid artist ID found' });
+    }
 
     const query = 'UPDATE booking SET Status = ? WHERE BookingID = ? AND ArtistID = ?';
     db.query(query, ['accepted', bookingID, artistId], (err, results) => {
@@ -32,15 +52,19 @@ const acceptBooking = (req, res) => {
             console.error('Error accepting booking:', err);
             return res.status(500).json({ error: 'Failed to accept booking' });
         }
-        console.log('Accept booking results:', results); // Debug log
         if (results.affectedRows === 0) return res.status(404).json({ message: 'Booking or artist not found' });
         res.json({ message: 'Booking accepted' });
     });
 };
 
+// Reject a booking
 const rejectBooking = (req, res) => {
-    const { id: artistId } = req.user; // Extract artist ID from decoded token
-    const { bookingID } = req.params;
+    const artistId = req.artistId;
+    const bookingID = req.params.bookingID;
+
+    if (!artistId) {
+        return res.status(401).json({ message: 'Unauthorized access: No valid artist ID found' });
+    }
 
     const query = 'UPDATE booking SET Status = ? WHERE BookingID = ? AND ArtistID = ?';
     db.query(query, ['rejected', bookingID, artistId], (err, results) => {
@@ -48,14 +72,13 @@ const rejectBooking = (req, res) => {
             console.error('Error rejecting booking:', err);
             return res.status(500).json({ error: 'Failed to reject booking' });
         }
-        console.log('Reject booking results:', results); // Debug log
         if (results.affectedRows === 0) return res.status(404).json({ message: 'Booking or artist not found' });
         res.json({ message: 'Booking rejected' });
     });
 };
 
 module.exports = {
-    getBooking,
+    getBookings,
     acceptBooking,
     rejectBooking
 };

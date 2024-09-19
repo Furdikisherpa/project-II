@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate for progra
 const ArtistBookingManagement = () => {
   const [bookings, setBookings] = useState([]);
   const [error, setError] = useState(null);
-  const { jwt, userRole, isLoggedIn, isLoading } = useContext(AuthContext); // Use JWT and userRole from AuthContext
+  const [loading, setLoading] = useState(true); // Manage loading state
+  const { jwt, userRole, isLoggedIn, isLoading, artistId } = useContext(AuthContext); // Use JWT, userRole, and artistId from AuthContext
   const navigate = useNavigate(); // Initialize navigate hook for programmatic navigation
 
   useEffect(() => {
@@ -26,36 +27,38 @@ const ArtistBookingManagement = () => {
 
       const fetchBookings = async () => {
         if (!jwt) {
-          console.error("JWT is not available");
-          setError('Authorization token missing. Please log in.');
-          return;
+            console.error("JWT is not available");
+            setError('Authorization token missing. Please log in.');
+            setLoading(false);
+            return;
         }
-
+    
         try {
-          console.log("Fetching bookings with JWT:", jwt);
-          const response = await axios.get('http://localhost:3000/api/artist/bookings', {
-            headers: { Authorization: `Bearer ${jwt}` }
-          });
-          console.log("Response data:", response.data);
-          setBookings(response.data);
+            console.log("Fetching bookings with JWT:", jwt);
+            const response = await axios.get(`http://localhost:3000/api/artist/bookings/${artistId}`, {
+                headers: { Authorization: `Bearer ${jwt}` }
+            });
+            setBookings(response.data);
         } catch (err) {
-          let errorMessage = 'Unable to fetch bookings';
-          if (err.response) {
-            console.error(`Error: ${err.response.status} - ${err.response.statusText}`);
-            errorMessage = `Error: ${err.response.status} - ${err.response.statusText}`;
-          } else if (err.request) {
-            console.error('Error: No response from server');
-            errorMessage = 'Error: No response from server';
-          } else {
-            console.error('Error:', err.message);
-          }
-          setError(errorMessage);
+            let errorMessage = 'Unable to fetch bookings';
+            if (err.response) {
+                console.error(`Error: ${err.response.status} - ${err.response.statusText}`);
+                errorMessage = `Error: ${err.response.status} - ${err.response.statusText}`;
+            } else if (err.request) {
+                console.error('Error: No response from server');
+                errorMessage = 'Error: No response from server';
+            } else {
+                console.error('Error:', err.message);
+            }
+            setError(errorMessage);
+        } finally {
+            setLoading(false);
         }
-      };
-
+    };
+    
       fetchBookings();
     }
-  }, [jwt, userRole, isLoggedIn, isLoading, navigate]);
+  }, [jwt, userRole, isLoggedIn, isLoading, navigate, artistId]); // Add artistId to dependency array
 
   // Accept booking by ID
   const handleAccept = async (bookingID) => {
@@ -106,6 +109,7 @@ const ArtistBookingManagement = () => {
   return (
     <div>
       <h1>Booking Management</h1>
+      {loading && <p>Loading...</p>}
       {error && <div className="error-message">{error}</div>}
       {userRole === 'artist' ? (
         <table>

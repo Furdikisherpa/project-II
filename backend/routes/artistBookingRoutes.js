@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const artistBookingController = require('../controllers/artistBookingController'); // Ensure path is correct
-const artistBookingMiddleware = require('../middleware/artistBookingMiddleware');
+const artistBookingController = require('../controllers/artistBookingController');
+const artistAuthMiddleware = require('../middleware/artistAuthMiddleware');
 
-// Route to get bookings for an artist
-router.get('/bookings', artistBookingMiddleware, artistBookingController.getBooking);
+// Fetch artist bookings
+router.get('/bookings/:artistId', artistAuthMiddleware, artistBookingController.getBookings);
 
-// Route to accept a booking
-router.put('/bookings/:bookingID/accept', artistBookingMiddleware,  artistBookingController.acceptBooking);
+// Accept a booking
+router.put('/bookings/:bookingID/accept', artistAuthMiddleware, artistBookingController.acceptBooking);
 
-// Route to reject a booking
-router.put('/bookings/:bookingID/reject', artistBookingMiddleware, artistBookingController.rejectBooking);
+// Reject a booking
+router.put('/bookings/:bookingID/reject', artistAuthMiddleware, artistBookingController.rejectBooking);
 
 module.exports = router;
