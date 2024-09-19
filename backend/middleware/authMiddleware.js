@@ -18,10 +18,6 @@ const authMiddleware = (req, res, next) => {
     } else {
         return res.status(400).json({ msg: 'Invalid request. No artistId or userId provided.' });
     }
-
-
-
-
     
     try {
         const decoded = jwt.verify(token, secret);

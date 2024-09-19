@@ -16,10 +16,9 @@ function UpdateArtistForm({ artistId, onClose }) {
     });
 
     useEffect(() => {
-        console.log(artistId); // Log the artistId to ensure it's correct
         const fetchArtistData = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/api/artists/${artistId}`);
+                const response = await axios.get(`http://localhost:3000/api/artist/${artistId}`);
                 setArtistData(response.data);
             } catch (error) {
                 console.error('Error fetching artist data:', error);
@@ -27,7 +26,6 @@ function UpdateArtistForm({ artistId, onClose }) {
         };
         fetchArtistData();
     }, [artistId]);
-    
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -39,7 +37,7 @@ function UpdateArtistForm({ artistId, onClose }) {
         try {
             await axios.put(`http://localhost:3000/api/artists/${artistId}`, artistData);
             alert('Artist data updated successfully');
-            onClose(); // Close the form or redirect
+            onClose(); // Close the form or handle post-submission actions
         } catch (error) {
             console.error('Error updating artist data:', error);
         }
@@ -135,9 +133,14 @@ function UpdateArtistForm({ artistId, onClose }) {
     );
 }
 
+// Update prop types and provide default prop for `onClose`
 UpdateArtistForm.propTypes = {
-    artistId: PropTypes.string.isRequired,
-    onClose: PropTypes.func.isRequired,
+    artistId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    onClose: PropTypes.func,
+};
+
+UpdateArtistForm.defaultProps = {
+    onClose: () => {}, // No-op function as default if not passed
 };
 
 export default UpdateArtistForm;

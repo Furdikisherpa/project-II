@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
+const morgan = require('morgan');
 const userRouter = require('./routes/userRoute');
+const artistBookingRoutes = require('./routes/artistBookingRoutes');
+const authMiddleware = require('./middleware/authMiddleware'); 
 
 const app = express();
 
@@ -8,9 +11,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(morgan('dev'));
 
 // Routes
-app.use('/api', userRouter); // All routes, including artist booking routes, are now under /api
+app.use('/api', userRouter);
+app.use('/api/artist', authMiddleware, artistBookingRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

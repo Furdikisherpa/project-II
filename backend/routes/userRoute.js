@@ -27,10 +27,9 @@ const uploadVideoController = require('../controllers/UploadVideoController');
 const fetchVideoController = require('../controllers/FetchVideoController');
 const fetchBookingControllers = require('../controllers/FetchBookingController');
 const artistUpdateController = require('../controllers/artistUpdateController');
-;
 // Controllers for artist booking
-const { getBooking, acceptBooking, rejectBooking } = require('../controllers/artistBookingController');
-const { verifyToken, checkArtistRole } = require('../middleware/artistBookingMiddleware');
+// const { getBooking, acceptBooking, rejectBooking } = require('../controllers/artistBookingController');
+// const { verifyToken, checkArtistRole } = require('../middleware/artistBookingMiddleware');
 
 // User Routes
 router.post('/register', userRegisterValidation, userController.register);
@@ -59,8 +58,8 @@ router.post('/reviews', reviewValidation, reviewController.review);
 router.post('/messages', messageValidation, messageController.msg);
 
 // Artist Booking Routes
-router.get('/artist/bookings', verifyToken, checkArtistRole, getBooking);
-router.put('/artist/bookings/:bookingID/accept', verifyToken, checkArtistRole, acceptBooking);
-router.put('/artist/bookings/:bookingID/reject', verifyToken, checkArtistRole, rejectBooking);
+// router.get('/artist/bookings', verifyToken, checkArtistRole, getBooking);
+// router.put('/artist/bookings/:bookingID/accept', verifyToken, checkArtistRole, acceptBooking);
+// router.put('/artist/bookings/:bookingID/reject', verifyToken, checkArtistRole, rejectBooking);
 
 module.exports = router;

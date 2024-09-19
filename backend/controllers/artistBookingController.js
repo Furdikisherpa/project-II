@@ -1,85 +1,57 @@
-const jwt = require('jsonwebtoken');
 const db = require('../config/dbConnection');
-const { ARTIST_JWT_SECRET } = process.env;
+
 
 const getBooking = (req, res) => {
-    const token = req.headers['authorization']?.split(' ')[1];
-    if (!token) return res.status(403).json({ error: 'No token provided' });
+    const { id: artistId } = req.user; // Extract artist ID from decoded token
 
-    try {
-        const decoded = jwt.verify(token, ARTIST_JWT_SECRET);
-        req.user = decoded;
+    const query = `
+        SELECT booking.BookingID, booking.BookingDate, booking.EventDate, booking.EventTime, booking.Status, booking.TotalPrice, artist.Name
+        FROM booking
+        JOIN artist ON booking.ArtistID = artist.id
+        WHERE booking.ArtistID = ?
+    `; // Fetch bookings for the artist
 
-        if (req.user.role !== 'artist') return res.status(403).json({ error: 'Forbidden' });
-
-        const query = `
-            SELECT booking.BookingID, booking.BookingDate, booking.EventDate, booking.EventTime, booking.Status, booking.TotalPrice, artist.Name
-            FROM booking
-            JOIN artist ON booking.ArtistID = artist.id
-            WHERE booking.ArtistID = ?
-        `; // Fetch bookings for the artist
-
-        db.query(query, [req.user.id], (err, results) => {
-            if (err) {
-                console.error('Error fetching bookings:', err);
-                return res.status(500).json({ error: 'Failed to fetch bookings' });
-            }
-            if (results.length === 0) return res.status(404).json({ msg: 'No bookings found for this artist' });
-            res.json(results);
-        });
-    } catch (err) {
-        return res.status(401).json({ error: 'Failed to authenticate token' });
-    }
+    db.query(query, [artistId], (err, results) => {
+        if (err) {
+            console.error('Error fetching bookings:', err);
+            return res.status(500).json({ error: 'Failed to fetch bookings' });
+        }
+        console.log('Booking results:', results); // Debug log
+        if (results.length === 0) return res.status(404).json({ message: 'No bookings found for this artist' });
+        res.json(results);
+    });
 };
 
 const acceptBooking = (req, res) => {
-    const token = req.headers['authorization']?.split(' ')[1];
-    if (!token) return res.status(403).json({ error: 'No token provided' });
+    const { id: artistId } = req.user; // Extract artist ID from decoded token
+    const { bookingID } = req.params;
 
-    try {
-        const decoded = jwt.verify(token, ARTIST_JWT_SECRET);
-        req.user = decoded;
-
-        if (req.user.role !== 'artist') return res.status(403).json({ error: 'Forbidden' });
-
-        const bookingId = req.params.bookingID;
-        const query = 'UPDATE booking SET Status = ? WHERE BookingID = ? AND ArtistID = ?';
-        db.query(query, ['accepted', bookingId, req.user.id], (err, results) => {
-            if (err) {
-                console.error('Error accepting booking:', err);
-                return res.status(500).json({ error: 'Failed to accept booking' });
-            }
-            if (results.affectedRows === 0) return res.status(404).json({ msg: 'Booking or artist not found' });
-            res.json({ message: 'Booking accepted' });
-        });
-    } catch (err) {
-        return res.status(401).json({ error: 'Failed to authenticate token' });
-    }
+    const query = 'UPDATE booking SET Status = ? WHERE BookingID = ? AND ArtistID = ?';
+    db.query(query, ['accepted', bookingID, artistId], (err, results) => {
+        if (err) {
+            console.error('Error accepting booking:', err);
+            return res.status(500).json({ error: 'Failed to accept booking' });
+        }
+        console.log('Accept booking results:', results); // Debug log
+        if (results.affectedRows === 0) return res.status(404).json({ message: 'Booking or artist not found' });
+        res.json({ message: 'Booking accepted' });
+    });
 };
 
 const rejectBooking = (req, res) => {
-    const token = req.headers['authorization']?.split(' ')[1];
-    if (!token) return res.status(403).json({ error: 'No token provided' });
+    const { id: artistId } = req.user; // Extract artist ID from decoded token
+    const { bookingID } = req.params;
 
-    try {
-        const decoded = jwt.verify(token, ARTIST_JWT_SECRET);
-        req.user = decoded;
-
-        if (req.user.role !== 'artist') return res.status(403).json({ error: 'Forbidden' });
-
-        const bookingId = req.params.bookingID;
-        const query = 'UPDATE booking SET Status = ? WHERE BookingID = ? AND ArtistID = ?';
-        db.query(query, ['rejected', bookingId, req.user.id], (err, results) => {
-            if (err) {
-                console.error('Error rejecting booking:', err);
-                return res.status(500).json({ error: 'Failed to reject booking' });
-            }
-            if (results.affectedRows === 0) return res.status(404).json({ msg: 'Booking or artist not found' });
-            res.json({ message: 'Booking rejected' });
-        });
-    } catch (err) {
-        return res.status(401).json({ error: 'Failed to authenticate token' });
-    }
+    const query = 'UPDATE booking SET Status = ? WHERE BookingID = ? AND ArtistID = ?';
+    db.query(query, ['rejected', bookingID, artistId], (err, results) => {
+        if (err) {
+            console.error('Error rejecting booking:', err);
+            return res.status(500).json({ error: 'Failed to reject booking' });
+        }
+        console.log('Reject booking results:', results); // Debug log
+        if (results.affectedRows === 0) return res.status(404).json({ message: 'Booking or artist not found' });
+        res.json({ message: 'Booking rejected' });
+    });
 };
 
 module.exports = {
