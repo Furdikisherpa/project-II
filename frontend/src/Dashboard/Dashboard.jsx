@@ -29,6 +29,8 @@ const Dashboard = () => {
       <main className="content">
         <Outlet />
       </main>
+
+      
     </div>
 
 
