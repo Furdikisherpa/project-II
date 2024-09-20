@@ -3,7 +3,6 @@ import { useState, useEffect, useContext, useCallback } from 'react'; // Import 
 import axios from 'axios'; // Import axios for making HTTP requests
 import { AuthContext } from '../AuthContext'; // Import AuthContext to access authentication data and state
 import { useParams, useNavigate } from 'react-router-dom'; // Import hooks for handling routing
-import UpdateArtistForm from './Profile_Update/ProfileUpdateForm';
 
 const Profile = () => {
     const { artistId: routeArtistId } = useParams();
@@ -15,10 +14,10 @@ const Profile = () => {
     const [loading, setLoading] = useState(true); // State for loading status
     const [error, setError] = useState(null); // State for error messages
     const [videos, setVideos] = useState([]); // State for storing fetched videos
-    const [showUpdateForm, setShowUpdateForm] = useState(false); // State to manage showing the update form
+
 
     // Extract authentication data from AuthContext
-    const { artistId: contextArtistId, userId, jwt, isLoading, isLoggedIn, userRole } = useContext(AuthContext);
+    const { artistId: contextArtistId, userId, jwt, isLoading, isLoggedIn} = useContext(AuthContext);
 
     // Effect to redirect users to login page if they are not logged in
     useEffect(() => {
@@ -105,7 +104,7 @@ const Profile = () => {
     return (
         <div>
             <div className="Heading_Image">
-                <img src="/src/assets/images/Music Artist.jpg" alt="Music Artist" />
+                <img src="src/assets/images/Music Artist.jpg" alt="Music Artist" />
             </div>
             <div className='Profile'>
                 <h1>{routeArtistId || contextArtistId ? 'Artist' : 'User'} Profile</h1>
@@ -114,16 +113,6 @@ const Profile = () => {
                         <div>
                             <p><strong>Name:</strong> {artist.username}</p>
                             <p><strong>Email:</strong> {artist.email}</p>
-                            {userRole === 'artist' && (
-                                <div className='videoUpload'>
-                                    <button onClick={() => setShowUpdateForm(true)} className="update-profile-button">
-                                        Update Profile
-                                    </button>
-                                    {showUpdateForm && (
-                                        <UpdateArtistForm artistId={artist.id} onClose={() => setShowUpdateForm(false)} />
-                                    )}
-                                </div>
-                            )}
                         </div>
                     ) : (
                         <p>No artist profile data found</p>

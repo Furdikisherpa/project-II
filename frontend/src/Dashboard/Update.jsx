@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Form } from 'react-bootstrap';
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'; // Import prop-types
 
-function UpdateArtistForm({ artistId, onClose }) {
+function Update({ artistId, onClose }) {
     const [artistData, setArtistData] = useState({
         location: '',
         socialLinks: '',
@@ -133,14 +133,10 @@ function UpdateArtistForm({ artistId, onClose }) {
     );
 }
 
-// Update prop types and provide default prop for `onClose`
-UpdateArtistForm.propTypes = {
-    artistId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    onClose: PropTypes.func,
+// Add PropTypes validation
+Update.propTypes = {
+    artistId: PropTypes.string.isRequired, // artistId is required and should be a string
+    onClose: PropTypes.func.isRequired,    // onClose is required and should be a function
 };
 
-UpdateArtistForm.defaultProps = {
-    onClose: () => {}, // No-op function as default if not passed
-};
-
-export default UpdateArtistForm;
+export default Update;

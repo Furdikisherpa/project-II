@@ -15,7 +15,7 @@ const Dashboard = () => {
               <Link to="/dashboard/upload">Upload</Link>
             </li>
             <li>
-              <Link to="/dashboard/message">Message</Link>
+              <Link to="/dashboard/update">Update</Link>
             </li>
             <li>
               <Link to="/dashboard/request">Request</Link>

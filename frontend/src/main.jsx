@@ -13,11 +13,10 @@ import Login from './components/Login/Login.jsx';
 import Signup from './components/SignUp/signup.jsx';
 import Dashboard from './Dashboard/Dashboard.jsx';
 import './styles.css/fonts.css'
-import UpdateArtistForm from './components/Profile_Update/ProfileUpdateForm.jsx';
 import BookingTable from './components/Booking/BookingTable.jsx';
 // import { element } from 'prop-types';
 import DashHome from './Dashboard/Home.jsx';
-import Message from './Dashboard/Message.jsx';
+import Update from './Dashboard/Update.jsx';
 import Upload from './Dashboard/Upload.jsx';
 import Request from './Dashboard/Request.jsx';
 import Review from './Dashboard/review.jsx';
@@ -58,12 +57,6 @@ const router = createBrowserRouter([
       {
         path: 'profile',
         element: <Profile />,
-        children:[
-          {
-            path: 'update',
-            element: <UpdateArtistForm />,
-          }
-        ]
       },
       {
         path: 'booking',
@@ -88,8 +81,8 @@ const router = createBrowserRouter([
             element: <Upload />,
           },
           {
-            path: 'message',
-            element: <Message />,
+            path: 'update',
+            element: <Update />,
           },
           {
             path: 'request',
