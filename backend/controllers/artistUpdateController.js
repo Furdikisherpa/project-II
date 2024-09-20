@@ -2,16 +2,16 @@ const express = require('express');
 const connection = require('../config/dbConnection');
 
 const updateArtistProfile = (req, res) => {
-    const { id } = req.params;
-    const { bio, profilePicture, location, genres, socialLinks, website } = req.body;
+    const { id } = req.params; // Ensure this is 'artistId' if necessary
+    const { bio, mediaGallery, location, genre, socialLinks, website, pricingInfo, contactInfo } = req.body; // Updated field names to match frontend
 
     const sql = `
         UPDATE artist
-        SET Bio = ?, MediaGallery = ?, location = ?, Genres = ?, socialLinks = ?, website = ? 
+        SET Bio = ?, MediaGallery = ?, Location = ?, Genre = ?, SocialLinks = ?, Website = ?, PricingInfo = ?, ContactInfo = ?
         WHERE id = ?
     `;
 
-    const values = [bio, profilePicture, location, genres, JSON.stringify(socialLinks), website, id];
+    const values = [bio, mediaGallery, location, genre, JSON.stringify(socialLinks), website, pricingInfo, contactInfo, id];
 
     connection.query(sql, values, (err, result) => {
         if (err) {
@@ -24,8 +24,9 @@ const updateArtistProfile = (req, res) => {
 
         res.status(200).json({ msg: 'Profile updated successfully' });
     });
-}
+};
 
 module.exports = {
     updateArtistProfile
 };
+
