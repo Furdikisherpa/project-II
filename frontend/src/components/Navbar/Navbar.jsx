@@ -14,13 +14,7 @@ function Navbar() {
     navigate('/login');
   };
 
-  // const handleSearch = (event) => {
-  //   event.preventDefault();
-  //   // Implement search functionality here
-  //   console.log('Search query:', searchQuery);
-  //   // For example, navigate to a search results page
-  //   // navigate(`/search?query=${searchQuery}`);
-  // };
+
 
   return (
     <nav className='navbar'>

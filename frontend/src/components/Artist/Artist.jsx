@@ -1,54 +1,82 @@
 import './Artist.css';
-import { useEffect, useState } from 'react';
-import { Button, Card, Modal } from 'react-bootstrap';
+import { useEffect, useState, useCallback } from 'react';
+import { Button, Card, Modal, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import BookingForm from '../Booking/BookingForm'; // Import BookingForm
+import BookingForm from '../Booking/BookingForm';
 
 function Artist() {
     const [artists, setArtists] = useState([]);
-    const [selectedArtist, setSelectedArtist] = useState(null); // State to hold the currently selected artist for booking
-    const [show, setShow] = useState(false); // State to control modal visibility
+    const [selectedArtist, setSelectedArtist] = useState(null);
+    const [show, setShow] = useState(false);
+    const [genre, setGenre] = useState('');
+    const [location, setLocation] = useState('');
+
+    // Memoized fetchArtists to avoid re-creating the function on every render
+    const fetchArtists = useCallback(async () => {
+        try {
+            const queryParams = [];
+            if (genre) queryParams.push(`genre=${genre}`);
+            if (location) queryParams.push(`location=${location}`);
+
+            const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
+            const response = await axios.get(`http://localhost:3000/api/artists${queryString}`);
+            console.log('API Response:', response.data);
+            if (Array.isArray(response.data)) {
+                setArtists(response.data);
+            } else {
+                console.error('Unexpected response format:', response.data);
+            }
+        } catch (error) {
+            console.error('Error fetching artist data:', error);
+        }
+    }, [genre, location]); // Include genre and location as dependencies
 
     useEffect(() => {
-        const fetchArtists = async () => {
-            try {
-                const response = await axios.get('http://localhost:3000/api/artists');
-                console.log('API Response:', response.data);
-                if (Array.isArray(response.data)) {
-                    setArtists(response.data);
-                } else {
-                    console.error('Unexpected response format:', response.data);
-                }
-            } catch (error) {
-                console.error('Error fetching artist data:', error);
-            }
-        };
-
-        fetchArtists();
-    }, []);
+        fetchArtists(); // Call fetchArtists when component mounts or when genre/location changes
+    }, [fetchArtists]); // Include fetchArtists in the dependency array
 
     const handleBookingClick = (artist) => {
-        setSelectedArtist(artist); // Set the selected artist when booking is clicked
-        setShow(true); // Show the modal
+        setSelectedArtist(artist);
+        setShow(true);
     };
 
-    const handleClose = () => setShow(false); // Function to close the modal
+    const handleClose = () => setShow(false);
 
     return (
-        <div>
-            <div className="Home-Image">
-                <img src="/src/assets/images/Music Artist.jpg" alt="Music Artist" />
+        <div className="artist-page-container">
+            {/* Filter Options */}
+            <div className="filters">
+                <Form.Group controlId="formGenre">
+                    <Form.Label>Genre</Form.Label>
+                    <Form.Control as="select" value={genre} onChange={(e) => setGenre(e.target.value)}>
+                        <option value="">All</option>
+                        <option value="Pop">Pop</option>
+                        <option value="Rock">Rock</option>
+                        <option value="Jazz">Jazz</option>
+                    </Form.Control>
+                </Form.Group>
+    
+                <Form.Group controlId="formLocation">
+                    <Form.Label>Location</Form.Label>
+                    <Form.Control as="select" value={location} onChange={(e) => setLocation(e.target.value)}>
+                        <option value="">All</option>
+                        <option value="NYC">New York</option>
+                        <option value="LA">Los Angeles</option>
+                        <option value="Chicago">Chicago</option>
+                        <option value="budanilkantha">Budanilkantha</option>
+                    </Form.Control>
+                </Form.Group>
             </div>
-            <h1>Artist</h1>
+    
+            {/* Artist Cards */}
             <div className="artist-cards-container">
                 {Array.isArray(artists) && artists.map((artist) => (
                     <div key={artist.id} className="cards">
-                        <Card style={{ width: '18rem' }}>
+                        <Card>
                             <Card.Img 
                                 variant="top" 
                                 src={artist.imageUrl || "/src/assets/images/default.jpg"}
-                                style={{ height: '150px' }}
                                 alt={artist.username}
                             />
                             <Card.Body>
@@ -62,15 +90,15 @@ function Artist() {
                     </div>
                 ))}
             </div>
-
-            {/* Modal for the BookingForm */}
+    
+            {/* Modal for Booking */}
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Book {selectedArtist?.username}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {selectedArtist && (
-                        <BookingForm artistId={selectedArtist.id} /> // Pass artistId to BookingForm
+                        <BookingForm artistId={selectedArtist.id} />
                     )}
                 </Modal.Body>
                 <Modal.Footer>
@@ -81,6 +109,7 @@ function Artist() {
             </Modal>
         </div>
     );
+    
 }
 
 export default Artist;

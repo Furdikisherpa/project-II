@@ -77,6 +77,51 @@ h1 {
     margin-top: 5px;
 }
 
+/* Container for the entire artist section */
+.artist-page-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+/* Styles for the filter container */
+.filters {
+    width: 300px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+/* Styles for the artist cards container */
+.artist-cards-container {
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-left: 20px;
+}
+
+/* Individual artist cards */
+.cards {
+    width: 18rem; /* Fixing card width */
+    display: flex;
+    justify-content: center;
+}
+
+.card {
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Image within the card */
+.card-img-top {
+    height: 150px;
+    object-fit: cover;
+}
+
+
 /* Media queries for responsiveness */
 @media (max-width: 1200px) {
     .cards {
