@@ -31,19 +31,12 @@ function Navbar() {
         <li className='navbar-item'>
           <NavLink to='/' className={({ isActive }) => isActive ? 'active' : ''}>Home</NavLink>
         </li>
-        <li className='navbar-item'>
-          <NavLink to='/about' className={({ isActive }) => isActive ? 'active' : ''}>About</NavLink>
-        </li>
         
         {isLoggedIn && userRole === 'user' && (
           <li className='navbar-item'>
             <NavLink to='/artist' className={({ isActive }) => isActive ? 'active' : ''}>Artist</NavLink>
           </li>
         )}
-
-        <li className='navbar-item'>
-          <NavLink to='/contacts' className={({ isActive }) => isActive ? 'active' : ''}>Contact</NavLink>
-        </li>
 
         {isLoggedIn && (
           <>

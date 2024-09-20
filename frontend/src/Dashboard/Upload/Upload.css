@@ -1,0 +1,132 @@
+/* Upload.css */
+Form input{
+    width: 200px;
+}
+
+.videoUpload {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+}
+
+.videoUpload form {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.videoUpload input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.videoUpload input[type="text"]:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.25);
+}
+
+.videoUpload button[type="submit"] {
+    padding: 10px 15px;
+    background-color: #323232;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.videoUpload button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.videoUpload h2 {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.video-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.video-table th, .video-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.video-table th {
+    background-color: #6865654e;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+
+.video-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.video-table td a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.video-table td a:hover {
+    text-decoration: underline;
+}
+
+.video-table button {
+    padding: 6px 12px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.video-table button:hover {
+    background-color: #c82333;
+}
+
+.video-table iframe {
+    border: none;
+    border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+    .videoUpload {
+        padding: 15px;
+    }
+
+    .videoUpload form {
+        flex-direction: column;
+    }
+
+    .videoUpload input[type="text"] {
+        margin-right: 0;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+
+    .videoUpload button[type="submit"] {
+        width: 100%;
+    }
+
+    .video-table th, .video-table td {
+        padding: 8px;
+    }
+}

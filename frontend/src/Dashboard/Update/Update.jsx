@@ -2,8 +2,8 @@ import { useState, useContext } from 'react';
 import axios from 'axios';
 import { Button, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { AuthContext } from '../AuthContext';
-import '../styles.css/UpdateForm.css';
+import { AuthContext } from '../../AuthContext';
+import './UpdateForm.css';
 
 function Update({ onClose }) {
     const { jwt, artistId } = useContext(AuthContext);

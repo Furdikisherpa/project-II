@@ -1,7 +1,8 @@
 import { useState, useEffect, useContext, useCallback } from 'react';
 import axios from 'axios';
-import { AuthContext } from '../AuthContext';
+import { AuthContext } from '../../AuthContext';
 import { useParams } from 'react-router-dom';
+import './Upload.css';
 
 const Upload = () => {
   const { artistId: routeArtistId } = useParams();
@@ -18,18 +19,15 @@ const Upload = () => {
       return;
     }
 
-    console.log('Attempting to upload video with URL:', videoUrl);
-
     try {
-      const response = await axios.post('http://localhost:3000/api/uploadvideo', {
+      await axios.post('http://localhost:3000/api/uploadvideo', {
         videoUrl,
         artistId: routeArtistId || contextArtistId || null,
         userId: userId || null,
       }, {
-        headers: { Authorization: `Bearer ${jwt}` }, // Ensure correct Authorization header
+        headers: { Authorization: `Bearer ${jwt}` },
       });
 
-      console.log('Video uploaded successfully:', response.data);
       alert('Video uploaded successfully!');
       setVideoUrl(''); // Clear the input after successful upload
       fetchVideos(); // Fetch updated videos after upload
@@ -42,11 +40,8 @@ const Upload = () => {
   // Function to fetch uploaded videos
   const fetchVideos = useCallback(async () => {
     const params = { artistId: routeArtistId || contextArtistId || null, userId: userId || null };
-    console.log('Fetching videos with params:', params);
-
     try {
       const response = await axios.get('http://localhost:3000/api/getvideo', { params });
-      console.log('Videos fetched successfully:', response.data);
       setVideos(response.data); // Update state with fetched videos
     } catch (error) {
       console.error('Error fetching videos:', error);
@@ -57,12 +52,16 @@ const Upload = () => {
   const handleDelete = async (videoUrl) => {
     if (window.confirm("Are you sure you want to delete this video?")) {
       try {
-        const response = await axios.delete('http://localhost:3000/api/deletevideo', {
-          data: { videoUrl }, // Pass the video URL to identify which video to delete
+        await axios.delete('http://localhost:3000/api/deletevideo', {
+          data: { 
+            videoUrl, 
+            artistId: routeArtistId || contextArtistId || null,
+            userId: userId || null
+          },
           headers: { Authorization: `Bearer ${jwt}` }
         });
-  
-        console.log('Video deleted successfully:', response.data);
+
+        alert('Video deleted successfully!');
         fetchVideos(); // Fetch updated videos after deletion
       } catch (error) {
         console.error('Error deleting video:', error.response ? error.response.data : error.message);
@@ -70,8 +69,6 @@ const Upload = () => {
       }
     }
   };
-  
-  
 
   // Fetch videos when the component mounts
   useEffect(() => {
@@ -133,7 +130,6 @@ const Upload = () => {
                     <a href={video.videoUrl} target="_blank" rel="noopener noreferrer">{video.videoUrl}</a>
                   </td>
                   <td>
-                    {/* Add delete button */}
                     <button onClick={() => handleDelete(video.videoUrl)}>Delete</button>
                   </td>
                 </tr>

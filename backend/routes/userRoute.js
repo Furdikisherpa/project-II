@@ -63,7 +63,8 @@ router.get('/bookeddata', bookingMiddleware, fetchBookingControllers.getUserBook
 // Video Routes
 router.get('/getvideo', fetchVideoController.getVideos);
 router.post('/uploadvideo', authMiddleware, uploadVideoController.uploadVideo);
-router.delete('/deletevideo', authMiddleware, uploadVideoController.deleteVideo)
+router.delete('/deletevideo', authMiddleware, uploadVideoController.deleteVideo);
+
 
 // Review Routes
 router.post('/reviews', reviewValidation, reviewController.review);

@@ -1,8 +1,6 @@
 import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import Artist from './components/Artist/Artist.jsx';
-import About from './components/About/About.jsx';
-import Contacts from './components/Contacts/Contacts.jsx';
 import Home from './components/Home/Home.jsx';
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -16,9 +14,9 @@ import './styles.css/fonts.css'
 import BookingTable from './components/Booking/BookingTable.jsx';
 // import { element } from 'prop-types';
 import DashHome from './Dashboard/Home.jsx';
-import Update from './Dashboard/Update.jsx';
-import Upload from './Dashboard/Upload.jsx';
-import Request from './Dashboard/Request.jsx';
+import Update from './Dashboard/Update/Update.jsx';
+import Upload from './Dashboard/Upload/Upload.jsx';
+import Request from './Dashboard/Request/Request.jsx';
 import Review from './Dashboard/review.jsx';
 
 const router = createBrowserRouter([
@@ -37,14 +35,6 @@ const router = createBrowserRouter([
       {
         path: 'artist/:artistId',
         element: <Profile />,
-      },
-      {
-        path: 'about',
-        element: <About />,
-      },
-      {
-        path: 'contacts',
-        element: <Contacts />,
       },
       {
         path: 'signup',
