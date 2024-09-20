@@ -1,12 +1,9 @@
-import './'
 import { useState, useContext } from 'react';
 import axios from 'axios';
 import { Button, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { AuthContext } from '../AuthContext';
-
-
-
+import '../styles.css/UpdateForm.css';
 
 function Update({ onClose }) {
     const { jwt, artistId } = useContext(AuthContext);
@@ -16,35 +13,43 @@ function Update({ onClose }) {
         website: '',
         genre: '',
         bio: '',
-        mediaGallery: '',
         pricingInfo: '',
         contactInfo: ''
     });
-
-    // useEffect(() => {
-    //     const fetchArtistData = async () => {
-    //         try {
-    //             const response = await axios.get(`http://localhost:3000/api/artists/${artistId}`, {
-    //                 headers: { Authorization: `Bearer ${jwt}` }
-    //             });
-    //             setArtistData(response.data);
-    //         } catch (error) {
-    //             console.error('Error fetching artist data:', error);
-    //         }
-    //     };
-    //     if (jwt && artistId) fetchArtistData();
-    // }, [jwt, artistId]);
+    const [photo, setPhoto] = useState(null); // State for photo file
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setArtistData({ ...artistData, [name]: value });
     };
 
+    const handlePhotoChange = (e) => {
+        setPhoto(e.target.files[0]); // Handle photo file selection
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const formData = new FormData();
+        formData.append('location', artistData.location);
+        formData.append('socialLinks', artistData.socialLinks);
+        formData.append('website', artistData.website);
+        formData.append('genre', artistData.genre);
+        formData.append('bio', artistData.bio);
+        formData.append('pricingInfo', artistData.pricingInfo);
+        formData.append('contactInfo', artistData.contactInfo);
+
+        // Append the photo file to the mediaGallery key
+        if (photo) {
+            formData.append('mediaGallery', photo);  // Use mediaGallery to match the database
+        }
+
         try {
-            await axios.put(`http://localhost:3000/api/artists/${artistId}`, artistData, {
-                headers: { Authorization: `Bearer ${jwt}` }
+            await axios.put(`http://localhost:3000/api/artists/${artistId}`, formData, {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                    'Content-Type': 'multipart/form-data'
+                }
             });
             alert('Artist data updated successfully');
             onClose();
@@ -75,10 +80,6 @@ function Update({ onClose }) {
                 <Form.Label>Bio</Form.Label>
                 <Form.Control as="textarea" rows={3} name="bio" value={artistData.bio} onChange={handleChange} />
             </Form.Group>
-            <Form.Group controlId="formMediaGallery">
-                <Form.Label>Media Gallery</Form.Label>
-                <Form.Control type="text" name="mediaGallery" value={artistData.mediaGallery} onChange={handleChange} />
-            </Form.Group>
             <Form.Group controlId="formPricingInfo">
                 <Form.Label>Pricing Info</Form.Label>
                 <Form.Control type="text" name="pricingInfo" value={artistData.pricingInfo} onChange={handleChange} />
@@ -86,6 +87,10 @@ function Update({ onClose }) {
             <Form.Group controlId="formContactInfo">
                 <Form.Label>Contact Info</Form.Label>
                 <Form.Control type="text" name="contactInfo" value={artistData.contactInfo} onChange={handleChange} />
+            </Form.Group>
+            <Form.Group controlId="formPhoto">
+                <Form.Label>Upload Photo</Form.Label>
+                <Form.Control type="file" name="photo" onChange={handlePhotoChange} />
             </Form.Group>
             <Button variant="primary" type="submit">Save Changes</Button>
         </Form>

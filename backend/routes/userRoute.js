@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const multer = require('multer');
 // Import controllers and middleware
 const {
     artistRegisterValidation,
@@ -27,6 +27,18 @@ const uploadVideoController = require('../controllers/UploadVideoController');
 const fetchVideoController = require('../controllers/FetchVideoController');
 const fetchBookingControllers = require('../controllers/FetchBookingController');
 const artistUpdateController = require('../controllers/artistUpdateController');
+// Set up multer storage
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + '-' + file.originalname);
+    }
+});
+
+// Initialize multer
+const upload = multer({ storage: storage });
 // Controllers for artist booking
 // const { getBooking, acceptBooking, rejectBooking } = require('../controllers/artistBookingController');
 // const { verifyToken, checkArtistRole } = require('../middleware/artistBookingMiddleware');
@@ -40,8 +52,9 @@ router.get('/user/:id', userProfileController.userProfile);
 router.post('/artistRegister', artistRegisterValidation, artistController.artistRegister);
 router.post('/artistlogin', artistloginValidation, artistloginController.artistlogin);
 router.get('/artist/:id', artistProfileController.artistProfile);
-router.put('/artists/:id', artistUpdateController.updateArtistProfile);
+router.put('/artists/:id',upload.single('mediaGallery'), artistUpdateController.updateArtistProfile);
 router.get('/artists', artistDataFectchController.artistData);
+
 
 // Booking Routes
 router.post('/bookings', bookingValidation, bookingController.createBooking);

@@ -14,10 +14,10 @@ const Profile = () => {
     const [loading, setLoading] = useState(true); // State for loading status
     const [error, setError] = useState(null); // State for error messages
     const [videos, setVideos] = useState([]); // State for storing fetched videos
-
+    const [imageUrl, setImageUrl] = useState(''); // State for storing the image URL
 
     // Extract authentication data from AuthContext
-    const { artistId: contextArtistId, userId, jwt, isLoading, isLoggedIn} = useContext(AuthContext);
+    const { artistId: contextArtistId, userId, jwt, isLoading, isLoggedIn } = useContext(AuthContext);
 
     // Effect to redirect users to login page if they are not logged in
     useEffect(() => {
@@ -50,7 +50,12 @@ const Profile = () => {
             });
 
             console.log('Profile data fetched successfully:', response.data); // Debug response data
-            routeArtistId || contextArtistId ? setArtist(response.data) : setUser(response.data);
+            if (routeArtistId || contextArtistId) {
+                setArtist(response.data);
+                setImageUrl(response.data.MediaGallery); // Set the image URL from the response
+            } else {
+                setUser(response.data);
+            }
         } catch (err) {
             console.error('Error fetching profile data:', err);
             if (err.response) {
@@ -104,7 +109,11 @@ const Profile = () => {
     return (
         <div>
             <div className="Heading_Image">
-                <img src="src/assets/images/Music Artist.jpg" alt="Music Artist" />
+                {imageUrl ? ( // Check if imageUrl is available
+                    <img src={imageUrl} alt="Artist" /> // Use the fetched image URL
+                ) : (
+                    <img src="src/assets/images/Music Artist.jpg" alt="Default Artist" /> // Fallback image
+                )}
             </div>
             <div className='Profile'>
                 <h1>{routeArtistId || contextArtistId ? 'Artist' : 'User'} Profile</h1>
