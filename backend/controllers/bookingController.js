@@ -10,14 +10,14 @@ const createBooking = (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const { EventDate, EventTime, UserID, ArtistID, Status, TotalPrice } = req.body;
+    const { EventDate, EventTime, UserID, ArtistID, Status } = req.body;
 
     const query = `
-        INSERT INTO booking (EventDate, EventTime, UserID, ArtistID, Status, TotalPrice)
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO booking (EventDate, EventTime, UserID, ArtistID, Status)
+        VALUES (?, ?, ?, ?, ?)
     `;
 
-    db.query(query, [EventDate, EventTime, UserID, ArtistID, Status, TotalPrice], (err, results) => {
+    db.query(query, [EventDate, EventTime, UserID, ArtistID, Status], (err, results) => {
         if (err) {
             return res.status(500).json({ msg: "Error inserting booking", error: err });
         }

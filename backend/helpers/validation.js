@@ -18,7 +18,6 @@ exports.bookingValidation = [
     check('UserID').isInt().withMessage('User ID must be an integer'),
     check('ArtistID').isInt().withMessage('Artist ID must be an integer'),
     check('Status').isIn(['pending', 'confirmed', 'cancelled']).withMessage('Status must be one of: pending, confirmed, cancelled'),
-    check('TotalPrice').isDecimal().withMessage('Total price must be a decimal value')
 ];
 
 exports.messageValidation = [

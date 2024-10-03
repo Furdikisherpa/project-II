@@ -27,6 +27,7 @@ const uploadVideoController = require('../controllers/UploadVideoController');
 const fetchVideoController = require('../controllers/FetchVideoController');
 const fetchBookingControllers = require('../controllers/FetchBookingController');
 const artistUpdateController = require('../controllers/artistUpdateController');
+
 // Set up multer storage
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -42,6 +43,8 @@ const upload = multer({ storage: storage });
 // Controllers for artist booking
 // const { getBooking, acceptBooking, rejectBooking } = require('../controllers/artistBookingController');
 // const { verifyToken, checkArtistRole } = require('../middleware/artistBookingMiddleware');
+
+
 
 // User Routes
 router.post('/register', userRegisterValidation, userController.register);

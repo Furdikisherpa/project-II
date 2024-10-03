@@ -48,19 +48,6 @@ function Navbar() {
                 <NavLink to='/dashboard' className={({ isActive }) => isActive ? 'active' : ''}>Dashboard</NavLink>
               </li>
             )}
-            {/* Search Bar */}
-        {/* <li className='navbar-item search-item'>
-          <form onSubmit={handleSearch} className='search-form'>
-            <input 
-              type='text' 
-              placeholder='Search...' 
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className='search-input'
-            />
-            {/* <button type='submit' className='search-button'>Search</button> */}
-          {/* </form>
-        </li>  */}
 
             <li className='navbar-item'>
               <button onClick={handleLogout} className='logout-button'>Logout</button>

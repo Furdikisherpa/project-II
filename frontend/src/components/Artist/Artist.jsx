@@ -92,7 +92,7 @@ function Artist() {
             </div>
     
             {/* Modal for Booking */}
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} backdrop={false}>
                 <Modal.Header closeButton>
                     <Modal.Title>Book {selectedArtist?.username}</Modal.Title>
                 </Modal.Header>

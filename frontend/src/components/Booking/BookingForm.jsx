@@ -9,7 +9,6 @@ const BookingForm = ({ artistId }) => {
     const { userId, jwt } = useContext(AuthContext);
     const [eventDate, setEventDate] = useState('');
     const [eventTime, setEventTime] = useState('');
-    const [totalPrice, setTotalPrice] = useState('');
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
     const navigate = useNavigate();
@@ -17,10 +16,16 @@ const BookingForm = ({ artistId }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Reset error and success states on each submission
+        setError(null);
+        setSuccess(null);
+
         // Validate if totalPrice is a valid number
-        const price = parseFloat(totalPrice);
-        if (isNaN(price) || price <= 0) {
-            setError('Total Price must be a valid number greater than zero.');
+   
+
+        // Validate if eventDate and eventTime are not empty
+        if (!eventDate || !eventTime) {
+            setError('Event Date and Event Time are required.');
             return;
         }
 
@@ -33,8 +38,7 @@ const BookingForm = ({ artistId }) => {
             EventTime: formattedEventTime,
             UserID: userId,
             ArtistID: artistId,
-            Status: 'pending',
-            TotalPrice: price
+            Status: 'pending'
         };
 
         try {
@@ -89,17 +93,7 @@ const BookingForm = ({ artistId }) => {
                         required
                     />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="totalPrice">Total Price</label>
-                    <input
-                        type="number"
-                        id="totalPrice"
-                        value={totalPrice}
-                        onChange={(e) => setTotalPrice(e.target.value)}
-                        required
-                        step="0.01" // Allow decimal values for price
-                    />
-                </div>
+              
                 <button type="submit" className="btn">Book Now</button>
             </form>
         </div>

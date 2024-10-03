@@ -11,6 +11,13 @@
   max-width: 50%;
 }
 
+
+.hero-text p {
+  color: black;
+}
+
+.hero-text h1{
+  margin-left: -236px;}
 .hero-illustration img {
   max-width: 100%;
   height: auto;
